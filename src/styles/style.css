@@ -1,1 +1,19 @@
 @import "tailwindcss";
+
+@theme {
+  --color-primary: #FFD700;
+  --color-background-light: #F9FAFB;
+  --color-background-dark: #000000;
+  --color-surface-dark: #111111;
+  --color-card-dark: #1A1A1A;
+}
+
+/* Sponsor Patterns */
+.sponsor-pattern-AOSSIE {
+  background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%2391c44a' fill-opacity='0.6'%3E%3Ccircle cx='15' cy='20' r='10'/%3E%3Crect x='5' y='40' width='20' height='20' rx='5'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* Grid Pattern */
+.sponsor-pattern-grid {
+ background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%2391c44a' stroke-opacity='0.4' stroke-width='1'%3E%3Cpath d='M0 0H100M0 20H100M0 40H100M0 60H100M0 80H100M0 100H100'/%3E%3Cpath d='M0 0V100M20 0V100M40 0V100M60 0V100M80 0V100M100 0V100'/%3E%3C/g%3E%3C/svg%3E");
+}

@@ -315,7 +315,7 @@ const props: supportUsButtonProps = {
 | Prop                      | Type             | Required | Description                                                                                                    |
 | ------------------------- | ---------------- | -------- | -------------------------------------------------------------------------------------------------------------- |
 | `Theme`                   | string           | No       | Theme for the button, can be one of "AOSSIE", "light", "dark", "minimal", or "corporate"                       |
-| `pattern`                 | string           | No       | Optional background pattern for the button, can be one of "dots", "grid", "stripes", or "none"                 |
+| `pattern`                 | string           | No       | Optional background pattern for the button, can be one of "dots", "grid", "AOSSIE", or "none"                 |
 | `hero`                    | object           | Yes      | Information about the Hero section, including title, description, sponsor label, and optional background Image |
 | `organizationInformation` | object           | Yes      | Information about the organization, including name, description, logo, and project information                 |
 | `sponsors`                | array of objects | No       | List of current sponsors, each with name, optional logo, link, and sponsorship tier                            |

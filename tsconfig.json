@@ -6,7 +6,7 @@
     "outDir": "dist",
     "strict": true,
     "jsx": "react-jsx",
-    "moduleResolution": "nodenext",
+    "moduleResolution": "node",
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true

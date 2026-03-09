@@ -10,7 +10,7 @@ export type Theme = "AOSSIE" | "light" | "dark" | "minimal" | "corporate";
    Button Variant
 ========================================================= */
 
-export type ButtonVariant = "solid" | "outline" | "ghost" | "gradient";
+export type ButtonVariant = 'AOSSIE'| "primary" | "secondary" | "ghost" | "gradient";
 
 /* =========================
    IMAGE TYPE
@@ -116,7 +116,7 @@ export type CTASection = {
    BACKGROUND PATTERNS
 ========================= */
 
-export type Pattern = "dots" | "grid" | "stripes" | "none";
+export type Pattern = "AOSSIE" | "dots" | "grid" | "none";
 
 /* =========================
    SUPPORT US COMPO PROPS
@@ -136,7 +136,7 @@ export interface supportUsButtonProps {
   organizationInformation: organizationInformation;
 
   // List of current sponsors, each with name, optional logo, link, and sponsorship tier
-  sponsors: sponsors;
+  sponsors?: sponsors;
 
   // Information about the call-to-action section, including title, description, and sponsor links
   ctaSection: CTASection;

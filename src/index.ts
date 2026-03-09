@@ -3,12 +3,11 @@
 ========================================================= */
 import "./styles/style.css";
 
-
 /* =========================================================
    Components
 ========================================================= */
 
-export { default } from "./components//SupportUsButton";
+export { default } from "./components/SupportUsButton";
 
 /* =========================================================
    Types
@@ -25,7 +24,7 @@ export type {
   sponsors,
   sponsorLink,
   CTASection,
-   Tier,
-   Pattern,
-  supportUsButtonProps
+  Tier,
+  Pattern,
+  supportUsButtonProps,
 } from "./types/index";

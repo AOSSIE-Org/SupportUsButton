@@ -90,7 +90,7 @@ function SupportUsButton({
       </div>
 
       {/* Hero title and description */}
-      <div className="w-full flex justify-center">
+      <div className="w-full flex justify-center mt-10 mb-5">
         <div
           className={`${classNames.Hero} w-[80%] flex text-center p-8 flex-col items-center gap-4`}
         >
@@ -128,7 +128,7 @@ function SupportUsButton({
       </div>
 
       {/* Organization information section */}
-      <div className="w-full flex justify-center">
+      <div className="w-full flex justify-center p-10 mb-50">
         <div
           className={`${classNames.organizationInformation}
           relative w-[90%] p-15 rounded-2xl overflow-visible
@@ -233,7 +233,7 @@ function SupportUsButton({
 
       {/* Sponsors section */}
       <div
-        className={`w-full flex justify-center mt-10 p-5
+        className={`w-full flex justify-center mt-10 p-10
           ${Theme === "AOSSIE" && "bg-[#1f1f1f]"} 
           ${Theme === "light" && "bg-gray-300/50"} 
           ${Theme === "dark" && "bg-gray-700/50"}
@@ -405,9 +405,9 @@ function SupportUsButton({
 
       {/* Call-to-action section with title, description, and sponsor links */}
       <div
-        className={`w-full flex justify-center p-5 ${(Theme === "light" || Theme === "dark") && classAccordingToTheme(Theme)} ${classNames.ctaSection}`}
+        className={`w-full flex justify-center p-10 ${(Theme === "light" || Theme === "dark") && classAccordingToTheme(Theme)} ${classNames.ctaSection}`}
       >
-        <div className="w-4/5 flex flex-col items-center gap-5 py-20 border border-primary rounded-sm">
+        <div className="w-4/5 flex flex-col items-center gap-5 py-20 border border-primary rounded-sm mt-20 mb-20">
           <h2 className={`font-extrabold text-4xl md:text-5xl lg:text-6xl`}>
             {ctaSection.title}
           </h2>

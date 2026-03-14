@@ -174,7 +174,7 @@ const props: supportUsButtonProps = {
         title: "",          // ← your heading
         description: "",    // ← your subheading
         sponsorLabel: "",   // ← optional label above org info
-        Image: { src: "", alt: "" }, // ← hero background image, Note: Remove the prop if you do not rquire a hero image.
+        Image: { src: "", alt: "" }, // ← hero background image, Note: Remove the prop if you do not require a hero image.
     },
 
     organizationInformation: {    

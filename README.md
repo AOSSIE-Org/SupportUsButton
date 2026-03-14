@@ -177,11 +177,10 @@ const props: supportUsButtonProps = {
         Image: { src: "", alt: "" }, // ← hero background image, Note: Remove the prop if you do not rquire a hero image.
     },
 
-    organizationInformation: {
-        className: ""        
+    organizationInformation: {    
         name: "",           // ← your organization name
         description: "",    // ← short org description
-        logo: { src: "", alt: "" }, // ← Add file path to src and alt text for accessibility. Note: Accepts ReactNode JSX elements
+        logo: { src: "", alt: "" }, // ← Add file path to src and alt text for accessibility. Note: Accepts a string path/url.
         projectInformation: {
             name: "",       // ← your project name
             description: "",// ← short project description
@@ -203,7 +202,7 @@ const props: supportUsButtonProps = {
               className: "sponsor-link",
               url: "https://example.com/sponsor",
               icon: null, // This Accepts ReactNode element(JSX)
-              newTab: true
+              newTab: true,
             },
             // Add one entry per sponsorship platform
         ],

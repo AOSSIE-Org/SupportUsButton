@@ -2,6 +2,7 @@ import React from "react";
 import type { supportUsButtonProps } from "../types/index";
 import type { Theme } from "../types/index";
 import type { ButtonVariant } from "../types/index";
+import type { Tier } from "../types/index";
 
 // Function to get the appropriate classes based on the selected theme, used for styling different sections of the component according to the chosen theme
 function classAccordingToTheme(Theme: Theme): string {
@@ -70,6 +71,18 @@ function SupportUsButton({
   },
   buttonVariant = "AOSSIE",
 }: supportUsButtonProps): React.JSX.Element {
+  const sortedSponsors = sponsors ? [...sponsors].sort((a, b) => {
+    const tierPriority: Record<Tier, number> = {
+      Platinum: 1,
+      Gold: 2,
+      Silver: 3,
+      Bronze: 4,
+    };
+    const aTier = a.sponsorshipTier || 'Bronze';
+    const bTier = b.sponsorshipTier || 'Bronze';
+    return tierPriority[aTier] - tierPriority[bTier];
+  }) : [];
+
   return (
     // Container for the support us button, with dynamic classes based on the selected theme and custom class names
     <div
@@ -240,7 +253,7 @@ function SupportUsButton({
           ${Theme === "minimal" && "bg-gray-800/50"}
           ${Theme === "corporate" && "bg-blue-600/50"}`}
       >
-        {sponsors && sponsors.length > 0 && (
+        {sortedSponsors && sortedSponsors.length > 0 && (
           // List of sponsors with their logos and links, styled according to the selected theme and custom class names
           <div
             className={`${classNames.sponsors} ${classAccordingToTheme(Theme)}
@@ -275,7 +288,7 @@ function SupportUsButton({
 
             {/* Sponsor logos */}
             <div className="flex flex-row flex-wrap justify-center items-center gap-10 z-10">
-              {sponsors.map((sponsor, index) => (
+              {sortedSponsors.map((sponsor, index) => (
                 <a
                   href={sponsor.link}
                   key={index}

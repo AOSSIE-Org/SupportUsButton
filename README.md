@@ -93,8 +93,8 @@ A lightweight React component library for displaying **Support us page** in a cl
 # 🔗 Repository Links
 
 - [Main Repository](https://github.com/AOSSIE-Org/SupportUsButton)
-- [NPM Package](https://www.npmjs.com/package/@aossie/support-us-button)
-- [CDN](https://cdn.jsdelivr.net/npm/@aossie/support-us-button@latest/dist/index.umd.js)
+- [NPM Package](https://www.npmjs.com/package/support-us-button)
+- [CDN](https://cdn.jsdelivr.net/npm/support-us-button@latest/dist/index.umd.js)
 
 ---
 
@@ -108,7 +108,7 @@ Install the package using npm:
 
 ```bash
 # Install the package
-npm install @aossie/support-us-button
+npm install support-us-button
 ```
 
 ## Using CDN
@@ -116,7 +116,7 @@ npm install @aossie/support-us-button
 You can also use the component directly in the browser via a CDN:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/@aossie/support-us-button@latest/dist/index.umd.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/support-us-button@latest/dist/index.umd.js"></script>
 ```
 
 Once included, the component will be available to use in your project.
@@ -129,13 +129,13 @@ Once included, the component will be available to use in your project.
 
 ```tsx
 // Import the component in your project:
-import SupportUsButton from "@aossie/support-us-button";
+import SupportUsButton from "support-us-button";
 
 // Import the styles in your project:
-import "@aossie/support-us-button/style.css";
+import "support-us-button/style.css";
 
 // Import the types in your project:
-import type { supportUsButtonProps } from "@aossie/support-us-button";
+import type { supportUsButtonProps } from "support-us-button";
 
 // Use the component in your project:
 <SupportUsButton {...props} />; // props is an object of type supportUsButtonProps
@@ -144,12 +144,12 @@ import type { supportUsButtonProps } from "@aossie/support-us-button";
 ## Using CDN
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/@aossie/support-us-button@latest/dist/index.umd.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/support-us-button@latest/dist/index.umd.js"></script>
 
 // Import the styles in your project:
 <link
     rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/@aossie/support-us-button@latest/dist/style.css"
+    href="https://cdn.jsdelivr.net/npm/support-us-button@latest/dist/style.css"
 />
 
 // Use the component in your project:

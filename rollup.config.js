@@ -30,7 +30,7 @@ export default [
       {
         file: "dist/index.umd.js",
         format: "umd",
-        name: "@aossie/support-us-button",
+        name: "support-us-button",
         globals: {
           react: "React",
           "react-dom": "ReactDOM",

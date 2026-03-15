@@ -160,146 +160,55 @@ Once included, the component will be available to use in your project.
 
 ---
 
-## Example Usage
+## Quick Start
 
-Below is an example configuration for the `SupportUsButton` component.  
-Replace the placeholder text (titles, descriptions, images, links, etc.) with your own project information.
+Props template — fill in your own values:
 
 ```tsx
-// Example props configuration for SupportUsButton
-// Modify the values according to your project needs
-
 const props: supportUsButtonProps = {
-    // Theme of the widget (e.g., AOSSIE, light, dark, minimal)
-    Theme: "AOSSIE",
-
-    // Background pattern type (e.g., grid, dots)
-    pattern: "grid",
+    Theme: "",              // "AOSSIE" | "light" | "dark" | "minimal" | "corporate"
+    pattern: "",            // "AOSSIE" | "dots" | "grid" | "none"
+    buttonVariant: "",      // "AOSSIE" | "primary" | "secondary" | "ghost" | "gradient"
 
     hero: {
-        Image: {
-            // Replace with your hero image
-            src: "https://your-image-link.com/hero-image.png",
-            alt: "Hero section image",
-        },
-
-        // Main title shown at the top of the widget
-        title: "Your Title Here",
-
-        // Short description about your project or mission
-        description:
-            "Write a brief description about your project, organization, or the purpose of sponsorship here.",
-
-        // Label shown above the sponsors section
-        sponsorLabel: "Your Sponsors",
+        title: "",          // ← your heading
+        description: "",    // ← your subheading
+        sponsorLabel: "",   // ← optional label above org info
+        Image: { src: "", alt: "" }, // ← hero background image, Note: Remove the prop if you do not require a hero image.
     },
 
-    organizationInformation: {
-        // Name of your organization
-        name: "Your Organization Name",
-
-        // Short description about the organization
-        description:
-            "Describe your organization, its mission, and what it works on.",
-
-        // Optional organization logo
-        logo: {
-            src: "https://your-image-link.com/logo.png",
-            alt: "Organization Logo",
-        },
-
+    organizationInformation: {    
+        name: "",           // ← your organization name
+        description: "",    // ← short org description
+        logo: { src: "", alt: "" }, // ← Add file path to src and alt text for accessibility. Note: Accepts a string path/url.
         projectInformation: {
-            // Name of the project that is being sponsored
-            name: "Your Project Name",
-
-            // Short description of the project
-            description:
-                "Provide a short description of the project that sponsors are supporting.",
+            name: "",       // ← your project name
+            description: "",// ← short project description
         },
     },
 
-    // List of sponsors
+    // Optional — remove if you have no sponsors yet
     sponsors: [
-        {
-            name: "Sponsor Name",
-            logo: "https://your-image-link.com/sponsor-logo.png",
-            link: "https://sponsor-website.com",
-
-            // Optional tier: Bronze | Silver | Gold | Platinum
-            sponsorshipTier: "Bronze",
-        },
-        {
-            name: "Another Sponsor",
-            logo: "https://your-image-link.com/sponsor-logo.png",
-            link: "https://sponsor-website.com",
-            sponsorshipTier: "Silver",
-        },
-        {
-            name: "Company Name",
-            logo: "https://your-image-link.com/company-logo.png",
-            link: "https://company-website.com",
-            sponsorshipTier: "Gold",
-        },
+        { name: "", logo: "", link: "", sponsorshipTier: "" },
+        // Tiers: "Platinum" | "Gold" | "Silver" | "Bronze" (higher → bigger card)
     ],
 
     ctaSection: {
-        // Call-to-action title
-        title: "Support This Project",
-
-        // Description encouraging users to sponsor the project
-        description:
-            "Explain why supporting your project matters and how people can help.",
-
+        title: "",          // ← CTA heading
+        description: "",    // ← why people should sponsor
         sponsorLink: [
             {
-                // Platform name
-                name: "Patreon",
-
-                // Sponsorship link
-                url: "https://www.patreon.com/yourproject",
-
-                // Optional icon for the platform
-                icon: (
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                    >
-                        <path d="M0 0h24v24H0z" fill="none" />
-                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                    </svg>
-                ),
-
-                // Optional custom class for styling
-                className: "patreon-link",
-
-                // Open link in a new tab
-                newTab: true,
+              name: "Examplename"
+              className: "sponsor-link",
+              url: "https://example.com/sponsor",
+              icon: null, // This Accepts ReactNode element(JSX)
+              newTab: true,
             },
-            {
-                name: "GitHub Sponsors",
-                url: "https://github.com/sponsors/yourproject",
-                icon: (
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                    >
-                        <path d="M0 0h24v24H0z" fill="none" />
-                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                    </svg>
-                ),
-                className: "github-sponsors-link",
-                newTab: true,
-            },
+            // Add one entry per sponsorship platform
         ],
     },
-
-    // Button styling variant
-    buttonVariant: "AOSSIE",
 };
 
-// Component usage
 <SupportUsButton {...props} />;
 ```
 

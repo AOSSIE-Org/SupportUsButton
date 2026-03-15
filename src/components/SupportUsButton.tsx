@@ -70,7 +70,20 @@ function SupportUsButton({
     ctaSection: "",
   },
   buttonVariant = "AOSSIE",
+  showCopyLinkButton = false,
 }: supportUsButtonProps): React.JSX.Element {
+  const [copiedLink, setCopiedLink] = React.useState<string | null>(null);
+
+  const handleCopyLink = (e: React.MouseEvent, link: string) => {
+    e.preventDefault();
+    e.stopPropagation();
+    navigator.clipboard.writeText(link);
+    setCopiedLink(link);
+    setTimeout(() => {
+      setCopiedLink(null);
+    }, 2000);
+  };
+
   const sortedSponsors = sponsors ? [...sponsors].sort((a, b) => {
     const tierPriority: Record<Tier, number> = {
       Platinum: 1,
@@ -403,7 +416,23 @@ function SupportUsButton({
                     )}
 
                     <div className="w-full">
-                      <h3 className={`font-bold text-2xl`}>{sponsor.name}</h3>
+                      <div className="flex justify-between items-start gap-2">
+                        <h3 className={`font-bold text-2xl`}>{sponsor.name}</h3>
+                        {showCopyLinkButton && sponsor.link && (
+                          <button
+                            onClick={(e) => handleCopyLink(e, sponsor.link!)}
+                            className="p-1.5 rounded-lg transition-colors hover:bg-black/10 dark:hover:bg-white/10"
+                            title="Copy link"
+                            aria-label="Copy sponsor link"
+                          >
+                            {copiedLink === sponsor.link ? (
+                              <span className="text-green-500 font-semibold text-sm mr-1">Copied!</span>
+                            ) : (
+                              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg>
+                            )}
+                          </button>
+                        )}
+                      </div>
                       {sponsor.sponsorshipTier && (
                         <span className="flex text-[16px] p-2 rounded-xl items-center mt-3.5 font-semibold bg-[#d0f2eb] text-black w-fit">
                           {sponsor.sponsorshipTier}

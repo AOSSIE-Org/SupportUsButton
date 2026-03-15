@@ -152,4 +152,7 @@ export interface supportUsButtonProps {
 
   // Optional button variant for styling the call-to-action buttons
   buttonVariant?: ButtonVariant;
+
+  // Optional flag to show a copy link button on sponsor cards
+  showCopyLinkButton?: boolean;
 }

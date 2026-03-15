@@ -83,10 +83,12 @@ function SupportUsButton({
     return tierPriority[aTier] - tierPriority[bTier];
   }) : [];
 
+  const resolvedTheme = Theme === "system" ? (typeof window !== "undefined" && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light") : Theme;
+
   return (
     // Container for the support us button, with dynamic classes based on the selected theme and custom class names
     <div
-      className={`w-full font-sans justify-center items-center text-center ${Theme == "light" || Theme == "dark" ? classAccordingToTheme(Theme) : "bg-black text-white"} ${classNames.container}`}
+      className={`w-full font-sans justify-center items-center text-center ${resolvedTheme == "light" || resolvedTheme == "dark" ? classAccordingToTheme(resolvedTheme) : "bg-black text-white"} ${classNames.container}`}
     >
       {/* Hero section with optional background image*/}
       <div className="relative w-full h-[50vh] flex justify-center">
@@ -132,7 +134,7 @@ function SupportUsButton({
               {hero.title}
             </h1>
             <p
-              className={`wrap-anywhere ${Theme === "light" ? "text-slate-600" : "text-slate-400"} text-lg font-semibold`}
+              className={`wrap-anywhere ${resolvedTheme === "light" ? "text-slate-600" : "text-slate-400"} text-lg font-semibold`}
             >
               {hero.description}
             </p>
@@ -147,21 +149,21 @@ function SupportUsButton({
           relative w-[90%] p-15 rounded-2xl overflow-visible
 
           // Shadows for different themes
-          ${Theme === "AOSSIE" && "shadow-xl shadow-primary/20"}
-          ${Theme === "light" && "shadow-xl shadow-gray-300/30"}
-          ${Theme === "dark" && "shadow-xl shadow-gray-700/30"}
-          ${Theme === "minimal" && "shadow-xl shadow-gray-800/30"}
-          ${Theme === "corporate" && "shadow-xl shadow-blue-600/30"}
+          ${resolvedTheme === "AOSSIE" && "shadow-xl shadow-primary/20"}
+          ${resolvedTheme === "light" && "shadow-xl shadow-gray-300/30"}
+          ${resolvedTheme === "dark" && "shadow-xl shadow-gray-700/30"}
+          ${resolvedTheme === "minimal" && "shadow-xl shadow-gray-800/30"}
+          ${resolvedTheme === "corporate" && "shadow-xl shadow-blue-600/30"}
           
           // Outline for light and dark themes
-          ${Theme === "light" && "outline-1 outline-gray-300"}
-          ${Theme === "dark" && "outline-1 outline-gray-700"}
-          ${classAccordingToTheme(Theme)}`}
+          ${resolvedTheme === "light" && "outline-1 outline-gray-300"}
+          ${resolvedTheme === "dark" && "outline-1 outline-gray-700"}
+          ${classAccordingToTheme(resolvedTheme)}`}
         >
           {/* Background grid */}
           <div className="absolute inset-0 bg-[radial-gradient(rgba(0,0,0,0.15)_1.5px,transparent_0)] bg-size-[20px_20px] pointer-events-none opacity-100"></div>
           <div
-            className={`absolute top-0 left-0 bottom-0 w-1/2 h-full  rounded-2xl p-6 overflow-visible ${classAccordingToTheme(Theme)}`}
+            className={`absolute top-0 left-0 bottom-0 w-1/2 h-full  rounded-2xl p-6 overflow-visible ${classAccordingToTheme(resolvedTheme)}`}
           ></div>
 
           {/* Content container */}
@@ -209,32 +211,32 @@ function SupportUsButton({
             <div
               className={`
             border
-            ${Theme === "AOSSIE" && "border-[#f1c514]/50"}
-            ${Theme === "light" && "border-gray-300/50"}
-            ${Theme === "dark" && "border-gray-700/50"}
-            ${Theme === "minimal" && "border-gray-800/50"}
-            ${Theme === "corporate" && "border-blue-600/50"}`}
+            ${resolvedTheme === "AOSSIE" && "border-[#f1c514]/50"}
+            ${resolvedTheme === "light" && "border-gray-300/50"}
+            ${resolvedTheme === "dark" && "border-gray-700/50"}
+            ${resolvedTheme === "minimal" && "border-gray-800/50"}
+            ${resolvedTheme === "corporate" && "border-blue-600/50"}`}
             ></div>
 
             {/* Project information */}
             <div className="flex flex-col gap-2">
               <h3
                 className={`font-bold w-fit uppercase text-sm p-2 rounded-lg
-                  ${Theme === "AOSSIE" && "bg-[#edc214]"}
-                  ${Theme === "light" && "bg-gray-300/50"}
-                  ${Theme === "dark" && "bg-gray-700/50"}
-                  ${Theme === "minimal" && "bg-gray-800/50"}
-                  ${Theme === "corporate" && "bg-blue-600/50"}`}
+                  ${resolvedTheme === "AOSSIE" && "bg-[#edc214]"}
+                  ${resolvedTheme === "light" && "bg-gray-300/50"}
+                  ${resolvedTheme === "dark" && "bg-gray-700/50"}
+                  ${resolvedTheme === "minimal" && "bg-gray-800/50"}
+                  ${resolvedTheme === "corporate" && "bg-blue-600/50"}`}
               >
                 ABOUT PROJECT: {organizationInformation.projectInformation.name}
               </h3>
               <p
                 className={`italic font-semibold 
-                ${Theme === "AOSSIE" && "text-[#614f08]"}
-                ${Theme === "light" && "text-gray-600"}
-                ${Theme === "dark" && "text-gray-400"}
-                ${Theme === "minimal" && "text-gray-800"}
-                ${Theme === "corporate" && "text-blue-600/80"}
+                ${resolvedTheme === "AOSSIE" && "text-[#614f08]"}
+                ${resolvedTheme === "light" && "text-gray-600"}
+                ${resolvedTheme === "dark" && "text-gray-400"}
+                ${resolvedTheme === "minimal" && "text-gray-800"}
+                ${resolvedTheme === "corporate" && "text-blue-600/80"}
                 `}
               >
                 "{organizationInformation.projectInformation.description}"
@@ -247,16 +249,16 @@ function SupportUsButton({
       {/* Sponsors section */}
       <div
         className={`w-full flex justify-center mt-10 p-10
-          ${Theme === "AOSSIE" && "bg-[#1f1f1f]"} 
-          ${Theme === "light" && "bg-gray-300/50"} 
-          ${Theme === "dark" && "bg-gray-700/50"}
-          ${Theme === "minimal" && "bg-gray-800/50"}
-          ${Theme === "corporate" && "bg-blue-600/50"}`}
+          ${resolvedTheme === "AOSSIE" && "bg-[#1f1f1f]"} 
+          ${resolvedTheme === "light" && "bg-gray-300/50"} 
+          ${resolvedTheme === "dark" && "bg-gray-700/50"}
+          ${resolvedTheme === "minimal" && "bg-gray-800/50"}
+          ${resolvedTheme === "corporate" && "bg-blue-600/50"}`}
       >
         {sortedSponsors && sortedSponsors.length > 0 && (
           // List of sponsors with their logos and links, styled according to the selected theme and custom class names
           <div
-            className={`${classNames.sponsors} ${classAccordingToTheme(Theme)}
+            className={`${classNames.sponsors} ${classAccordingToTheme(resolvedTheme)}
             relative w-[90%] flex flex-col p-8 rounded-2xl gap-25 mt-15 overflow-hidden`}
           >
             {/* Sponsor pattern AOSSIE */}
@@ -297,14 +299,14 @@ function SupportUsButton({
                   title={`Visit ${sponsor.name}'s website`}
                 >
                   <div
-                    className={`${Theme === "dark" ? "bg-gray-800 text-white" : "bg-white text-black"} rounded-lg flex flex-col justify-center items-center gap-2 p-8 w-fit transition-transform hover:scale-[1.02] shadow-lg min-h-75 min-w-62.5 hover:border-2 
+                    className={`${resolvedTheme === "dark" ? "bg-gray-800 text-white" : "bg-white text-black"} rounded-lg flex flex-col justify-center items-center gap-2 p-8 w-fit transition-transform hover:scale-[1.02] shadow-lg min-h-75 min-w-62.5 hover:border-2 
 
                     // Shadows for different themes
-                    ${Theme === "AOSSIE" && "shadow-primary/20"}
-                    ${Theme === "light" && "shadow-gray-300/30"}
-                    ${Theme === "dark" && "shadow-gray-700/30"}
-                    ${Theme === "minimal" && "shadow-gray-800/30"} 
-                    ${Theme === "corporate" && "shadow-blue-600/30"}
+                    ${resolvedTheme === "AOSSIE" && "shadow-primary/20"}
+                    ${resolvedTheme === "light" && "shadow-gray-300/30"}
+                    ${resolvedTheme === "dark" && "shadow-gray-700/30"}
+                    ${resolvedTheme === "minimal" && "shadow-gray-800/30"} 
+                    ${resolvedTheme === "corporate" && "shadow-blue-600/30"}
                     
                     // Size based on sponsorship tier
                     ${sponsor.sponsorshipTier === "Platinum" && "min-w-80 min-h-90"}
@@ -418,7 +420,7 @@ function SupportUsButton({
 
       {/* Call-to-action section with title, description, and sponsor links */}
       <div
-        className={`w-full flex justify-center p-10 ${(Theme === "light" || Theme === "dark") && classAccordingToTheme(Theme)} ${classNames.ctaSection}`}
+        className={`w-full flex justify-center p-10 ${(resolvedTheme === "light" || resolvedTheme === "dark") && classAccordingToTheme(resolvedTheme)} ${classNames.ctaSection}`}
       >
         <div className="w-4/5 flex flex-col items-center gap-5 py-20 border border-primary rounded-sm mt-20 mb-20">
           <h2 className={`font-extrabold text-4xl md:text-5xl lg:text-6xl`}>
@@ -426,7 +428,7 @@ function SupportUsButton({
           </h2>
           <p
             className={`font-semibold 
-              ${Theme === "light" ? "text-gray-600" : "text-gray-400"}`}
+              ${resolvedTheme === "light" ? "text-gray-600" : "text-gray-400"}`}
           >
             {ctaSection.description}
           </p>

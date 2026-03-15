@@ -4,7 +4,7 @@ import type { ReactNode } from "react";
    Theme
 ========================= */
 
-export type Theme = "AOSSIE" | "light" | "dark" | "minimal" | "corporate";
+export type Theme = "AOSSIE" | "light" | "dark" | "minimal" | "corporate" | "system";
 
 /* =========================================================
    Button Variant
@@ -123,7 +123,7 @@ export type Pattern = "AOSSIE" | "dots" | "grid" | "none";
 ========================= */
 
 export interface supportUsButtonProps {
-  // Theme for the button, can be one of "AOSSIE", "light", "dark", "minimal", or "corporate"
+  // Theme for the button, can be one of "AOSSIE", "light", "dark", "minimal", "corporate", or "system"
   Theme?: Theme;
 
   // Optional background pattern for the button, can be one of "dots", "grid", "stripes", or "none"

@@ -187,7 +187,7 @@ function SupportUsButton({
               <h2 className={`font-extrabold text-4xl md:text-5xl lg:text-6xl`}>
                 {organizationInformation.name}
               </h2>
-              <p className="font-[650]">
+              <p className="font-[650] text-lg">
                 {organizationInformation.description}
               </p>
             </div>
@@ -249,6 +249,14 @@ function SupportUsButton({
           // List of sponsors with their logos and links, styled according to the selected theme and custom class names
           <div
             className={`${classNames.sponsors} ${classAccordingToTheme(Theme)}
+
+            // Shadows for different themes
+            ${Theme === "AOSSIE" && "shadow-[0_0_15px_rgba(255,215,0,1)]"}
+            ${Theme === "light" && "shadow-[0_0_20px_rgba(0,0,0,0.15)]"}
+            ${Theme === "dark" && "shadow-[0_0_25px_rgba(0.5,0.5,0.5,0.5)]"}
+            ${Theme === "minimal" && "shadow-[0_0_15px_rgba(0,0,0,0.2)]"}
+            ${Theme === "corporate" && "shadow-[0_0_25px_rgba(37,99,235,0.3)]"}
+
             relative w-[90%] flex flex-col p-8 rounded-2xl gap-25 mt-15 overflow-hidden`}
           >
             {/* Sponsor pattern AOSSIE */}

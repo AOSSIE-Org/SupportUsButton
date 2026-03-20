@@ -49,7 +49,9 @@ function getButtonClasses(buttonVariant: ButtonVariant): string {
 }
 
 // Main component function that renders the support us button, taking in various props for customization and rendering different sections such as hero, organization information, sponsors, and call-to-action based on the provided data and selected theme and button variant
-function SupportUsButton({
+function SupportUsButton(
+  
+  {
   Theme = "AOSSIE",
   pattern = "AOSSIE",
   hero = {
@@ -70,8 +72,23 @@ function SupportUsButton({
   },
   buttonVariant = "AOSSIE",
 }: supportUsButtonProps): React.JSX.Element {
+ // Ensure required props are provided to prevent runtime crashes
  
+  if (!organizationInformation) {
+    console.warn(
+      "SupportUsButton: 'organizationInformation' is required."
+    );
+  }
 
+  if (!ctaSection) {
+    console.warn(
+      "SupportUsButton: 'ctaSection' is required."
+    );
+  }
+
+  // Defensive fallback to handle unexpected missing props at runtime
+  const org = organizationInformation ?? null;
+  const cta = ctaSection ?? null;
   return (
     // Container for the support us button, with dynamic classes based on the selected theme and custom class names
     <div
@@ -132,7 +149,7 @@ function SupportUsButton({
 
       {/* Organization information section */}
      {/* Avoid rendering empty organization section when data is not provided */}
-{organizationInformation ? (
+{org && (
   <div className="w-full flex justify-center p-10 mb-50">
         <div
           className={`${classNames.organizationInformation}
@@ -167,21 +184,21 @@ function SupportUsButton({
 
             {/* Organization logo */}
             <div>
-              {typeof organizationInformation.logo === "string" ? (
+              {typeof org.logo === "string" ? (
                 <span
                   className="block h-fit w-fit p-4 bg-black text-white rounded-2xl"
-                  title={organizationInformation.logo}
+                  title={org.logo}
                 >
                   <b className="text-2xl italic">
-                    {organizationInformation.logo}
+                    {org.logo}
                   </b>
                 </span>
               ) : (
                 <img
                   className="w-24 h-24 bg-white/80 pointer-none:cursor-none select-none rounded-2xl object-cover object-center"
-                  src={organizationInformation.logo?.src}
-                  alt={organizationInformation.logo?.alt}
-                  title={organizationInformation.logo?.alt}
+                  src={org.logo?.src}
+                  alt={org.logo?.alt}
+                  title={org.logo?.alt}
                   draggable={false}
                 />
               )}
@@ -190,15 +207,15 @@ function SupportUsButton({
             {/* Organization name and description */}
             <div className="flex flex-col gap-4">
               <h2 className={`font-extrabold text-4xl md:text-5xl lg:text-6xl`}>
-                {organizationInformation.name}
+                {org.name}
               </h2>
               <p className="font-[650] text-lg">
-                {organizationInformation.description}
+                {org.description}
               </p>
             </div>
 
             {/* Line */}
-            {organizationInformation.projectInformation && (
+            {org.projectInformation && (
               <div
                 className={`
             border
@@ -211,7 +228,7 @@ function SupportUsButton({
             )}
 
             {/* Project information */}
-            {organizationInformation.projectInformation && (
+            {org.projectInformation && (
               <div className="flex flex-col gap-2">
                 <h3
                   className={`font-bold w-fit uppercase text-sm p-2 rounded-lg
@@ -222,7 +239,7 @@ function SupportUsButton({
                   ${Theme === "corporate" && "bg-blue-600/50"}`}
                 >
                   ABOUT PROJECT:{" "}
-                  {organizationInformation.projectInformation.name}
+                  {org.projectInformation.name}
                 </h3>
                 <p
                   className={`italic font-semibold 
@@ -233,17 +250,14 @@ function SupportUsButton({
                 ${Theme === "corporate" && "text-blue-600/80"}
                 `}
                 >
-                  "{organizationInformation.projectInformation.description}"
+                  "{org.projectInformation.description}"
                 </p>
               </div>
             )}
           </div>
         </div>
       </div>
-) : (
- <p className="text-center text-gray-500 mt-10">
-  Organization details are not available.
-</p>
+
 )}
 
       {/* Sponsors section */}
@@ -427,21 +441,23 @@ function SupportUsButton({
       </div>
 
       {/* Call-to-action section with title, description, and sponsor links */}
+      {cta && (
+      
       <div
         className={`w-full flex justify-center p-10 ${(Theme === "light" || Theme === "dark") && classAccordingToTheme(Theme)} ${classNames.ctaSection}`}
       >
         <div className="w-4/5 flex flex-col items-center gap-5 py-20 border border-primary rounded-sm mt-20 mb-20">
           <h2 className={`font-extrabold text-4xl md:text-5xl lg:text-6xl`}>
-            {ctaSection.title}
+            {cta.title}
           </h2>
           <p
             className={`font-semibold 
               ${Theme === "light" ? "text-gray-600" : "text-gray-400"}`}
           >
-            {ctaSection.description}
+            {cta.description}
           </p>
           <div className="flex flex-wrap justify-center items-center gap-5 mt-8">
-            {ctaSection.sponsorLink.map((link, index) => (
+            {cta.sponsorLink.map((link, index) => (
               <a
                 href={link.url}
                 key={index}
@@ -459,7 +475,7 @@ function SupportUsButton({
             ))}
           </div>
         </div>
-      </div>
+      </div>)}
     </div>
   );
 }

@@ -70,11 +70,14 @@ function SupportUsButton({
   },
   buttonVariant = "AOSSIE",
 }: supportUsButtonProps): React.JSX.Element {
+ 
+
   return (
     // Container for the support us button, with dynamic classes based on the selected theme and custom class names
     <div
       className={`w-full font-sans justify-center items-center text-center ${Theme == "light" || Theme == "dark" ? classAccordingToTheme(Theme) : "bg-black text-white"} ${classNames.container}`}
     >
+      
       {/* Hero section with optional background image*/}
       <div className="relative w-full h-[50vh] flex justify-center">
         {hero.Image && (
@@ -128,7 +131,9 @@ function SupportUsButton({
       </div>
 
       {/* Organization information section */}
-      <div className="w-full flex justify-center p-10 mb-50">
+     {/* Avoid rendering empty organization section when data is not provided */}
+{organizationInformation ? (
+  <div className="w-full flex justify-center p-10 mb-50">
         <div
           className={`${classNames.organizationInformation}
           relative w-[90%] p-15 rounded-2xl overflow-visible
@@ -235,6 +240,11 @@ function SupportUsButton({
           </div>
         </div>
       </div>
+) : (
+ <p className="text-center text-gray-500 mt-10">
+  Organization details are not available.
+</p>
+)}
 
       {/* Sponsors section */}
       <div

@@ -55,7 +55,7 @@ export type organizationInformation = {
 
   /** Organization logo */
   logo?: Image | string;
-  url?:string;
+  url?: string;
   projectInformation?: projectInformation;
 };
 

@@ -181,6 +181,7 @@ const props: supportUsButtonProps = {
         name: "",           // ← your organization name
         description: "",    // ← short org description
         logo: { src: "", alt: "" }, // ← Add file path to src and alt text for accessibility. Note: Accepts a string path/url.
+        url: "https://example.com", // ← optional: if a valid https:// URL is provided, the logo becomes clickable
         projectInformation: {
             name: "",       // ← your project name
             description: "",// ← short project description
@@ -334,6 +335,7 @@ Information about the organization and project.
 | `name`               | string               | Yes      | Organization name        |
 | `description`        | string               | Yes      | Organization description |
 | `logo`               | `Image` / string     | No       | Organization logo        |
+| `url`                | string               | No       | Organization link        |
 | `projectInformation` | `projectInformation` | No       | Project details          |
 
 </details>

@@ -175,6 +175,7 @@ const props: supportUsButtonProps = {
         description: "",    // ← your subheading
         sponsorLabel: "",   // ← optional label above org info
         Image: { src: "", alt: "" }, // ← hero background image, Note: Remove the prop if you do not require a hero image.
+        fit: "", // ← use "cover" for full-width images, "contain" for logo-style images to avoid cropping
     },
 
     organizationInformation: {    
@@ -198,7 +199,7 @@ const props: supportUsButtonProps = {
         description: "",    // ← why people should sponsor
         sponsorLink: [
             {
-              name: "Examplename"
+              name: "Examplename",
               className: "sponsor-link",
               url: "https://example.com/sponsor",
               icon: null, // This Accepts ReactNode element(JSX)

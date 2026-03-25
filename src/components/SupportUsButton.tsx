@@ -76,13 +76,15 @@ function SupportUsButton({
       className={`w-full font-sans justify-center items-center text-center ${Theme == "light" || Theme == "dark" ? classAccordingToTheme(Theme) : "bg-black text-white"} ${classNames.container}`}
     >
       {/* Hero section with optional background image*/}
-      <div className="relative w-full h-[50vh] flex justify-center">
+      <div className="relative w-full h-[40vh] flex justify-center">
         {hero.Image && (
           <img
             src={hero.Image.src}
             alt={hero.Image.alt}
             title={hero.Image.alt}
-            className="w-full h-full object-cover object-center pointer-none:cursor-none select-none"
+            className={`w-full h-full  ${
+              hero.fit === "contain" ? "object-contain" : "object-cover"
+            } object-center pointer-none:cursor-none select-none`}
           />
         )}
         {/* Gradient overlay */}

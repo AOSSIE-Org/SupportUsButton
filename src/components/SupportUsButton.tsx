@@ -48,6 +48,16 @@ function getButtonClasses(buttonVariant: ButtonVariant): string {
   return `${base} bg-primary hover:bg-primary/90 text-black font-black py-4 transition-all active:scale-[0.98] shadow-lg shadow-primary/20`;
 }
 
+// Helper function to validate URLs and prevent XSS through 'javascript:' protocol
+function validateUrl(url?: string): string | undefined {
+  if (!url) return undefined;
+  const lowerUrl = url.toLowerCase();
+  if (lowerUrl.startsWith("http://") || lowerUrl.startsWith("https://")) {
+    return url;
+  }
+  return undefined;
+}
+
 // Main component function that renders the support us button, taking in various props for customization and rendering different sections such as hero, organization information, sponsors, and call-to-action based on the provided data and selected theme and button variant
 function SupportUsButton({
   Theme = "AOSSIE",
@@ -70,6 +80,21 @@ function SupportUsButton({
   },
   buttonVariant = "AOSSIE",
 }: supportUsButtonProps): React.JSX.Element {
+  const validatedUrl = validateUrl(organizationInformation?.url);
+  const logoContent =
+  typeof organizationInformation.logo === "string" ? (
+    <span className="block h-fit w-fit p-4 bg-black text-white rounded-2xl">
+      <b className="text-2xl italic">{organizationInformation.logo}</b>
+    </span>
+  ) : (
+    <img
+      className="w-24 h-24 bg-white/80 select-none rounded-2xl object-cover object-center"
+      src={organizationInformation.logo?.src}
+      alt={organizationInformation.logo?.alt}
+      title={organizationInformation.logo?.alt}
+      draggable={false}
+    />
+  );
   return (
     // Container for the support us button, with dynamic classes based on the selected theme and custom class names
     <div
@@ -163,25 +188,22 @@ function SupportUsButton({
             )}
 
             {/* Organization logo */}
-            <div>
-              {typeof organizationInformation.logo === "string" ? (
-                <span
-                  className="block h-fit w-fit p-4 bg-black text-white rounded-2xl"
-                  title={organizationInformation.logo}
-                >
-                  <b className="text-2xl italic">
-                    {organizationInformation.logo}
-                  </b>
-                </span>
-              ) : (
-                <img
-                  className="w-24 h-24 bg-white/80 pointer-none:cursor-none select-none rounded-2xl object-cover object-center"
-                  src={organizationInformation.logo?.src}
-                  alt={organizationInformation.logo?.alt}
-                  title={organizationInformation.logo?.alt}
-                  draggable={false}
-                />
-              )}
+            
+          <div>
+              {organizationInformation?.logo &&
+                (validatedUrl ? (
+                  <a
+                    href={validatedUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title={`Visit ${organizationInformation.name}`}
+                    className="inline-block transition-transform duration-200 hover:scale-105 hover:shadow-lg cursor-pointer"
+                  >
+                    {logoContent}
+                  </a>
+                ) : (
+                  logoContent
+                ))}
             </div>
 
             {/* Organization name and description */}

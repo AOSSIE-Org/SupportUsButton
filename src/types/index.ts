@@ -31,6 +31,7 @@ export type Hero = {
 
   title: string;
   description: string;
+  fit?: "cover" | "contain";
 
   /** Label like: YOU'RE SPONSORING */
   sponsorLabel?: string;

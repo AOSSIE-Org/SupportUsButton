@@ -82,19 +82,19 @@ function SupportUsButton({
 }: supportUsButtonProps): React.JSX.Element {
   const validatedUrl = validateUrl(organizationInformation?.url);
   const logoContent =
-  typeof organizationInformation.logo === "string" ? (
-    <span className="block h-fit w-fit p-4 bg-black text-white rounded-2xl">
-      <b className="text-2xl italic">{organizationInformation.logo}</b>
-    </span>
-  ) : (
-    <img
-      className="w-24 h-24 bg-white/80 select-none rounded-2xl object-cover object-center"
-      src={organizationInformation.logo?.src}
-      alt={organizationInformation.logo?.alt}
-      title={organizationInformation.logo?.alt}
-      draggable={false}
-    />
-  );
+    typeof organizationInformation.logo === "string" ? (
+      <span className="block h-fit w-fit p-4 bg-black text-white rounded-2xl">
+        <b className="text-2xl italic">{organizationInformation.logo}</b>
+      </span>
+    ) : (
+      <img
+        className="w-24 h-24 bg-white/80 select-none rounded-2xl object-cover object-center"
+        src={organizationInformation.logo?.src}
+        alt={organizationInformation.logo?.alt}
+        title={organizationInformation.logo?.alt}
+        draggable={false}
+      />
+    );
   return (
     // Container for the support us button, with dynamic classes based on the selected theme and custom class names
     <div
@@ -188,8 +188,8 @@ function SupportUsButton({
             )}
 
             {/* Organization logo */}
-            
-          <div>
+
+            <div>
               {organizationInformation?.logo &&
                 (validatedUrl ? (
                   <a
@@ -261,18 +261,19 @@ function SupportUsButton({
       </div>
 
       {/* Sponsors section */}
-      <div
-        className={`w-full flex justify-center mt-10 p-10
+      {sponsors && sponsors.length > 0 && (
+        <div
+          className={`w-full flex justify-center mt-10 p-10
           ${Theme === "AOSSIE" && "bg-[#1f1f1f]"} 
           ${Theme === "light" && "bg-gray-300/50"} 
           ${Theme === "dark" && "bg-gray-700/50"}
           ${Theme === "minimal" && "bg-gray-800/50"}
           ${Theme === "corporate" && "bg-blue-600/50"}`}
-      >
-        {sponsors && sponsors.length > 0 && (
-          // List of sponsors with their logos and links, styled according to the selected theme and custom class names
-          <div
-            className={`${classNames.sponsors} ${classAccordingToTheme(Theme)}
+        >
+          {sponsors && sponsors.length > 0 && (
+            // List of sponsors with their logos and links, styled according to the selected theme and custom class names
+            <div
+              className={`${classNames.sponsors} ${classAccordingToTheme(Theme)}
 
             // Shadows for different themes
             ${Theme === "AOSSIE" && "shadow-[0_0_15px_rgba(255,215,0,1)]"}
@@ -282,46 +283,46 @@ function SupportUsButton({
             ${Theme === "corporate" && "shadow-[0_0_25px_rgba(37,99,235,0.3)]"}
 
             relative w-[90%] flex flex-col p-8 rounded-2xl gap-25 mt-15 overflow-hidden`}
-          >
-            {/* Sponsor pattern AOSSIE */}
-            {pattern === "AOSSIE" && (
-              <div className="absolute bottom-0 inset-x-0 h-1/2 sponsor-pattern-AOSSIE opacity-60"></div>
-            )}
-            {/* Sponsor pattern Grid */}
-            {pattern === "grid" && (
-              <div className="absolute bottom-0 inset-x-0 h-1/2 sponsor-pattern-grid opacity-60"></div>
-            )}
-            {/* Sponsor pattern Dots */}
-            {pattern === "dots" && (
-              <div className="absolute bottom-0 inset-x-0 h-1/2 bg-[radial-gradient(rgba(0,0,0,0.15)_1.5px,transparent_0)] bg-size-[20px_20px] pointer-events-none opacity-100"></div>
-            )}
+            >
+              {/* Sponsor pattern AOSSIE */}
+              {pattern === "AOSSIE" && (
+                <div className="absolute bottom-0 inset-x-0 h-1/2 sponsor-pattern-AOSSIE opacity-60"></div>
+              )}
+              {/* Sponsor pattern Grid */}
+              {pattern === "grid" && (
+                <div className="absolute bottom-0 inset-x-0 h-1/2 sponsor-pattern-grid opacity-60"></div>
+              )}
+              {/* Sponsor pattern Dots */}
+              {pattern === "dots" && (
+                <div className="absolute bottom-0 inset-x-0 h-1/2 bg-[radial-gradient(rgba(0,0,0,0.15)_1.5px,transparent_0)] bg-size-[20px_20px] pointer-events-none opacity-100"></div>
+              )}
 
-            {/* Section title */}
-            <div className="mt-5 flex justify-center">
-              <div className="w-fit flex flex-col gap-5 justify-center items-center">
-                <h2
-                  className={`font-extrabold text-4xl md:text-5xl lg:text-6xl`}
-                >
-                  Our Sponsors
-                </h2>
+              {/* Section title */}
+              <div className="mt-5 flex justify-center">
+                <div className="w-fit flex flex-col gap-5 justify-center items-center">
+                  <h2
+                    className={`font-extrabold text-4xl md:text-5xl lg:text-6xl`}
+                  >
+                    Our Sponsors
+                  </h2>
 
-                {/* Underline */}
-                <div className={`border-3 rounded-4xl w-1/2`}></div>
+                  {/* Underline */}
+                  <div className={`border-3 rounded-4xl w-1/2`}></div>
+                </div>
               </div>
-            </div>
 
-            {/* Sponsor logos */}
-            <div className="flex flex-row flex-wrap justify-center items-center gap-10 z-10">
-              {sponsors.map((sponsor, index) => (
-                <a
-                  href={sponsor.link}
-                  key={index}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  title={`Visit ${sponsor.name}'s website`}
-                >
-                  <div
-                    className={`${Theme === "dark" ? "bg-gray-800 text-white" : "bg-white text-black"} rounded-lg flex flex-col justify-center items-center gap-2 p-8 w-fit transition-transform hover:scale-[1.02] shadow-lg min-h-75 min-w-62.5 hover:border-2 
+              {/* Sponsor logos */}
+              <div className="flex flex-row flex-wrap justify-center items-center gap-10 z-10">
+                {sponsors.map((sponsor, index) => (
+                  <a
+                    href={sponsor.link}
+                    key={index}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title={`Visit ${sponsor.name}'s website`}
+                  >
+                    <div
+                      className={`${Theme === "dark" ? "bg-gray-800 text-white" : "bg-white text-black"} rounded-lg flex flex-col justify-center items-center gap-2 p-8 w-fit transition-transform hover:scale-[1.02] shadow-lg min-h-75 min-w-62.5 hover:border-2 
 
                     // Shadows for different themes
                     ${Theme === "AOSSIE" && "shadow-primary/20"}
@@ -336,109 +337,110 @@ function SupportUsButton({
                     ${sponsor.sponsorshipTier === "Silver" && "min-w-60 min-h-70"}
                     ${sponsor.sponsorshipTier === "Bronze" && "min-w-50 min-h-60"}
                     `}
-                  >
-                    {sponsor.logo ? (
-                      <div className="relative">
-                        <img
-                          src={sponsor.logo}
-                          alt={sponsor.name}
-                          title={sponsor.name}
-                          className={`w-50 h-40 object-cover object-center rounded-lg
+                    >
+                      {sponsor.logo ? (
+                        <div className="relative">
+                          <img
+                            src={sponsor.logo}
+                            alt={sponsor.name}
+                            title={sponsor.name}
+                            className={`w-50 h-40 object-cover object-center rounded-lg
                           ${sponsor.sponsorshipTier === "Platinum" && "w-60 h-50"}
                           ${sponsor.sponsorshipTier === "Gold" && "w-55 h-45"}
                           ${sponsor.sponsorshipTier === "Silver" && "w-50 h-40"}
                           ${sponsor.sponsorshipTier === "Bronze" && "w-45 h-35"}
                           `}
-                          draggable={false}
-                        />
-                        {/* Sponsor tier icon */}
-                        <div
-                          className={`absolute  rotate-12
+                            draggable={false}
+                          />
+                          {/* Sponsor tier icon */}
+                          <div
+                            className={`absolute  rotate-12
                           
                           ${sponsor.sponsorshipTier === "Platinum" && "rotate-12 -top-4 -right-1"}
                           ${sponsor.sponsorshipTier === "Gold" && "rotate-20 -top-4.5 -right-2.5"}
                           ${sponsor.sponsorshipTier === "Silver" && "rotate-30 -top-5.5 -right-4.5"}
                           ${sponsor.sponsorshipTier === "Bronze" && "rotate-40 -top-3 -right-3"}
                           `}
-                        >
-                          {/* Platinum tier icon */}
-                          {sponsor.sponsorshipTier === "Platinum" && (
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="24"
-                              height="24"
-                              fill="currentColor"
-                              viewBox="0 0 24 24"
-                            >
-                              <title>Platinum tier icon</title>
-                              <path d="M3 7l4 4 5-7 5 7 4-4v11H3V7z" />
-                            </svg>
-                          )}
-                          {/* Gold tier icon */}
-                          {sponsor.sponsorshipTier === "Gold" && (
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="24"
-                              height="24"
-                              fill="currentColor"
-                              viewBox="0 0 24 24"
-                            >
-                              <title>Gold tier icon</title>
-                              <path d="M6 2h12v3h3v3a5 5 0 0 1-5 5h-1a5 5 0 0 1-4 3.9V20h4v2H9v-2h4v-3.1A5 5 0 0 1 9 13H8a5 5 0 0 1-5-5V5h3V2z" />
-                            </svg>
-                          )}
-                          {/* Silver tier icon */}
-                          {sponsor.sponsorshipTier === "Silver" && (
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="32"
-                              height="32"
-                              fill="currentColor"
-                              viewBox="0 0 24 24"
-                            >
-                              <title>Silver tier icon</title>
-                              <path d="M12 14a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm0 2l-3 6 3-2 3 2-3-6z" />
-                            </svg>
-                          )}
-                          {/* Bronze tier icon */}
-                          {sponsor.sponsorshipTier === "Bronze" && (
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="24"
-                              height="24"
-                              fill="currentColor"
-                              viewBox="0 0 24 24"
-                            >
-                              <title>Bronze tier icon</title>
-                              <path d="M2 12l5-5 4 4 4-4 7 7-5 5-4-4-4 4-7-7z" />
-                            </svg>
-                          )}
+                          >
+                            {/* Platinum tier icon */}
+                            {sponsor.sponsorshipTier === "Platinum" && (
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="24"
+                                height="24"
+                                fill="currentColor"
+                                viewBox="0 0 24 24"
+                              >
+                                <title>Platinum tier icon</title>
+                                <path d="M3 7l4 4 5-7 5 7 4-4v11H3V7z" />
+                              </svg>
+                            )}
+                            {/* Gold tier icon */}
+                            {sponsor.sponsorshipTier === "Gold" && (
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="24"
+                                height="24"
+                                fill="currentColor"
+                                viewBox="0 0 24 24"
+                              >
+                                <title>Gold tier icon</title>
+                                <path d="M6 2h12v3h3v3a5 5 0 0 1-5 5h-1a5 5 0 0 1-4 3.9V20h4v2H9v-2h4v-3.1A5 5 0 0 1 9 13H8a5 5 0 0 1-5-5V5h3V2z" />
+                              </svg>
+                            )}
+                            {/* Silver tier icon */}
+                            {sponsor.sponsorshipTier === "Silver" && (
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="32"
+                                height="32"
+                                fill="currentColor"
+                                viewBox="0 0 24 24"
+                              >
+                                <title>Silver tier icon</title>
+                                <path d="M12 14a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm0 2l-3 6 3-2 3 2-3-6z" />
+                              </svg>
+                            )}
+                            {/* Bronze tier icon */}
+                            {sponsor.sponsorshipTier === "Bronze" && (
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="24"
+                                height="24"
+                                fill="currentColor"
+                                viewBox="0 0 24 24"
+                              >
+                                <title>Bronze tier icon</title>
+                                <path d="M2 12l5-5 4 4 4-4 7 7-5 5-4-4-4 4-7-7z" />
+                              </svg>
+                            )}
+                          </div>
                         </div>
-                      </div>
-                    ) : (
-                      <span
-                        className="block h-fit w-full p-5 bg-black text-white rounded-2xl"
-                        title={sponsor.name}
-                      >
-                        <b className="text-3xl italic">{sponsor.name}</b>
-                      </span>
-                    )}
-
-                    <div className="w-full">
-                      <h3 className={`font-bold text-2xl`}>{sponsor.name}</h3>
-                      {sponsor.sponsorshipTier && (
-                        <span className="flex text-[16px] p-2 rounded-xl items-center mt-3.5 font-semibold bg-[#d0f2eb] text-black w-fit">
-                          {sponsor.sponsorshipTier}
+                      ) : (
+                        <span
+                          className="block h-fit w-full p-5 bg-black text-white rounded-2xl"
+                          title={sponsor.name}
+                        >
+                          <b className="text-3xl italic">{sponsor.name}</b>
                         </span>
                       )}
+
+                      <div className="w-full">
+                        <h3 className={`font-bold text-2xl`}>{sponsor.name}</h3>
+                        {sponsor.sponsorshipTier && (
+                          <span className="flex text-[16px] p-2 rounded-xl items-center mt-3.5 font-semibold bg-[#d0f2eb] text-black w-fit">
+                            {sponsor.sponsorshipTier}
+                          </span>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                </a>
-              ))}
+                  </a>
+                ))}
+              </div>
             </div>
-          </div>
-        )}
-      </div>
+          )}
+        </div>
+      )}
 
       {/* Call-to-action section with title, description, and sponsor links */}
       <div

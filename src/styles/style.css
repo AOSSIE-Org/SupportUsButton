@@ -1,4 +1,20 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Your custom theme */
+:root {
+  --color-primary: #FFD700;
+}
+
+/* Sponsor Patterns */
+.sponsor-pattern-AOSSIE {
+  background-image: url("data:image/svg+xml,%3Csvg...");
+}
+
+.sponsor-pattern-grid {
+  background-image: url("data:image/svg+xml,%3Csvg...");
+}
 
 @theme {
   --color-primary: #FFD700;

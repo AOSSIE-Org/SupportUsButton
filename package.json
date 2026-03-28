@@ -54,6 +54,7 @@
   },
   "sideEffects": false,
   "scripts": {
+    "dev": "vite",
     "build": "rollup -c",
     "prepublishOnly": "npm run build"
   },
@@ -77,13 +78,15 @@
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "rollup-plugin-postcss": "^4.0.2",
     "tailwindcss": "^4.2.1",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "vite": "^8.0.3"
   },
   "peerDependencies": {
     "react": ">=18",
     "react-dom": ">=18"
   },
   "dependencies": {
+    "framer-motion": "^12.38.0",
     "tslib": "^2.8.1"
   }
 }

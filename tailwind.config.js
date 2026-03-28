@@ -1,17 +1,15 @@
-/** @type {import('tailwindcss').Config} */
 export default {
   content: [
-    "./src/**/*.{ts,tsx,js,jsx}"
+    "./index.html",
+    "./demo/**/*.{js,ts,jsx,tsx}",
+    "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     extend: {
       colors: {
-        sponsor: {
-          primary: "#facc15",   // example accent color
-          dark: "#111827"
-        }
-      }
-    }
+        primary: "#FFD700",
+      },
+    },
   },
-  plugins: []
-}
+  plugins: [],
+};

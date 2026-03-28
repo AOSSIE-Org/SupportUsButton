@@ -5,9 +5,14 @@ import "../src/styles/style.css";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <div className="min-h-screen bg-gray-950 text-white flex justify-center">
-      <div className="w-full max-w-6xl px-6 py-10">
-       <h1>SupportUsButton Demo</h1>
+    <div className="min-h-screen bg-black">
+      
+      {/* 2. Optional: A more subtle, modern header for the demo */}
+      <header className="absolute top-0 left-0 z-50 p-6">
+        <h1 className="text-sm font-mono tracking-widest text-white/30 uppercase">
+          Project: SupportUsButton / Demo
+        </h1>
+      </header>
 
       <SupportUsButton
         Theme="AOSSIE"
@@ -50,7 +55,6 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
           ],
         }}
       />
-      </div>
     </div>
   </React.StrictMode>
 );

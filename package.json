@@ -55,6 +55,7 @@
   "sideEffects": false,
   "scripts": {
     "build": "rollup -c",
+    "dev": "rollup -c -w",
     "prepublishOnly": "npm run build"
   },
   "engines": {

@@ -1,51 +1,17 @@
 import React from "react";
 import type { supportUsButtonProps } from "../types/index";
 import type { Theme } from "../types/index";
-import type { ButtonVariant } from "../types/index";
 
 // Function to get the appropriate classes based on the selected theme, used for styling different sections of the component according to the chosen theme
 function classAccordingToTheme(Theme: Theme): string {
   switch (Theme) {
-    case "AOSSIE":
-      return "bg-primary text-black";
     case "light":
-      return "bg-gray-100 text-gray-800";
+      return "bg-[#F4F4F4] text-[#191919]";
     case "dark":
-      return "bg-black text-white";
-    case "minimal":
-      return "bg-transparent text-gray-800 border border-gray-800";
-    case "corporate":
-      return "bg-blue-600 text-white";
+      return "bg-[#191919] text-[#F4F4F4]";
     default:
-      return "bg-gray-200 text-gray-800";
+      return "bg-black text-white";
   }
-}
-
-// Function to get the appropriate button classes based on the selected button variant, used for styling the call-to-action buttons according to the chosen variant
-function getButtonClasses(buttonVariant: ButtonVariant): string {
-  const base =
-    "w-full px-5 py-3 font-medium transition-all duration-300 flex items-center justify-center gap-2";
-
-  const variant = buttonVariant ?? "AOSSIE";
-
-  if (variant === "primary") {
-    return `${base} bg-white text-black hover:bg-white/90`;
-  }
-
-  if (variant === "secondary") {
-    return `${base} border border-white/30 text-white hover:bg-white/20`;
-  }
-
-  if (variant === "ghost") {
-    return `${base} text-white/80 hover:text-white hover:bg-white/10 outline-2 outline-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-white/20`;
-  }
-
-  if (variant === "gradient") {
-    return `${base} bg-gradient-to-r from-indigo-500 to-purple-600 text-white`;
-  }
-
-  // Default to AOSSIE variant
-  return `${base} bg-primary hover:bg-primary/90 text-black font-black py-4 transition-all active:scale-[0.98] shadow-lg shadow-primary/20`;
 }
 
 // Helper function to validate URLs and prevent XSS through 'javascript:' protocol
@@ -60,422 +26,296 @@ function validateUrl(url?: string): string | undefined {
 
 // Main component function that renders the support us button, taking in various props for customization and rendering different sections such as hero, organization information, sponsors, and call-to-action based on the provided data and selected theme and button variant
 function SupportUsButton({
-  Theme = "AOSSIE",
-  pattern = "AOSSIE",
-  hero = {
-    title: "Support Our Open Source Project",
-    description:
-      "Your support helps us continue to develop and maintain our project.",
-    sponsorLabel: "You're Sponsoring",
-  },
+  Theme = "dark",
   organizationInformation,
   sponsors,
   ctaSection,
-  classNames = {
-    container: "",
-    Hero: "",
-    organizationInformation: "",
-    sponsors: "",
-    ctaSection: "",
-  },
-  buttonVariant = "AOSSIE",
+  projectInformation,
 }: supportUsButtonProps): React.JSX.Element {
-  const validatedUrl = validateUrl(organizationInformation?.url);
-  const logoContent =
-    typeof organizationInformation.logo === "string" ? (
-      <span className="block h-fit w-fit p-4 bg-black text-white rounded-2xl">
-        <b className="text-2xl italic">{organizationInformation.logo}</b>
-      </span>
-    ) : (
-      <img
-        className="w-24 h-24 bg-white/80 select-none rounded-2xl object-cover object-center"
-        src={organizationInformation.logo?.src}
-        alt={organizationInformation.logo?.alt}
-        title={organizationInformation.logo?.alt}
-        draggable={false}
-      />
-    );
-  return (
-    // Container for the support us button, with dynamic classes based on the selected theme and custom class names
-    <div
-      className={`w-full font-sans justify-center items-center text-center ${Theme == "light" || Theme == "dark" ? classAccordingToTheme(Theme) : "bg-black text-white"} ${classNames.container}`}
-    >
-      {/* Hero section with optional background image*/}
-      <div className="relative w-full h-[40vh] flex justify-center">
-        {hero.Image && (
-          <img
-            src={hero.Image.src}
-            alt={hero.Image.alt}
-            title={hero.Image.alt}
-            className={`w-full h-full  ${
-              hero.fit === "contain" ? "object-contain" : "object-cover"
-            } object-center pointer-none:cursor-none select-none`}
-          />
-        )}
-        {/* Gradient overlay */}
-        <div className="absolute inset-0 bg-linear-to-b from-transparent via-black/10 to-black/95"></div>
-      </div>
+  const validatedUrl = validateUrl(organizationInformation?.link);
 
-      {/* Hero title and description */}
-      <div className="w-full flex justify-center mt-10 mb-5">
-        <div
-          className={`${classNames.Hero} w-[80%] flex text-center p-8 flex-col items-center gap-4`}
-        >
-          <div
-            className={`p-2 rounded-full flex items-center justify-center bg-primary text-black`}
-          >
+  return (
+    <div
+      className={`w-full h-full p-20 font-sans text-center ${classAccordingToTheme(Theme)}`}
+    >
+      <div>
+        <div className="flex flex-col gap-6">
+          <div className="flex justify-center items-center gap-6">
+            <span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="-70 0 160 160"
+                className="w-[clamp(2rem,5vw,4rem)] h-[clamp(2rem,5vw,4rem)] flex-none"
+                fill="currentColor"
+              >
+                <path d="M0 0 C7.57076227 -1.38743945 15.58553081 -2.55450029 23 0 C28.67414192 4.96742551 31.45986777 12.42007563 34.57470703 19.13574219 C36.65622051 23.3187357 39.26264858 26.94699051 42.125 30.625 C42.61814697 31.26501953 43.11129395 31.90503906 43.61938477 32.56445312 C56.37528907 48.837261 68.92105471 59.97631641 89 66 C89 73.26 89 80.52 89 88 C85.9475 88.556875 82.895 89.11375 79.75 89.6875 C67.21933214 92.13127381 57.11908825 96.06609692 47 104 C45.51306641 105.15628906 45.51306641 105.15628906 43.99609375 106.3359375 C29.86947017 118.22779026 25.48247971 136.62264205 23 154 C15.41 154 7.82 154 0 154 C-1.5675 151.050625 -3.135 148.10125 -4.75 145.0625 C-12.82766234 130.22302115 -22.21843491 117.10151175 -34 105 C-34.60070312 104.32582031 -35.20140625 103.65164062 -35.8203125 102.95703125 C-43.74810076 94.28242235 -53.69266601 90.28838902 -65 88 C-65 80.41 -65 72.82 -65 65 C-62.586875 64.7525 -60.17375 64.505 -57.6875 64.25 C-50.67844885 63.42072815 -44.4554148 61.9530089 -38 59 C-37.11054687 58.60167969 -36.22109375 58.20335937 -35.3046875 57.79296875 C-18.88614384 49.67724988 -9.08698216 35.94806798 -3 19 C-1.48466584 14.445717 -0.86532343 10.03327603 -0.453125 5.25390625 C-0.36708008 4.26849854 -0.28103516 3.28309082 -0.19238281 2.26782227 C-0.12889648 1.51944092 -0.06541016 0.77105957 0 0 Z M12 42 C11.01798412 43.56875493 10.06593384 45.15626516 9.125 46.75 C2.16237078 57.81331882 -7.36434364 68.07743398 -18.7890625 74.58984375 C-19.51867187 75.05519531 -20.24828125 75.52054688 -21 76 C-21 76.66 -21 77.32 -21 78 C-19.48280017 79.53457367 -19.48280017 79.53457367 -17.5 81.125 C-9.36713831 88.10819014 -2.84728669 95.57179748 3.52026367 104.18505859 C4.05627197 104.90516113 4.59228027 105.62526367 5.14453125 106.3671875 C5.62253174 107.01800293 6.10053223 107.66881836 6.59301758 108.33935547 C8.08662378 110.25726849 8.08662378 110.25726849 11 112 C11.6290625 111.09378906 12.258125 110.18757813 12.90625 109.25390625 C20.34939162 98.6160383 27.59836088 89.62888585 38.265625 82.04296875 C40.75395056 80.18383408 42.87194985 78.25471981 45 76 C44.40574219 75.56171875 43.81148438 75.1234375 43.19921875 74.671875 C32.67831645 66.62166671 24.42840389 56.83998646 16.43969727 46.36865234 C15.31325557 44.89681289 14.15938961 43.44602836 13 42 C12.67 42 12.34 42 12 42 Z " />
+              </svg>
+            </span>
+            <span className="font-medium text-[clamp(2rem,5vw,4rem)] leading-tight">
+              Support-us {projectInformation?.name && "for"}{" "}
+              {projectInformation?.name}
+            </span>
+          </div>
+          <div>
+            <span className="text-[clamp(1rem,2vw,2rem)] leading-snug italic flex justify-center items-center">
+              A Project Powered by
+              <a
+                href={`${organizationInformation.link}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline"
+              >
+                &nbsp;{organizationInformation.name}
+              </a>
+              <svg
+                height="30px"
+                width="20px"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M7 17L17 7M17 7H8M17 7V16"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </span>
+          </div>
+        </div>
+
+        <div className="mt-10 flex flex-wrap justify-center gap-6">
+          {ctaSection.sponsorLink.map((link, index) => (
+            <button
+              key={index}
+              rel="noopener noreferrer"
+              className={`px-4 py-3 w-fit rounded-md font-semibold text-[18px] ${Theme === "dark" ? "bg-[#F4F4F4] text-[#191919]" : "bg-[#191919] text-[#F4F4F4]"}`}
+              onClick={() => {
+                if (validateUrl(link.url)) {
+                  window.open(link.url, "_blank");
+                }
+              }}
+            >
+              {link.name}
+            </button>
+          ))}
+        </div>
+
+        <div className="mt-28 flex flex-col gap-12 md-container md:gap-4">
+          {projectInformation?.name && (
+            <div className="flex-1">
+              <div className="flex items-center gap-3">
+                <img
+                  className="h-10 w-10 object-cover"
+                  draggable="false"
+                  src={projectInformation?.image}
+                  alt={projectInformation?.name}
+                />
+                <span className="font-medium text-3xl">
+                  About {projectInformation?.name}
+                </span>
+              </div>
+              <p className="mt-6 border border-dashed border-[#F4F4F41F] p-6 text-start text-[18px]">
+                {projectInformation?.description}
+              </p>
+            </div>
+          )}
+
+          <div className="flex shrink-0 items-center justify-center px-4">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="35"
-              height="35"
-              viewBox="0 0 24 24"
-              fill="black"
-              stroke="black"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="lucide lucide-heart-icon lucide-heart"
+              fill="currentColor"
+              width="80"
+              height="62"
             >
-              <title>Support heart icon</title>
-              <path d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5" />
+              <path
+                d="M0 0 C3.80968776 2.45431808 6.54985822 4.64957467 8 9 C8.5453074 14.67119695 7.52213848 18.55948157 4 23 C2.27811234 24.66434386 0.46799043 26.18403749 -1.3671875 27.72265625 C-4.99306387 30.85898551 -8.48066179 34.11658423 -11.9375 37.4375 C-12.61272705 38.05818359 -13.2879541 38.67886719 -13.98364258 39.31835938 C-18.55873047 43.76595723 -19.89354557 46.59144342 -20 53 C-36.1 39.7 -36.1 39.7 -38 34 C-38.38328634 28.82563443 -37.95629513 26.22151538 -35 22 C-33.02795102 19.78009394 -30.93620852 17.69920694 -28.8125 15.625 C-28.23169678 15.05281738 -27.65089355 14.48063477 -27.05249023 13.89111328 C-9.46575583 -3.33121792 -9.46575583 -3.33121792 0 0 Z "
+                transform="translate(62,5)"
+              />
+              <path
+                d="M0 0 C2.6875 2.125 2.6875 2.125 4.6875 5.125 C3.9761792 5.78133423 3.9761792 5.78133423 3.25048828 6.45092773 C1.08573657 8.46901102 -1.05053501 10.51503183 -3.1875 12.5625 C-3.93386719 13.25021484 -4.68023438 13.93792969 -5.44921875 14.64648438 C-10.56113788 19.59721687 -12.43280015 23.03852899 -13.3125 30.125 C-18.52825788 26.15161314 -22.2395773 22.47949519 -24.3125 16.125 C-24.94555877 10.8796559 -24.17299421 7.56369792 -21.3125 3.125 C-14.88709968 -3.12674085 -7.92260968 -4.48449605 0 0 Z "
+                transform="translate(32.3125,6.875)"
+              />
             </svg>
           </div>
 
-          <div className="w-full flex flex-col items-center gap-6">
-            <h1 className={`font-extrabold text-4xl md:text-5xl lg:text-6xl`}>
-              {hero.title}
-            </h1>
-            <p
-              className={`wrap-anywhere ${Theme === "light" ? "text-slate-600" : "text-slate-400"} text-lg font-semibold`}
-            >
-              {hero.description}
+          <div className="flex-1">
+            <div className="flex items-center gap-3">
+              <img
+                className="h-10 w-10 object-cover"
+                draggable="false"
+                src={organizationInformation.image}
+                alt={organizationInformation.name}
+              />
+              <span className="font-medium text-3xl">
+                About {organizationInformation.name}
+              </span>
+            </div>
+            <p className="mt-6 border border-dashed border-[#F4F4F41F] p-6 text-start text-[18px]">
+              {organizationInformation.desc}
             </p>
           </div>
         </div>
-      </div>
 
-      {/* Organization information section */}
-      <div className="w-full flex justify-center p-10 mb-50">
-        <div
-          className={`${classNames.organizationInformation}
-          relative w-[90%] p-15 rounded-2xl overflow-visible
-
-          // Shadows for different themes
-          ${Theme === "AOSSIE" && "shadow-xl shadow-primary/20"}
-          ${Theme === "light" && "shadow-xl shadow-gray-300/30"}
-          ${Theme === "dark" && "shadow-xl shadow-gray-700/30"}
-          ${Theme === "minimal" && "shadow-xl shadow-gray-800/30"}
-          ${Theme === "corporate" && "shadow-xl shadow-blue-600/30"}
-          
-          // Outline for light and dark themes
-          ${Theme === "light" && "outline-1 outline-gray-300"}
-          ${Theme === "dark" && "outline-1 outline-gray-700"}
-          ${classAccordingToTheme(Theme)}`}
-        >
-          {/* Background grid */}
-          <div className="absolute inset-0 bg-[radial-gradient(rgba(0,0,0,0.15)_1.5px,transparent_0)] bg-size-[20px_20px] pointer-events-none opacity-100 z-10"></div>
-          
-          {/* Gradient background */}
-          {Theme === "AOSSIE" && (
-            <div
-              className={`absolute top-0 left-0 bottom-0 w-full h-full rounded-2xl p-6 overflow-visible gradient-bg`}
-            ></div>
-          )}
-
-          {/* Content container */}
-          <div className="relative z-10 flex justify-start flex-col text-start gap-4">
-            {/* Sponsor label  */}
-            {hero.sponsorLabel && (
-              <span className={`text-[10px] font-extrabold tracking-[0.2em] uppercase block ${Theme === "AOSSIE" && "text-white"}`}>
-                {hero.sponsorLabel}
-              </span>
-            )}
-
-            {/* Organization logo */}
-
-            <div>
-              {organizationInformation?.logo &&
-                (validatedUrl ? (
-                  <a
-                    href={validatedUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    title={`Visit ${organizationInformation.name}`}
-                    className="inline-block transition-transform duration-200 hover:scale-105 hover:shadow-lg cursor-pointer"
-                  >
-                    {logoContent}
-                  </a>
-                ) : (
-                  logoContent
-                ))}
-            </div>
-
-            {/* Organization name and description */}
-            <div className="flex flex-col gap-4">
-              <h2 className={`font-extrabold text-4xl md:text-5xl lg:text-6xl`}>
-                {organizationInformation.name}
-              </h2>
-              <p className="font-[650] text-lg">
-                {organizationInformation.description}
-              </p>
-            </div>
-
-            {/* Line */}
-            {organizationInformation.projectInformation && (
-              <div
-                className={`
-            border
-            ${Theme === "AOSSIE" && "border-[#f1c514]/50"}
-            ${Theme === "light" && "border-gray-300/50"}
-            ${Theme === "dark" && "border-gray-700/50"}
-            ${Theme === "minimal" && "border-gray-800/50"}
-            ${Theme === "corporate" && "border-blue-600/50"}`}
-              ></div>
-            )}
-
-            {/* Project information */}
-            {organizationInformation.projectInformation && (
-              <div className="flex flex-col gap-2">
-                <h3
-                  className={`font-bold w-fit uppercase text-sm p-2 rounded-lg
-                  ${Theme === "AOSSIE" && "bg-[#edc214]"}
-                  ${Theme === "light" && "bg-gray-300/50"}
-                  ${Theme === "dark" && "bg-gray-700/50"}
-                  ${Theme === "minimal" && "bg-gray-800/50"}
-                  ${Theme === "corporate" && "bg-blue-600/50"}`}
-                >
-                  ABOUT PROJECT:{" "}
-                  {organizationInformation.projectInformation.name}
-                </h3>
-                <p
-                  className={`italic font-semibold 
-                ${Theme === "AOSSIE" && "text-[#908f8f]"}
-                ${Theme === "light" && "text-gray-600"}
-                ${Theme === "dark" && "text-gray-400"}
-                ${Theme === "minimal" && "text-gray-800"}
-                ${Theme === "corporate" && "text-blue-600/80"}
-                `}
-                >
-                  "{organizationInformation.projectInformation.description}"
-                </p>
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
-
-      {/* Sponsors section */}
-      {sponsors && sponsors.length > 0 && (
-        <div
-          className={`w-full flex justify-center mt-10 p-10
-          ${Theme === "AOSSIE" && "bg-[#1f1f1f]"} 
-          ${Theme === "light" && "bg-gray-300/50"} 
-          ${Theme === "dark" && "bg-gray-700/50"}
-          ${Theme === "minimal" && "bg-gray-800/50"}
-          ${Theme === "corporate" && "bg-blue-600/50"}`}
-        >
-          {sponsors && sponsors.length > 0 && (
-            // List of sponsors with their logos and links, styled according to the selected theme and custom class names
-            <div
-              className={`${classNames.sponsors} ${classAccordingToTheme(Theme)}
-
-            // Shadows for different themes
-            ${Theme === "AOSSIE" && "shadow-[0_0_15px_rgba(255,215,0,1)]"}
-            ${Theme === "light" && "shadow-[0_0_20px_rgba(0,0,0,0.15)]"}
-            ${Theme === "dark" && "shadow-[0_0_25px_rgba(0.5,0.5,0.5,0.5)]"}
-            ${Theme === "minimal" && "shadow-[0_0_15px_rgba(0,0,0,0.2)]"}
-            ${Theme === "corporate" && "shadow-[0_0_25px_rgba(37,99,235,0.3)]"}
-
-            relative w-[90%] flex flex-col p-8 rounded-2xl gap-25 mt-15 overflow-hidden`}
-            >
-              {/* Sponsor pattern AOSSIE */}
-              {pattern === "AOSSIE" && (
-                <div className="absolute bottom-0 inset-x-0 h-1/2 sponsor-pattern-AOSSIE opacity-60"></div>
-              )}
-              {/* Sponsor pattern Grid */}
-              {pattern === "grid" && (
-                <div className="absolute bottom-0 inset-x-0 h-1/2 sponsor-pattern-grid opacity-60"></div>
-              )}
-              {/* Sponsor pattern Dots */}
-              {pattern === "dots" && (
-                <div className="absolute bottom-0 inset-x-0 h-1/2 bg-[radial-gradient(rgba(0,0,0,0.15)_1.5px,transparent_0)] bg-size-[20px_20px] pointer-events-none opacity-100"></div>
-              )}
-
-              {/* Section title */}
-              <div className="mt-5 flex justify-center">
-                <div className="w-fit flex flex-col gap-5 justify-center items-center">
-                  <h2
-                    className={`font-extrabold text-4xl md:text-5xl lg:text-6xl`}
-                  >
-                    Our Sponsors
-                  </h2>
-
-                  {/* Underline */}
-                  <div className={`border-3 rounded-4xl w-1/2`}></div>
-                </div>
-              </div>
-
-              {/* Sponsor logos */}
-              <div className="flex flex-row flex-wrap justify-center items-center gap-10 z-10">
-                {sponsors.map((sponsor, index) => (
-                  <a
-                    href={sponsor.link}
-                    key={index}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    title={`Visit ${sponsor.name}'s website`}
-                  >
-                    <div
-                      className={`${Theme === "dark" ? "bg-gray-800 text-white" : "bg-white text-black"} rounded-lg flex flex-col justify-center items-center gap-2 p-8 w-fit transition-transform hover:scale-[1.02] shadow-lg min-h-75 min-w-62.5 hover:border-2 
-
-                    // Shadows for different themes
-                    ${Theme === "AOSSIE" && "shadow-primary/20"}
-                    ${Theme === "light" && "shadow-gray-300/30"}
-                    ${Theme === "dark" && "shadow-gray-700/30"}
-                    ${Theme === "minimal" && "shadow-gray-800/30"} 
-                    ${Theme === "corporate" && "shadow-blue-600/30"}
-                    
-                    // Size based on sponsorship tier
-                    ${sponsor.sponsorshipTier === "Platinum" && "min-w-80 min-h-90"}
-                    ${sponsor.sponsorshipTier === "Gold" && "min-w-70 min-h-80"}
-                    ${sponsor.sponsorshipTier === "Silver" && "min-w-60 min-h-70"}
-                    ${sponsor.sponsorshipTier === "Bronze" && "min-w-50 min-h-60"}
-                    `}
-                    >
-                      {sponsor.logo ? (
-                        <div className="relative">
-                          <img
-                            src={sponsor.logo}
-                            alt={sponsor.name}
-                            title={sponsor.name}
-                            className={`w-50 h-40 object-cover object-center rounded-lg
-                          ${sponsor.sponsorshipTier === "Platinum" && "w-60 h-50"}
-                          ${sponsor.sponsorshipTier === "Gold" && "w-55 h-45"}
-                          ${sponsor.sponsorshipTier === "Silver" && "w-50 h-40"}
-                          ${sponsor.sponsorshipTier === "Bronze" && "w-45 h-35"}
-                          `}
-                            draggable={false}
-                          />
-                          {/* Sponsor tier icon */}
-                          <div
-                            className={`absolute  rotate-12
-                          
-                          ${sponsor.sponsorshipTier === "Platinum" && "rotate-12 -top-4 -right-1"}
-                          ${sponsor.sponsorshipTier === "Gold" && "rotate-20 -top-4.5 -right-2.5"}
-                          ${sponsor.sponsorshipTier === "Silver" && "rotate-30 -top-5.5 -right-4.5"}
-                          ${sponsor.sponsorshipTier === "Bronze" && "rotate-40 -top-3 -right-3"}
-                          `}
-                          >
-                            {/* Platinum tier icon */}
-                            {sponsor.sponsorshipTier === "Platinum" && (
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="24"
-                                height="24"
-                                fill="currentColor"
-                                viewBox="0 0 24 24"
-                              >
-                                <title>Platinum tier icon</title>
-                                <path d="M3 7l4 4 5-7 5 7 4-4v11H3V7z" />
-                              </svg>
-                            )}
-                            {/* Gold tier icon */}
-                            {sponsor.sponsorshipTier === "Gold" && (
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="24"
-                                height="24"
-                                fill="currentColor"
-                                viewBox="0 0 24 24"
-                              >
-                                <title>Gold tier icon</title>
-                                <path d="M6 2h12v3h3v3a5 5 0 0 1-5 5h-1a5 5 0 0 1-4 3.9V20h4v2H9v-2h4v-3.1A5 5 0 0 1 9 13H8a5 5 0 0 1-5-5V5h3V2z" />
-                              </svg>
-                            )}
-                            {/* Silver tier icon */}
-                            {sponsor.sponsorshipTier === "Silver" && (
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="32"
-                                height="32"
-                                fill="currentColor"
-                                viewBox="0 0 24 24"
-                              >
-                                <title>Silver tier icon</title>
-                                <path d="M12 14a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm0 2l-3 6 3-2 3 2-3-6z" />
-                              </svg>
-                            )}
-                            {/* Bronze tier icon */}
-                            {sponsor.sponsorshipTier === "Bronze" && (
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="24"
-                                height="24"
-                                fill="currentColor"
-                                viewBox="0 0 24 24"
-                              >
-                                <title>Bronze tier icon</title>
-                                <path d="M2 12l5-5 4 4 4-4 7 7-5 5-4-4-4 4-7-7z" />
-                              </svg>
-                            )}
-                          </div>
-                        </div>
-                      ) : (
-                        <span
-                          className="block h-fit w-full p-5 bg-black text-white rounded-2xl"
-                          title={sponsor.name}
-                        >
-                          <b className="text-3xl italic">{sponsor.name}</b>
-                        </span>
-                      )}
-
-                      <div className="w-full">
-                        <h3 className={`font-bold text-2xl`}>{sponsor.name}</h3>
-                        {sponsor.sponsorshipTier && (
-                          <span className="flex text-[16px] p-2 rounded-xl items-center mt-3.5 font-semibold bg-[#d0f2eb] text-black w-fit">
-                            {sponsor.sponsorshipTier}
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                  </a>
-                ))}
-              </div>
-            </div>
-          )}
-        </div>
-      )}
-
-      {/* Call-to-action section with title, description, and sponsor links */}
-      <div
-        className={`w-full flex justify-center p-10 ${(Theme === "light" || Theme === "dark") && classAccordingToTheme(Theme)} ${classNames.ctaSection}`}
-      >
-        <div className="w-4/5 flex flex-col items-center gap-5 py-20 border border-primary rounded-sm mt-20 mb-20">
-          <h2 className={`font-extrabold text-4xl md:text-5xl lg:text-6xl`}>
-            {ctaSection.title}
-          </h2>
-          <p
-            className={`font-semibold 
-              ${Theme === "light" ? "text-gray-600" : "text-gray-400"}`}
-          >
-            {ctaSection.description}
-          </p>
-          <div className="flex flex-wrap justify-center items-center gap-5 mt-8">
-            {ctaSection.sponsorLink.map((link, index) => (
-              <a
-                href={link.url}
-                key={index}
-                {...(link.newTab && { target: "_blank" })}
-                rel="noopener noreferrer"
-                title={`Support Us using ${link.name}`}
+        <div className="mt-24 flex flex-col items-center justify-between md-justify-between">
+          <div className="flex flex-col md:text-start text-[18px] font-normal ">
+            <span className="flex items-center gap-1.5">
+              <span>Supported By Global </span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                version="1.1"
+                width="13"
+                height="13"
+                viewBox="-70 0 160 160"
+                fill="currentColor"
               >
-                <div
-                  className={`${getButtonClasses(buttonVariant)} w-fit px-6 py-3`}
-                >
-                  {link.icon && <span>{link.icon}</span>}
-                  <h3 className={`font-bold`}>{link.name}</h3>
+                <path
+                  d="M0 0 C1.67820372 2.51730558 2.65358413 4.46224569 3.69921875 7.24609375 C4.01793945 8.07810303 4.33666016 8.9101123 4.66503906 9.76733398 C5.00245117 10.64848877 5.33986328 11.52964355 5.6875 12.4375 C14.24389588 34.3049343 25.71619687 45.49685997 47 55 C50.63102903 56.45812977 54.27573321 57.80065985 58 59 C58 59.33 58 59.66 58 60 C57.00742188 60.08636719 56.01484375 60.17273438 54.9921875 60.26171875 C40.80577518 61.65909179 26.88194838 64.61758896 17.296875 76.02734375 C7.80290106 89.28534271 4.24512801 106.13639817 2 122 C1.67 122 1.34 122 1 122 C0.92523438 121.14921875 0.85046875 120.2984375 0.7734375 119.421875 C-1.00825304 103.00237395 -4.68536712 83.0955274 -18 72 C-30.69870284 62.86680767 -44.73316023 61.85819514 -60 61 C-60 60.67 -60 60.34 -60 60 C-58.99324219 59.74347656 -57.98648438 59.48695312 -56.94921875 59.22265625 C-40.59152763 54.85325735 -21.12466126 48.79175719 -11.83984375 33.61328125 C-5.94710293 23.12417543 -2.93543003 11.59291953 0 0 Z "
+                  transform="translate(30.3125,7.875)"
+                />
+              </svg>
+            </span>
+            <span>Powerhouses</span>
+          </div>
+
+          <div className="flex flex-col md-justify-between gap-3">
+            {sponsors?.map((sponsor, index) => (
+              <div key={index} className="flex items-center gap-3 mt-4">
+                <div>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    version="1.1"
+                    width="50"
+                    height="80"
+                    viewBox="-80 1 200 200"
+                    fill="currentColor"
+                  >
+                    <path
+                      d="M0 0 C12.6432034 -1.11557677 21.77726589 1.06283405 31.875 9.36328125 C34.10698073 11.49412535 36.17644711 13.51070558 38 16 C38 16.99 38 17.98 38 19 C29.45592079 21.8480264 21.05934703 19.28079614 13 16 C6.96020996 12.72319577 2.91668528 8.22600127 0 2 C0 1.34 0 0.68 0 0 Z "
+                      transform="translate(46,162)"
+                    />
+                    <path
+                      d="M0 0 C4.44523401 2.76249558 4.44523401 2.76249558 6.1640625 4.5390625 C6.1640625 5.8590625 6.1640625 7.1790625 6.1640625 8.5390625 C-2.52586208 12.4012512 -10.29939559 12.66928212 -19.3671875 9.65625 C-23.70175851 7.69471945 -27.56681244 5.00180317 -30.8359375 1.5390625 C-31.58203125 -0.68359375 -31.58203125 -0.68359375 -31.8359375 -2.4609375 C-20.51269999 -7.31375357 -10.92790494 -5.62952679 0 0 Z "
+                      transform="translate(98.8359375,194.4609375)"
+                    />
+                    <path
+                      d="M0 0 C8.61092129 -0.62624882 14.6615228 1.83377296 21.3125 7.3125 C24.81078785 10.5659077 27.06609443 13.62769175 29 18 C28.67 18.99 28.34 19.98 28 21 C19.99208811 21.51663948 13.26103526 20.48272809 6.8828125 15.26953125 C2.44590688 10.65772686 0.71645797 6.31652744 0 0 Z "
+                      transform="translate(38,135)"
+                    />
+                    <path
+                      d="M0 0 C4.07359577 1.50873917 7.06907981 4.13049723 9 8 C9.98110431 14.11373333 9.69827384 19.84883286 6 25 C3.8125 26.375 3.8125 26.375 2 27 C-2.60927966 22.6398706 -5.65818101 19.60636978 -6.5 13.1875 C-6.33480196 8.07607842 -3.5803541 3.5803541 0 0 Z "
+                      transform="translate(109,170)"
+                    />
+                    <path
+                      d="M0 0 C5.84588663 -0.7462834 9.15679591 0.64857943 13.91015625 4.09375 C17.77888309 7.62260738 20.56558062 11.87903971 21.296875 17.1328125 C21.3125 19.0625 21.3125 19.0625 21 22 C15.39069564 22.88567964 11.85345065 20.63347312 7.27734375 17.72265625 C3.3471517 14.74973225 1.56292988 11.68878964 0 7 C-0.03954234 4.66700175 -0.04401732 2.33291811 0 0 Z "
+                      transform="translate(36,106)"
+                    />
+                    <path
+                      d="M0 0 C2.75589294 1.51129613 3.53748982 3.27025747 4.9375 6.0625 C5.77373465 11.65999862 5.70557442 16.55283649 3.125 21.625 C-0.4625 25.6225 -0.4625 25.6225 -2.0625 27.0625 C-5.0625 26.0625 -5.0625 26.0625 -6.23046875 24.0234375 C-8.24898663 18.90367185 -9.82990072 14.65356241 -9.0625 9.0625 C-7.29669689 5.26602332 -4.60308989 0.13948757 0 0 Z "
+                      transform="translate(94.0625,150.9375)"
+                    />
+                    <path
+                      d="M0 0 C0.66 0 1.32 0 2 0 C6.01498181 6.7348082 7.9727014 12.04153403 7 20 C5.91357046 23.14068277 4.55409315 26.06526159 3 29 C1.171875 28.78125 1.171875 28.78125 -1 28 C-4.71131395 23.07762571 -6.84448346 17.35402275 -6.50390625 11.1796875 C-5.52461489 6.94368301 -3.07182894 3.07182894 0 0 Z "
+                      transform="translate(59,45)"
+                    />
+                    <path
+                      d="M0 0 C5.9949638 1.53359539 9.03400275 4.30028129 12.6328125 9.2421875 C14.32059335 12.64668258 14.30199566 15.03414318 14.1875 18.8125 C14.16042969 19.97394531 14.13335937 21.13539062 14.10546875 22.33203125 C14.07066406 23.21246094 14.03585938 24.09289062 14 25 C9.06173402 24.28677039 6.51298115 23.69313403 3 20 C-0.47172832 14.52535149 -2.94700644 9.62904508 -2 3 C-1.34 2.01 -0.68 1.02 0 0 Z "
+                      transform="translate(43,74)"
+                    />
+                    <path
+                      d="M0 0 C0.98616863 7.23190328 -2.00769698 13.06617698 -6 19 C-9.41373076 22.09871606 -12.3425366 24 -17 24 C-17.55551858 17.2843976 -17.53534257 12.24025403 -13.49609375 6.65625 C-9.78738257 2.55052274 -5.55761213 0 0 0 Z "
+                      transform="translate(90,33)"
+                    />
+                    <path
+                      d="M0 0 C0.34573147 5.76219112 0.34446833 10.04096075 -3 15 C-5.86920766 17.94675381 -7.17709988 18.93789433 -11.3125 19.25 C-12.199375 19.1675 -13.08625 19.085 -14 19 C-14.35892545 13.95510345 -14.58426255 10.14765859 -12.25 5.5625 C-8.21537063 0.96750544 -6.2602375 -0.42683438 0 0 Z "
+                      transform="translate(75,108)"
+                    />
+                    <path
+                      d="M0 0 C2.13286654 4.26573309 2.59025281 8.3056456 2 13 C0.30557682 17.6373687 -1.79507786 20.37192366 -6 23 C-6.99 22.67 -7.98 22.34 -9 22 C-10.84443627 18.31112746 -10.35116537 14.03520939 -10 10 C-8.35436241 6.10243728 -4.60387335 0 0 0 Z "
+                      transform="translate(81,131)"
+                    />
+                    <path
+                      d="M0 0 C1.21236328 0.02707031 1.21236328 0.02707031 2.44921875 0.0546875 C3.37154297 0.08949219 3.37154297 0.08949219 4.3125 0.125 C4.06832562 4.27596454 3.74705006 6.57870849 1.125 9.875 C-3.75206981 13.77665585 -7.3764011 15.57579278 -13.6875 15.125 C-13.31698535 8.94975589 -11.87368232 6.41085333 -7.6875 2.125 C-4.48369983 -0.01086678 -3.66810033 -0.10632175 0 0 Z "
+                      transform="translate(75.6875,85.875)"
+                    />
+                    <path
+                      d="M0 0 C0.33770059 3.63028129 0.28595853 5.52706859 -1.625 8.6875 C-5.53445212 12.49407181 -8.9340779 14.16827413 -14.375 14.1875 C-15.57125 14.125625 -16.7675 14.06375 -18 14 C-18 10.61334013 -17.54459576 8.58888157 -15.22265625 6.078125 C-9.82751454 1.35615648 -7.31463272 -0.13545616 0 0 Z "
+                      transform="translate(85,64)"
+                    />
+                  </svg>
                 </div>
-              </a>
+
+                <div className="flex flex-col gap-1.5">
+                  <span className="text-2xl font-medium">{sponsor.name}</span>
+                  <span className="text-[9px]">
+                    {sponsor.sponsorshipTier} Sponsor
+                  </span>
+                </div>
+
+                <div>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    version="1.1"
+                    width="40"
+                    height="70"
+                    viewBox="50 10 220 220"
+                    fill="currentColor"
+                  >
+                    <path
+                      d="M0 0 C0.495 0.99 0.495 0.99 1 2 C-8.27979511 13.01808526 -18.28258176 20.02761097 -32.9609375 21.359375 C-42.72243141 21.79854242 -50.12919823 20.31969477 -59 16 C-58.3150299 10.94694187 -54.93373871 8.98600852 -51.0859375 6.03125 C-35.42211852 -4.27911186 -17.48399628 -7.42731005 0 0 Z "
+                      transform="translate(130,258)"
+                    />
+                    <path
+                      d="M0 0 C0.83595703 0.00451172 1.67191406 0.00902344 2.53320312 0.01367188 C4.58466649 0.02539452 6.63609273 0.04332797 8.6875 0.0625 C9.80419922 3.77099609 9.80419922 3.77099609 8.75390625 6.39453125 C2.93157793 15.99759224 -3.90797378 21.80145981 -14.3125 26.0625 C-14.94567139 26.32579102 -15.57884277 26.58908203 -16.23120117 26.86035156 C-22.46454345 29.2223428 -28.13347424 29.45393542 -34.75 29.3125 C-35.74193359 29.30734375 -36.73386719 29.3021875 -37.75585938 29.296875 C-45.00180749 29.21784625 -45.00180749 29.21784625 -47.3125 28.0625 C-44.37587024 17.62114974 -34.04136476 11.39116744 -25.3125 6.0625 C-16.62562746 1.46806113 -9.73098389 -0.09984435 0 0 Z "
+                      transform="translate(151.3125,212.9375)"
+                    />
+                    <path
+                      d="M0 0 C-2.39200266 11.19892153 -5.71902895 18.07289842 -15 25 C-21.78751165 29.08234396 -27.34097459 30.15332803 -35.25 30.0625 C-35.99507812 30.05798828 -36.74015625 30.05347656 -37.5078125 30.04882812 C-39.3385764 30.03709246 -41.16929873 30.0191585 -43 30 C-41.93899234 19.8411565 -35.46515359 13.58856359 -28 7 C-21.03088753 1.57645683 -8.72807907 -4.36403953 0 0 Z "
+                      transform="translate(174,173)"
+                    />
+                    <path
+                      d="M0 0 C0.69921314 8.17302468 -0.17446968 14.23303539 -5 21 C-12.19995412 28.92542478 -19.41741111 33.21440676 -30.09375 33.921875 C-31.03734375 33.96054688 -31.03734375 33.96054688 -32 34 C-33.0807115 25.04553327 -29.71235463 18.36305411 -25 11 C-17.97828186 2.74948119 -10.68382231 -0.57234762 0 0 Z "
+                      transform="translate(177,128)"
+                    />
+                    <path
+                      d="M0 0 C4.78349587 1.77166514 7.72559065 5.50681028 9.984375 9.92578125 C12.680491 16.47530833 12.81791177 22.3656932 10.11328125 28.94140625 C7.47899167 33.8125312 4.01261019 37.97228416 -0.9375 40.5 C-1.9584375 40.7475 -1.9584375 40.7475 -3 41 C-9.61879384 33.48677456 -11.63326707 27.86018855 -11.4140625 17.70703125 C-10.65313164 10.89454645 -7.83438354 6.35086094 -2.6875 1.9375 C-1.800625 1.298125 -0.91375 0.65875 0 0 Z "
+                      transform="translate(64,225)"
+                    />
+                    <path
+                      d="M0 0 C6.10141011 2.09191204 10.09618266 5.19236532 13 11 C15.80342132 20.47635376 13.46384342 28.42439095 9 37 C8.0357608 38.3594192 7.0475145 39.70366241 6 41 C1.16027157 39.86124037 -0.91833723 37.1041353 -3.640625 33.203125 C-7.56679405 26.84002343 -9.22543059 20.47625085 -8 13 C-6.15343506 8.01215217 -3.96143255 3.61291943 0 0 Z "
+                      transform="translate(89,196)"
+                    />
+                    <path
+                      d="M0 0 C2.20337359 6.61012077 1.95835844 13.83850451 -0.9375 20.1875 C-4.95999087 27.21269533 -10.23865428 33.42580239 -18.0625 36.0625 C-19.36778562 36.40388239 -20.67847235 36.72819644 -22 37 C-23.51663393 33.96673215 -23.17097474 31.121154 -23.1875 27.75 C-23.20167969 26.44546875 -23.21585938 25.1409375 -23.23046875 23.796875 C-22.77104705 16.22809719 -19.6567656 9.3068017 -14 4.19140625 C-9.16039993 0.48163928 -6.18899405 -1.50543099 0 0 Z "
+                      transform="translate(168,82)"
+                    />
+                    <path
+                      d="M0 0 C3.36487781 1.40872325 5.05709457 2.99655472 7.1875 5.9375 C7.95126953 6.97197266 7.95126953 6.97197266 8.73046875 8.02734375 C12.03453143 13.16134883 11.5114388 19.1289628 11 25 C9.46846971 31.14199195 7.17909698 37.1877065 3 42 C0.37109375 42.6484375 0.37109375 42.6484375 -2 43 C-2.81498562 41.3970947 -3.62689927 39.79262722 -4.4375 38.1875 C-4.88996094 37.29417969 -5.34242188 36.40085938 -5.80859375 35.48046875 C-9.1967553 28.42642749 -9.11910839 19.50542602 -7.24609375 11.96484375 C-5.48880628 7.39589632 -3.36938515 3.61005552 0 0 Z "
+                      transform="translate(140,37)"
+                    />
+                    <path
+                      d="M0 0 C8.02703093 0 13.2246328 3.59439717 19 9 C23.03291832 14.34046606 26.13013911 19.63449868 26.1875 26.4375 C26.20167969 27.19933594 26.21585938 27.96117188 26.23046875 28.74609375 C25.97612666 31.23347315 25.24017196 32.84808106 24 35 C18.71862571 34.48474397 15.42778844 32.74522883 11 30 C11 29.34 11 28.68 11 28 C10.34 28 9.68 28 9 28 C2.43301719 19.07329357 -0.60928531 11.01226784 0 0 Z "
+                      transform="translate(96,19)"
+                    />
+                    <path
+                      d="M0 0 C5.15951335 -0.64493917 8.02686386 0.76605281 12.171875 3.57421875 C16.19660231 6.71316206 18.44512334 10.19462688 20 15 C20.1953125 18.55078125 20.1953125 18.55078125 20.125 22.3125 C20.10695312 23.56675781 20.08890625 24.82101563 20.0703125 26.11328125 C20.04710937 27.06589844 20.02390625 28.01851562 20 29 C15.29408896 30.2396854 13.16146642 29.64669432 8.99609375 27.37109375 C4.35942686 24.18622079 0.28963484 19.5454298 -1 14 C-1.29090954 9.18819892 -1.34470105 4.65804444 0 0 Z "
+                      transform="translate(119,131)"
+                    />
+                    <path
+                      d="M0 0 C3.77630587 2.0598032 6.42425404 4.26441302 9.25 7.5 C10.27867188 8.66015625 10.27867188 8.66015625 11.328125 9.84375 C15.32641356 15.00042123 14.44725766 21.79057285 14 28 C13.26058015 30.65245375 12.34969985 32.58178776 11 35 C4.0414707 32.54404848 0.79149208 29.27410622 -2.8125 22.6875 C-5.55491186 14.17158948 -3.71417116 7.94235708 0 0 Z "
+                      transform="translate(110,166)"
+                    />
+                    <path
+                      d="M0 0 C6.91908866 -0.51042457 12.28398134 -0.19174702 18 4 C22.78542816 8.48159146 26.81417669 13.6551804 27.1875 20.375 C27.0946875 21.674375 27.0946875 21.674375 27 23 C18.36045376 23.63734358 12.90249595 22.28164433 6.25 16.6875 C1.7839266 11.35302344 -0.59086791 7.23813184 0 0 Z "
+                      transform="translate(111,98)"
+                    />
+                    <path
+                      d="M0 0 C7.98102976 -0.4200542 13.84869167 1.62697029 20.2890625 6.40625 C23.51973843 9.41564676 25.99490405 13.07794419 28 17 C28 17.99 28 18.98 28 20 C23.22937006 22.38531497 17.18820708 21.27659155 12.25 19.8125 C6.98137676 17.84823977 4.16912877 14.85448011 1.1875 10.125 C-0.16784249 6.55830924 -0.22708206 3.78470104 0 0 Z "
+                      transform="translate(103,65)"
+                    />
+                  </svg>
+                </div>
+              </div>
             ))}
           </div>
         </div>

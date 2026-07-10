@@ -15,9 +15,6 @@ export { default } from "./components/SupportUsButton";
 
 export type {
   Theme,
-  ButtonVariant,
-  Image,
-  Hero,
   projectInformation,
   organizationInformation,
   sponsor,
@@ -25,6 +22,5 @@ export type {
   sponsorLink,
   CTASection,
   Tier,
-  Pattern,
   supportUsButtonProps,
 } from "./types/index";

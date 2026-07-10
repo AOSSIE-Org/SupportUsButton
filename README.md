@@ -166,49 +166,20 @@ Props template — fill in your own values:
 
 ```tsx
 const props: supportUsButtonProps = {
-    Theme: "",              // "AOSSIE" | "light" | "dark" | "minimal" | "corporate"
-    pattern: "",            // "AOSSIE" | "dots" | "grid" | "none"
-    buttonVariant: "",      // "AOSSIE" | "primary" | "secondary" | "ghost" | "gradient"
+  // Theme for the button, can be one of "light", "dark".
+  Theme: Theme,
 
-    hero: {
-        title: "",          // ← your heading
-        description: "",    // ← your subheading
-        sponsorLabel: "",   // ← optional label above org info
-        Image: { src: "", alt: "" }, // ← hero background image, Note: Remove the prop if you do not require a hero image.
-        fit: "", // ← use "cover" for full-width images, "contain" for logo-style images to avoid cropping
-    },
+  // Information about the organization, including name, description, logo, and project information
+  organizationInformation: organizationInformation,
 
-    organizationInformation: {    
-        name: "",           // ← your organization name
-        description: "",    // ← short org description
-        logo: { src: "", alt: "" }, // ← Add file path to src and alt text for accessibility. Note: Accepts a string path/url.
-        url: "https://example.com", // ← optional: if a valid https:// URL is provided, the logo becomes clickable
-        projectInformation: {
-            name: "",       // ← your project name
-            description: "",// ← short project description
-        },
-    },
+  // Information about the project, including name, description, and image
+  projectInformation: projectInformation,
 
-    // Optional — remove if you have no sponsors yet
-    sponsors: [
-        { name: "", logo: "", link: "", sponsorshipTier: "" },
-        // Tiers: "Platinum" | "Gold" | "Silver" | "Bronze" (higher → bigger card)
-    ],
+  // List of current sponsors, each with name, optional logo, link, and sponsorship tier
+  sponsors: sponsors,
 
-    ctaSection: {
-        title: "",          // ← CTA heading
-        description: "",    // ← why people should sponsor
-        sponsorLink: [
-            {
-              name: "Examplename",
-              className: "sponsor-link",
-              url: "https://example.com/sponsor",
-              icon: null, // This Accepts ReactNode element(JSX)
-              newTab: true,
-            },
-            // Add one entry per sponsorship platform
-        ],
-    },
+  // Information about the call-to-action section, including title, description, and sponsor links
+  ctaSection: CTASection
 };
 
 <SupportUsButton {...props} />;
@@ -225,14 +196,11 @@ const props: supportUsButtonProps = {
 
 | Prop                      | Type             | Required | Description                                                                                                    |
 | ------------------------- | ---------------- | -------- | -------------------------------------------------------------------------------------------------------------- |
-| `Theme`                   | string           | No       | Theme for the button, can be one of "AOSSIE", "light", "dark", "minimal", or "corporate"                       |
-| `pattern`                 | string           | No       | Optional background pattern for the button, can be one of "dots", "grid", "AOSSIE", or "none"                 |
-| `hero`                    | object           | Yes      | Information about the Hero section, including title, description, sponsor label, and optional background Image |
+| `Theme`                   | string           | No       | "light" or "dark"                      |
 | `organizationInformation` | object           | Yes      | Information about the organization, including name, description, logo, and project information                 |
 | `sponsors`                | array of objects | No       | List of current sponsors, each with name, optional logo, link, and sponsorship tier                            |
-| `ctaSection`              | object           | Yes      | Information about the call-to-action section, including title, description, and sponsor links                  |
-| `classNames`              | object           | No       | Optional additional CSS class for custom styling                                                               |
-| `buttonVariant`           | string           | No       | Optional button variant for styling the call-to-action buttons                                                 |
+| `ctaSection`              | array of object           | Yes      | Information about the call-to-action section, including title, description, and sponsor links                  |
+| `projectInformation`      | object | No | Information about project, which user will see on sponsor page|
 
 </details>
 
@@ -253,75 +221,8 @@ Controls the overall visual appearance of the widget.
 
 | Value       | Description                              |
 | ----------- | ---------------------------------------- |
-| `AOSSIE`    | Default theme styled for AOSSIE branding |
-| `corporate` | Corporate styled layout                  |
 | `dark`      | Dark mode UI                             |
 | `light`     | Light mode UI                            |
-| `minimal`   | Minimal clean design                     |
-
-</details>
-
-## Pattern
-
-<details>
-<summary><strong>Show details</strong></summary>
-
-Adds a decorative background pattern to the hero section.
-
-| Value    | Description               |
-| -------- | ------------------------- |
-| `AOSSIE` | Square and Circle pattern |
-| `dots`   | Dot pattern background    |
-| `grid`   | Subtle grid pattern       |
-| `none`   | None                      |
-
-</details>
-
-## hero
-
-<details>
-<summary><strong>Show details</strong></summary>
-
-Controls the top section of the widget.
-
-| Value          | Type    | Required | Description                 |
-| -------------- | ------- | -------- | --------------------------- |
-| `Image`        | `Image` | No       | Background or hero image    |
-| `title`        | string  | Yes      | Main heading                |
-| `fit`          |"cover" / "contain" | No | logo-style images to avoid cropping         |
-| `description`  | string  | Yes      | Hero description            |
-| `sponsorLabel` | string  | No       | Label above sponsor section |
-
-</details>
-
-## Image
-
-<details>
-<summary><strong>Show details</strong></summary>
-
-Used in hero images and organization logos.
-
-| Value | Type   | Required | Description      |
-| ----- | ------ | -------- | ---------------- |
-| `src` | string | No       | Imag URl         |
-| `alt` | string | No       | Alternative text |
-
-</details>
-
-## buttonVariant
-
-<details>
-<summary><strong>Show details</strong></summary>
-
-Controls the styling of the call-to-action buttons.
-
-| Value       | Description                |
-| ----------- | -------------------------- |
-| `AOSSIE`    | Default styled button      |
-| `primary`   | Primary action button      |
-| `secondary` | Secondary button style     |
-| `ghost`     | Transparent minimal button |
-| `gradient`  | Gradient styled button     |
 
 </details>
 
@@ -335,10 +236,9 @@ Information about the organization and project.
 | Value                | Type                 | Required | Description              |
 | -------------------- | -------------------- | -------- | ------------------------ |
 | `name`               | string               | Yes      | Organization name        |
-| `description`        | string               | Yes      | Organization description |
-| `logo`               | `Image` / string     | No       | Organization logo        |
-| `url`                | string               | No       | Organization link        |
-| `projectInformation` | `projectInformation` | No       | Project details          |
+| `desc`               | string               | Yes      | Organization description |
+| `image`              | string               | No       | Organization logo        |
+| `link`               | string               | No       | Organization link        |
 
 </details>
 
@@ -353,6 +253,7 @@ Details about the project being sponsored.
 | ------------- | ------ | -------- | ------------------- |
 | `name`        | string | Yes      | Project name        |
 | `description` | string | Yes      | Project description |
+| `image`       | string | Yes      | Project description |
 
 </details>
 
@@ -366,8 +267,6 @@ List of sponsors displayed in the widget.
 | Value             | Type   | Required | Description     |
 | ----------------- | ------ | -------- | --------------- |
 | `name`            | string | Yes      | Sponsor name    |
-| `logo`            | string | No       | Sponsor logo    |
-| `link`            | string | No       | Sponsor website |
 | `sponsorshipTier` | `Tier` | No       | Sponsor tier    |
 
 </details>
@@ -397,43 +296,8 @@ Call-to-action section encouraging sponsorship.
 
 | Value         | Type            | Required | Description                   |
 | ------------- | --------------- | -------- | ----------------------------- |
-| `title`       | string          | Yes      | CTA title                     |
-| `description` | string          | Yes      | CTA description               |
-| `sponsorLink` | `sponsorLink[]` | Yes      | List of sponsorship platforms |
-
-</details>
-
-## sponsorLink
-
-<details>
-<summary><strong>Show details</strong></summary>
-
-Platform links for sponsorship (Patreon, GitHub Sponsors, etc).
-
-| Value       | Type      | Required | Description           |
-| ----------- | --------- | -------- | --------------------- |
-| `name`      | string    | Yes      | Platform name         |
-| `url`       | string    | Yes      | Sponsorship URL       |
-| `icon`      | ReactNode | No       | Icon for the platform |
-| `className` | string    | No       | Custom CSS class      |
-| `newTab`    | boolean   | No       | Open link in new tab  |
-
-</details>
-
-## classNames
-
-<details>
-<summary><strong>Show details</strong></summary>
-
-Allows custom styling of different widget sections.
-
-| Value                     | Description                  |
-| ------------------------- | ---------------------------- |
-| `container`               | Root container styling       |
-| `Hero`                    | Hero section styling         |
-| `organizationInformation` | Organization section styling |
-| `sponsors`                | Sponsors section styling     |
-| `ctaSection`              | CTA section styling          |
+| `name`        | string          | Yes      | CTA title                     |
+| `url`         | string          | Yes      | CTA url to redirect the user to that page.   |
 
 </details>
 
@@ -443,21 +307,6 @@ Allows custom styling of different widget sections.
 
 # 📱 App Screenshots
 
-## AOSSIE-Theme
-
-<details>
-<summary><b>Show details</b></summary>
-
-AOSSIE-Theme mobile screen preview.
-
-<div style="width:fit-content; margin:auto; display:flex; flex-wrap:wrap; gap:12px; justify-content:center;">
-  <img src="./public/AOSSIE_THEME.jpeg" alt="AOSSIE-theme" style="width:fit-content; max-width:100%; height:auto;" />
-  <img src="./public/AOSSIE_THEME-SPONSOR.jpeg" alt="AOSSIE-theme" style="width:fit-content; max-width:100%; height:auto;" />
-  <img src="./public/AOSSIE_THEME_CTA.jpeg" alt="AOSSIE-theme" style="width:fit-content; max-width:100%; height:auto;" />
-</div>
-
-</details>
-
 ## Light-Theme
 
 <details>
@@ -465,11 +314,7 @@ AOSSIE-Theme mobile screen preview.
 
 Light-Theme mobile screen preview.
 
-<div style="width:fit-content; margin:auto; display:flex; flex-wrap:wrap; gap:12px; justify-content:center;">
-  <img src="./public/LIGHT_THEME.jpeg" alt="AOSSIE-theme" style="width:fit-content; max-width:100%; height:auto;" />
-  <img src="./public/LIGHT_THEME_SPONSOR.png" alt="AOSSIE-theme" style="width:fit-content; max-width:100%; height:auto;" />
-  <img src="./public/LIGHT_THEME_CTA.jpeg" alt="AOSSIE-theme" style="width:fit-content; max-width:100%; height:auto;" />
-</div>
+  <img src="./public/Light-Theme.jpeg" alt="AOSSIE-theme" style="width:fit-content; max-width:100%; height:auto;" />
 
 </details>
 
@@ -480,11 +325,7 @@ Light-Theme mobile screen preview.
 
 Dark-Theme mobile screen preview.
 
-<div style="width:fit-content; margin:auto; display:flex; flex-wrap:wrap; gap:12px; justify-content:center;">
-  <img src="./public/DARK_THEME.jpeg" alt="AOSSIE-theme" style="width:fit-content; max-width:100%; height:auto;" />
-  <img src="./public/DARK_THEME_SPONSOR.png" alt="AOSSIE-theme" style="width:fit-content; max-width:100%; height:auto;" />
-  <img src="./public/DARK_THEME_CTA.jpeg" alt="AOSSIE-theme" style="width:fit-content; max-width:100%; height:auto;" />
-</div>
+<img src="./public/Dark-Theme.jpeg" alt="AOSSIE-theme" style="width:fit-content; max-width:100%; height:auto;" />
 
 </details>
 

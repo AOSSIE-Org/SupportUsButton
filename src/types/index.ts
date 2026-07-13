@@ -1,4 +1,3 @@
-
 /* =========================
    Theme
 ========================= */
@@ -74,6 +73,9 @@ export type CTASection = {
 export interface supportUsButtonProps {
   // Theme for the button, can be one of "AOSSIE", "light", "dark", "minimal", or "corporate"
   Theme?: Theme;
+
+  // BG Logo
+  Logo?: boolean;
 
   // Information about the organization, including name, description, logo, and project information
   organizationInformation: organizationInformation;

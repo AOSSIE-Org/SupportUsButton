@@ -314,7 +314,7 @@ Call-to-action section encouraging sponsorship.
 
 Light-Theme mobile screen preview.
 
-  <img src="./public/Light-Theme.jpeg" alt="AOSSIE-theme" style="width:fit-content; max-width:100%; height:auto;" />
+  <img src="./public/Light-Theme.png" alt="AOSSIE-theme" style="width:fit-content; max-width:100%; height:auto;" />
 
 </details>
 
@@ -325,7 +325,7 @@ Light-Theme mobile screen preview.
 
 Dark-Theme mobile screen preview.
 
-<img src="./public/Dark-Theme.jpeg" alt="AOSSIE-theme" style="width:fit-content; max-width:100%; height:auto;" />
+<img src="./public/Dark-Theme.png" alt="AOSSIE-theme" style="width:fit-content; max-width:100%; height:auto;" />
 
 </details>
 

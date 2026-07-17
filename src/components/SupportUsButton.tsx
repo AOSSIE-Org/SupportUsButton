@@ -425,9 +425,11 @@ function SupportUsButton({
 
                 <div className="flex flex-col gap-1.5">
                   <span className="text-2xl font-medium">{sponsor.name}</span>
-                  <span className="text-[9px]">
-                    {sponsor.sponsorshipTier} Sponsor
-                  </span>
+                  {sponsor.sponsorshipTier && (
+                    <span className="text-[9px]">
+                      {sponsor.sponsorshipTier} Sponsor
+                    </span>
+                  )}
                 </div>
 
                 <div>

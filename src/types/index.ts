@@ -67,6 +67,21 @@ export type CTASection = {
 };
 
 /* =========================
+   BORDER AROUND PAGE
+========================= */
+
+export type borderAroundPage = {
+  TopX1: string;
+  TopX2: string;
+  BottomX1: string;
+  BottomX2: string;
+  LeftY1: string;
+  LeftY2: string;
+  RightY1: string;
+  RightY2: string;
+};
+
+/* =========================
    SUPPORT US COMPO PROPS
 ========================= */
 
@@ -88,4 +103,10 @@ export interface supportUsButtonProps {
 
   // Information about the call-to-action section, including title, description, and sponsor links
   ctaSection: CTASection;
+
+  // Class to apply on root
+  className?: string;
+
+  // These defines the length in X and Y axis of border around page. Only pass it when border is not covering full page (e.g. TopX1: "-10"    TopX2: "110").
+  border?: borderAroundPage;
 }

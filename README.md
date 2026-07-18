@@ -141,6 +141,30 @@ import type { supportUsButtonProps } from "support-us-button";
 <SupportUsButton {...props} />; // props is an object of type supportUsButtonProps
 ```
 
+> [!NOTE]
+> **Tailwind CSS Setup Requirements**
+>
+> - **Tailwind CSS v4 or later:** Import the stylesheet directly:
+>
+>   ```js
+>   import "support-us-button/style.css";
+>   ```
+>
+> - **Tailwind CSS v3 or earlier:** **Do not** import the stylesheet directly. Instead, add the package directory to the `content` array in your `tailwind.config.js` so Tailwind can detect and compile the required classes.
+>
+>   ```js
+>   module.exports = {
+>     content: [
+>       "./src/**/*.{js,ts,jsx,tsx}", // Your project files
+>       "./node_modules/support-us-button/dist/**/*.{js,ts,jsx,tsx}", // Support Us Button package
+>     ],
+>     theme: {
+>       extend: {},
+>     },
+>     plugins: [],
+>   };
+>   ```
+
 ## Using CDN
 
 ```html
@@ -201,6 +225,9 @@ const props: supportUsButtonProps = {
 | `sponsors`                | array of objects | No       | List of current sponsors, each with name, optional logo, link, and sponsorship tier                            |
 | `ctaSection`              | array of object           | Yes      | Information about the call-to-action section, including title, description, and sponsor links                  |
 | `projectInformation`      | object | No | Information about project, which user will see on sponsor page|
+| `Logo`                    | Boolean | No | AOSSIE, bg-logo. |
+| `className`               | string  | No | Class to apply on the root element. |
+| `border`                  |object  | No | These defines the length in X and Y axis of border around page. Only pass it when border is not covering full page (e.g. TopX1: "-10"    TopX2: "110"). |
 
 </details>
 
@@ -298,6 +325,28 @@ Call-to-action section encouraging sponsorship.
 | ------------- | --------------- | -------- | ----------------------------- |
 | `name`        | string          | Yes      | CTA title                     |
 | `url`         | string          | Yes      | CTA url to redirect the user to that page.   |
+
+</details>
+
+</details>
+
+## border
+
+<details>
+<summary><strong>Show details</strong></summary>
+
+Call-to-action section encouraging sponsorship.
+
+| Value         | Type            | Required | Description                   |
+| ------------- | --------------- | -------- | ----------------------------- |
+| `TopX1`       | string          | Yes      | Border top line  |
+| `TopX2`       | string          | Yes      | Border top line  |
+| `BottomX1`    | string          | Yes      | Border bottom line  |
+| `BottomX1`    | string          | Yes      | Border bottom line  |
+| `LeftY1`      | string          | Yes      | Border left line  |
+| `LeftY2`      | string          | Yes      | Border left line  |
+| `RightY1`     | string          | Yes      | Border right line  |
+| `RightY2`     | string          | Yes      | Border right line  |
 
 </details>
 

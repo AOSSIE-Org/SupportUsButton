@@ -211,32 +211,34 @@ function SupportUsButton({
               {projectInformation?.name}
             </span>
           </div>
-          <div>
-            <span className="text-[clamp(1rem,2vw,2rem)] leading-snug italic flex justify-center items-center">
-              A Project Powered by
-              <a
-                href={`${organizationInformation.link}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="underline"
-              >
-                &nbsp;{organizationInformation.name}
-              </a>
-              <svg
-                height="30px"
-                width="20px"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M7 17L17 7M17 7H8M17 7V16"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </span>
-          </div>
+          {projectInformation?.name && (
+            <div>
+              <span className="text-[clamp(1rem,2vw,2rem)] leading-snug italic flex justify-center items-center">
+                A Project Powered by
+                <a
+                  href={`${organizationInformation.link}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline"
+                >
+                  &nbsp;{organizationInformation.name}
+                </a>
+                <svg
+                  height="30px"
+                  width="20px"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M7 17L17 7M17 7H8M17 7V16"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </span>
+            </div>
+          )}
         </div>
 
         <div className="mt-10 flex flex-wrap justify-center gap-6">

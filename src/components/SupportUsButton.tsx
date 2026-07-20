@@ -32,12 +32,23 @@ function SupportUsButton({
   ctaSection,
   projectInformation,
   Logo = true,
+  className = "",
+  border = {
+    TopX1: "-10",
+    TopX2: "110",
+    BottomX1: "-10",
+    BottomX2: "110",
+    LeftY1: "-5",
+    LeftY2: "105",
+    RightY1: "-5",
+    RightY2: "105",
+  },
 }: supportUsButtonProps): React.JSX.Element {
   const validatedUrl = validateUrl(organizationInformation?.link);
 
   return (
     <div
-      className={`relative w-full h-full p-20 pt-20.75 font-sans text-center ${classAccordingToTheme(Theme)}`}
+      className={`relative w-full h-full p-20 pt-20.75 font-sans text-center ${classAccordingToTheme(Theme)} ${className}`}
     >
       {Logo && (
         <svg
@@ -50,8 +61,8 @@ function SupportUsButton({
           <path
             d="M1436.43 653.604C1436.43 733.153 1410.91 792.793 1378.25 847.98C1370.61 860.889 1361.02 863.843 1351.83 875.574C1330.57 902.761 1339.26 931.96 1310.06 953.774C1284.56 972.826 1279.05 1006.01 1278.03 1040.49C1277.53 1056.53 1242.68 1037.56 1232.96 1047.49C1227.39 1053.17 1207.75 1045.25 1200 1049.59C1183.05 1059.1 1168.68 1081.32 1148.85 1091.06C1133.01 1098.85 1121.87 1055.69 1102.03 1058.43C1068.28 1063.1 1030.1 1048.29 989.059 1051.45C969.875 1052.93 963.173 1011.94 943.56 1014.7C916.09 1018.57 944.417 915.006 919.258 934.7C891.445 956.471 903.799 887.433 876.607 887.433C864.895 887.433 893.008 822.913 881.253 822.806C876.2 822.763 811.474 894.84 808.605 890.666C799.59 877.586 791.754 846.739 775.76 833.274C764.519 823.79 758.845 809.126 747.069 800.97C727.82 787.634 712.575 795.918 692.127 785.729C679.773 779.585 667.418 770.529 654.935 771.129C636.008 772.028 623.825 776.224 596.932 778.386C553.039 781.939 522.72 809.298 479.063 808.591C442.621 807.992 412.238 883.73 376.952 878.742C338.347 873.283 307.708 887.926 280.323 887.562C256.749 887.262 236.536 950.841 215.189 941.122C184.7 927.229 137.83 946.281 112.796 912.373C101.05 896.446 139.693 898.908 130.15 878.464C124.401 866.155 131.261 852.411 130.724 836.57C130.313 824.411 122.896 810.304 118.17 799.001C113.316 787.398 102.018 777.765 96.7461 763.936C92.5152 752.847 94.6713 737.82 88.3143 726.324C79.0881 709.627 62.9954 693.314 53.8806 677.259C49.1936 668.996 50.8295 659.834 45.9198 652.277C31.6406 630.313 8.03675 620.488 0.549201 601.928C-5.73289 586.365 43.9072 613.787 46.0611 602.292C47.6049 594.071 32.8418 583.903 24.4485 567.997C13.9955 548.196 9.21651 522.443 9.21651 514.373C9.21651 493.951 4.22553 456.445 11.1071 441.054C17.9545 425.748 28.7822 435.081 41.5691 424.699C60.8992 409.007 79.5185 389.013 107.46 375.313C117.123 370.582 131.503 371.438 142.177 367.157C183.565 350.523 226.687 330.957 266.298 310.492C284.99 300.816 290.279 267.464 308.115 256.482C315.93 251.666 293.855 228.503 301.584 223.451C312.911 216.066 304.346 200.182 315.63 192.283C324.537 186.053 348.282 224.329 357.039 217.65C362.692 213.326 348.389 175.671 353.935 171.047C361.108 165.053 386.501 187.123 393.674 180.937C399.263 176.099 376.631 141.312 382.155 136.282C411.296 109.63 450.307 87.6877 482.981 62.8984C492.53 55.6414 525.354 109.844 535.053 102.908C550.641 91.7336 575.307 124.572 589.802 110.144C601.792 98.1986 565.008 93.1893 576.227 77.1983C591.13 56.0267 603.505 26.5278 628.642 4.64979C645.6 -10.1211 672.429 8.80275 692.726 -0.637757C699.193 -3.63474 701.612 -13.8031 692.491 -21.2741C683.819 -28.3599 663.586 -32.7055 668.617 -38.0573C675.662 -45.5711 716.407 -23.9072 740.238 -25.213C752.186 -25.8767 765.289 -16.0936 768.608 -16.0936C779.742 -16.0936 794.131 -4.34118 805.136 -4.02007C812.908 -3.806 816.077 -15.1089 823.764 -14.745C840.786 -13.9315 847.873 -8.38712 864.531 -6.803C880.375 -5.32591 873.138 15.2035 862.647 26.8061C857.251 32.7787 826.44 43.2467 835.497 54.9349C844.726 66.8158 803.787 96.2291 818.004 105.027C873.652 139.45 923.091 203.393 989.102 220.518C1042.61 234.412 1046.83 116.544 1052.63 63.2623C1056.29 29.6104 1090.7 -73.9997 1098.58 -51.9504C1106.8 -28.9165 1115.49 4.77821 1136.84 49.7544C1140.52 57.5252 1136.63 86.125 1141.64 94.4951C1146.75 103.058 1157.03 95.33 1166.79 98.9478C1175.92 102.352 1184.44 117.037 1191.44 125.749C1202.57 139.578 1188.14 187.123 1200.9 201.916C1218.37 222.188 1209.57 285.425 1229.79 305.269C1237.84 313.168 1247.84 299.211 1256.4 306.553C1268.65 317.043 1294 333.912 1302.11 348.126C1308.02 358.508 1296.25 366.686 1305.63 373.75C1321.3 385.524 1325.8 432.919 1341.68 443.194C1348.19 447.39 1343.16 429.644 1359.69 441.396C1371.85 450.045 1367.03 475.412 1375.32 486.48C1387.85 503.177 1416.34 536.486 1426.47 551.557C1449.19 585.38 1436.43 635.901 1436.43 653.604Z"
             stroke="currentColor"
-            stroke-opacity="0.04"
-            stroke-width="2.5"
+            strokeOpacity="0.04"
+            strokeWidth="2.5"
           />
         </svg>
       )}
@@ -64,53 +75,53 @@ function SupportUsButton({
         >
           {/* <!-- Top --> */}
           <line
-            x1="-10"
+            x1={border.TopX1}
             y1="0"
-            x2="110"
+            x2={border.TopX2}
             y2="0"
             stroke="currentColor"
-            stroke-width="1"
-            stroke-dasharray="6 6"
-            vector-effect="non-scaling-stroke"
+            strokeWidth="1"
+            strokeDasharray="6 6"
+            vectorEffect="non-scaling-stroke"
             opacity={0.2}
           />
 
           {/* <!-- Bottom --> */}
           <line
-            x1="-10"
+            x1={border.BottomX1}
             y1="100"
-            x2="110"
+            x2={border.BottomX2}
             y2="100"
             stroke="currentColor"
-            stroke-width="1"
-            stroke-dasharray="6 6"
-            vector-effect="non-scaling-stroke"
+            strokeWidth="1"
+            strokeDasharray="6 6"
+            vectorEffect="non-scaling-stroke"
             opacity={0.2}
           />
 
           {/* <!-- Left --> */}
           <line
             x1="0"
-            y1="-5"
+            y1={border.LeftY1}
             x2="0"
-            y2="105"
+            y2={border.LeftY2}
             stroke="currentColor"
-            stroke-width="1"
-            stroke-dasharray="6 6"
-            vector-effect="non-scaling-stroke"
+            strokeWidth="1"
+            strokeDasharray="6 6"
+            vectorEffect="non-scaling-stroke"
             opacity={0.2}
           />
 
           {/* <!-- Right --> */}
           <line
             x1="100"
-            y1="-5"
+            y1={border.RightY1}
             x2="100"
-            y2="105"
+            y2={border.RightY2}
             stroke="currentColor"
-            stroke-width="1"
-            stroke-dasharray="6 6"
-            vector-effect="non-scaling-stroke"
+            strokeWidth="1"
+            strokeDasharray="6 6"
+            vectorEffect="non-scaling-stroke"
             opacity={0.2}
           />
         </svg>
@@ -127,8 +138,8 @@ function SupportUsButton({
           <path
             d="M8 3V13M3 8H13"
             stroke="currentColor"
-            stroke-width="1.5"
-            stroke-linecap="round"
+            strokeWidth="1.5"
+            strokeLinecap="round"
           />
         </svg>
 
@@ -144,8 +155,8 @@ function SupportUsButton({
           <path
             d="M8 3V13M3 8H13"
             stroke="currentColor"
-            stroke-width="1.5"
-            stroke-linecap="round"
+            strokeWidth="1.5"
+            strokeLinecap="round"
           />
         </svg>
 
@@ -161,8 +172,8 @@ function SupportUsButton({
           <path
             d="M8 3V13M3 8H13"
             stroke="currentColor"
-            stroke-width="1.5"
-            stroke-linecap="round"
+            strokeWidth="1.5"
+            strokeLinecap="round"
           />
         </svg>
 
@@ -178,8 +189,8 @@ function SupportUsButton({
           <path
             d="M8 3V13M3 8H13"
             stroke="currentColor"
-            stroke-width="1.5"
-            stroke-linecap="round"
+            strokeWidth="1.5"
+            strokeLinecap="round"
           />
         </svg>
 
@@ -200,32 +211,34 @@ function SupportUsButton({
               {projectInformation?.name}
             </span>
           </div>
-          <div>
-            <span className="text-[clamp(1rem,2vw,2rem)] leading-snug italic flex justify-center items-center">
-              A Project Powered by
-              <a
-                href={`${organizationInformation.link}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="underline"
-              >
-                &nbsp;{organizationInformation.name}
-              </a>
-              <svg
-                height="30px"
-                width="20px"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M7 17L17 7M17 7H8M17 7V16"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </span>
-          </div>
+          {projectInformation?.name && (
+            <div>
+              <span className="text-[clamp(1rem,2vw,2rem)] leading-snug italic flex justify-center items-center">
+                A Project Powered by
+                <a
+                  href={`${organizationInformation.link}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline"
+                >
+                  &nbsp;{organizationInformation.name}
+                </a>
+                <svg
+                  height="30px"
+                  width="20px"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M7 17L17 7M17 7H8M17 7V16"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </span>
+            </div>
+          )}
         </div>
 
         <div className="mt-10 flex flex-wrap justify-center gap-6">
@@ -245,7 +258,9 @@ function SupportUsButton({
           ))}
         </div>
 
-        <div className="mt-28 flex flex-col gap-12 md-container md:gap-4">
+        <div
+          className={`mt-28 flex flex-col gap-12 ${projectInformation?.name && "md-container md:flex-row"} md:gap-4`}
+        >
           {projectInformation?.name && (
             <div className="flex-1">
               <div className="flex items-center gap-3">
@@ -335,7 +350,7 @@ function SupportUsButton({
           </div>
         </div>
 
-        <div className="mt-24 flex flex-col items-center justify-between md-justify-between">
+        <div className="mt-24 flex flex-col items-center justify-between md-justify-between min-[900px]:flex-row">
           <div className="flex flex-col md:text-start text-[18px] font-normal ">
             <span className="flex items-center gap-1.5">
               <span>Supported By Global </span>
@@ -356,9 +371,9 @@ function SupportUsButton({
             <span>Powerhouses</span>
           </div>
 
-          <div className="flex flex-col md-justify-between gap-3 select-none">
+          <div className="flex flex-col md-justify-between min-[900px]:flex-row gap-3 items-center select-none">
             {sponsors?.map((sponsor, index) => (
-              <div key={index} className="flex items-center gap-3 mt-4">
+              <div key={index} className="flex items-center gap-2">
                 <div>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"

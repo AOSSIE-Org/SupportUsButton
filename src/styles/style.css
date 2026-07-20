@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+@source "../components/SupportUsButton.tsx";
+@source "../index.ts";
+
 @theme {
     --color-primary: #ffd700;
     --color-background-light: #f9fafb;

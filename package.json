@@ -58,6 +58,7 @@
     "build:js": "rollup -c",
     "build": "npm run build:css && npm run build:js",
     "dev": "rollup -c -w",
+    "dev:demo": "vite",
     "prepublishOnly": "npm run build"
   },
   "engines": {
@@ -70,8 +71,10 @@
     "@rollup/plugin-typescript": "^12.3.0",
     "@tailwindcss/cli": "^4.3.3",
     "@tailwindcss/postcss": "^4.2.1",
+    "@tailwindcss/vite": "^4.3.3",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.4",
     "autoprefixer": "^10.4.27",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
@@ -80,7 +83,8 @@
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "rollup-plugin-postcss": "^4.0.2",
     "tailwindcss": "^4.2.1",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "vite": "^8.1.5"
   },
   "peerDependencies": {
     "react": ">=18",

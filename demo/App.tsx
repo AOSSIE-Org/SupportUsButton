@@ -36,7 +36,7 @@ export function App() {
   return (
     <div className={`min-h-screen transition-colors duration-300 ${theme === "dark" ? "bg-zinc-950 text-white" : "bg-gray-100 text-zinc-900"}`}>
       {/* Top Controls Bar */}
-      <header className="sticky top-0 z-50 backdrop-blur-md bg-opacity-80 border-b border-zinc-800 p-4 flex flex-wrap items-center justify-between gap-4 max-w-7xl mx-auto">
+      <header className={`sticky top-0 z-50 backdrop-blur-md ${theme === "dark" ? "bg-zinc-950/80 border-zinc-800" : "bg-gray-100/80 border-gray-300"} border-b p-4 flex flex-wrap items-center justify-between gap-4 max-w-7xl mx-auto`}>
         <div className="flex items-center gap-3">
           <img src="/aossie_logomark.svg" alt="AOSSIE Logo" className={`h-8 w-auto ${theme === "dark" ? "brightness-0 invert" : "brightness-0"}`} />
           <h1 className="text-xl font-bold tracking-tight">SupportUsButton — Dev Preview</h1>

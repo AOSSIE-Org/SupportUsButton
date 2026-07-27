@@ -196,7 +196,7 @@ function SupportUsButton({
         </svg>
 
         <div className="flex flex-col gap-4 sm:gap-6">
-          <div className="flex justify-center items-center gap-2.5 sm:gap-4 flex-wrap sm:flex-nowrap max-w-full">
+          <div className="flex justify-center items-center gap-2.5 sm:gap-4 flex-wrap max-w-full">
             <span className="flex-none flex items-center">
               <svg
                 width="66"
@@ -216,7 +216,7 @@ function SupportUsButton({
                 />
               </svg>
             </span>
-            <h1 className="font-medium text-3xl sm:text-3xl md:text-5xl leading-tight tracking-tight text-center sm:whitespace-nowrap">
+            <h1 className="min-w-0 font-medium text-3xl sm:text-3xl md:text-5xl leading-tight tracking-tight text-center">
               Support-us {projectInformation?.name && "and"}{" "}
               {projectInformation?.name}
             </h1>
@@ -227,25 +227,29 @@ function SupportUsButton({
                 <p className="italic">
                   A Project Powered by
                 </p>
-                <a
-                  href={`${organizationInformation.link}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="underline hover:text-[#ffd700] transition-colors duration-200 inline-flex items-center gap-1"
-                >
-                  &nbsp;{organizationInformation.name}
-                  <svg
-                    viewBox="0 0 20 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-[0.85em] w-auto inline-block align-baseline flex-none ml-1 self-center"
+                {validatedUrl ? (
+                  <a
+                    href={validatedUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="underline hover:text-[#ffd700] transition-colors duration-200 inline-flex items-center gap-1"
                   >
-                    <path
-                      d="M6.81037 4V6.46393L15.7932 6.46463L0 22.2564L1.74143 24L17.5357 8.20571V17.1893H20V4H6.81037Z"
-                      fill="currentColor"
-                    />
-                  </svg>
-                </a>
+                    &nbsp;{organizationInformation.name}
+                    <svg
+                      viewBox="0 0 20 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-[0.85em] w-auto inline-block align-baseline flex-none ml-1 self-center"
+                    >
+                      <path
+                        d="M6.81037 4V6.46393L15.7932 6.46463L0 22.2564L1.74143 24L17.5357 8.20571V17.1893H20V4H6.81037Z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                  </a>
+                ) : (
+                  <span>&nbsp;{organizationInformation.name}</span>
+                )}
               </span>
             </div>
           )}

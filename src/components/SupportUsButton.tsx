@@ -34,28 +34,28 @@ function SupportUsButton({
   Logo = true,
   className = "",
   border = {
-    TopX1: "-10",
-    TopX2: "110",
-    BottomX1: "-10",
-    BottomX2: "110",
-    LeftY1: "-5",
-    LeftY2: "105",
-    RightY1: "-5",
-    RightY2: "105",
+    TopX1: "-1000",
+    TopX2: "1000",
+    BottomX1: "-1000",
+    BottomX2: "1000",
+    LeftY1: "-1000",
+    LeftY2: "1000",
+    RightY1: "-1000",
+    RightY2: "1000",
   },
 }: supportUsButtonProps): React.JSX.Element {
   const validatedUrl = validateUrl(organizationInformation?.link);
 
   return (
     <div
-      className={`relative w-full h-full p-20 pt-20.75 font-sans text-center ${classAccordingToTheme(Theme)} ${className}`}
+      className={`relative w-full h-full overflow-hidden px-12 sm:px-14 md:px-20 py-10 sm:py-10 md:py-14 font-sans text-center ${classAccordingToTheme(Theme)} ${className}`}
     >
       {Logo && (
         <svg
           viewBox="0 -74 1440 1172"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
-          className="absolute inset-2 w-full h-full"
+          className="absolute inset-0 w-full h-full pointer-events-none"
           preserveAspectRatio="xMidYMid slice"
         >
           <path
@@ -66,8 +66,9 @@ function SupportUsButton({
           />
         </svg>
       )}
-      <div className="relative p-7 pt-16 pb-16">
-        {/* Border around page */}
+
+      <div className="relative p-2 sm:p-10 max-w-7xl mx-auto">
+        {/* Border around page - wrapped around content */}
         <svg
           className="absolute -inset-4 w-[calc(100%+2rem)] h-[calc(100%+2rem)] overflow-visible pointer-events-none"
           viewBox="0 0 100 100"
@@ -133,7 +134,7 @@ function SupportUsButton({
           height="16"
           viewBox="0 0 16 16"
           fill="none"
-          className="absolute top-[-22px] left-[-22px]"
+          className="absolute top-[-16px] left-[-16px] -translate-x-1/2 -translate-y-1/2 pointer-events-none"
         >
           <path
             d="M8 3V13M3 8H13"
@@ -150,7 +151,7 @@ function SupportUsButton({
           height="16"
           viewBox="0 0 16 16"
           fill="none"
-          className="absolute top-[-22px] right-[-22px]"
+          className="absolute top-[-16px] right-[-16px] translate-x-1/2 -translate-y-1/2 pointer-events-none"
         >
           <path
             d="M8 3V13M3 8H13"
@@ -167,7 +168,7 @@ function SupportUsButton({
           height="16"
           viewBox="0 0 16 16"
           fill="none"
-          className="absolute bottom-[-22px] left-[-22px]"
+          className="absolute bottom-[-16px] left-[-16px] -translate-x-1/2 translate-y-1/2 pointer-events-none"
         >
           <path
             d="M8 3V13M3 8H13"
@@ -184,7 +185,7 @@ function SupportUsButton({
           height="16"
           viewBox="0 0 16 16"
           fill="none"
-          className="absolute bottom-[-22px] right-[-22px]"
+          className="absolute bottom-[-16px] right-[-16px] translate-x-1/2 translate-y-1/2 pointer-events-none"
         >
           <path
             d="M8 3V13M3 8H13"
@@ -194,55 +195,61 @@ function SupportUsButton({
           />
         </svg>
 
-        <div className="flex flex-col gap-6">
-          <div className="flex justify-center items-center gap-6">
-            <span>
+        <div className="flex flex-col gap-4 sm:gap-6">
+          <div className="flex justify-center items-center gap-2.5 sm:gap-4 flex-wrap max-w-full">
+            <span className="flex-none flex items-center">
               <svg
+                width="66"
+                height="59"
+                viewBox="0 0 66 59"
+                fill="none"
                 xmlns="http://www.w3.org/2000/svg"
-                fill="currentColor"
-                width="80"
-                height="62"
+                className="w-9 sm:w-10 md:w-12 h-auto flex-none"
               >
                 <path
-                  d="M0 0 C3.80968776 2.45431808 6.54985822 4.64957467 8 9 C8.5453074 14.67119695 7.52213848 18.55948157 4 23 C2.27811234 24.66434386 0.46799043 26.18403749 -1.3671875 27.72265625 C-4.99306387 30.85898551 -8.48066179 34.11658423 -11.9375 37.4375 C-12.61272705 38.05818359 -13.2879541 38.67886719 -13.98364258 39.31835938 C-18.55873047 43.76595723 -19.89354557 46.59144342 -20 53 C-36.1 39.7 -36.1 39.7 -38 34 C-38.38328634 28.82563443 -37.95629513 26.22151538 -35 22 C-33.02795102 19.78009394 -30.93620852 17.69920694 -28.8125 15.625 C-28.23169678 15.05281738 -27.65089355 14.48063477 -27.05249023 13.89111328 C-9.46575583 -3.33121792 -9.46575583 -3.33121792 0 0 Z "
-                  transform="translate(62,5)"
+                  d="M17.0981 41.3553L34.5981 58.8553C34.4314 57.6886 34.0981 54.9553 34.0981 53.3553C34.0981 51.7553 35.7647 49.6886 36.5981 48.8553L58.5981 26.8553C62.5981 22.8553 69.5981 14.3553 61.5981 5.3553C53.5157 -3.73731 44.5981 0.855304 41.5981 3.8553C36.2647 9.02197 24.1981 20.6553 18.5981 25.8553C12.9981 31.0553 15.2647 38.3553 17.0981 41.3553Z"
+                  fill="currentColor"
                 />
                 <path
-                  d="M0 0 C2.6875 2.125 2.6875 2.125 4.6875 5.125 C3.9761792 5.78133423 3.9761792 5.78133423 3.25048828 6.45092773 C1.08573657 8.46901102 -1.05053501 10.51503183 -3.1875 12.5625 C-3.93386719 13.25021484 -4.68023438 13.93792969 -5.44921875 14.64648438 C-10.56113788 19.59721687 -12.43280015 23.03852899 -13.3125 30.125 C-18.52825788 26.15161314 -22.2395773 22.47949519 -24.3125 16.125 C-24.94555877 10.8796559 -24.17299421 7.56369792 -21.3125 3.125 C-14.88709968 -3.12674085 -7.92260968 -4.48449605 0 0 Z "
-                  transform="translate(32.3125,6.875)"
+                  d="M6.59808 30.8553L11.0981 35.3553V32.3553C11.0981 27.9553 13.7647 24.522 15.0981 23.3553L31.0981 7.85529L27.0981 4.35529C20.6981 -0.844714 13.4314 0.521952 10.5981 1.85529C8.26475 2.35529 2.99808 5.35529 0.598079 13.3553C-1.80192 21.3553 3.59808 28.3553 6.59808 30.8553Z"
+                  fill="currentColor"
                 />
               </svg>
             </span>
-            <span className="font-medium text-[clamp(2rem,5vw,4rem)] leading-tight">
+            <h1 className="min-w-0 font-medium text-3xl sm:text-3xl md:text-5xl leading-tight tracking-tight text-center">
               Support-us {projectInformation?.name && "and"}{" "}
               {projectInformation?.name}
-            </span>
+            </h1>
           </div>
           {projectInformation?.name && (
             <div>
-              <span className="text-[clamp(1rem,2vw,2rem)] leading-snug italic flex justify-center items-center">
-                A Project Powered by
-                <a
-                  href={`${organizationInformation.link}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="underline"
-                >
-                  &nbsp;{organizationInformation.name}
-                </a>
-                <svg
-                  height="30px"
-                  width="20px"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M7 17L17 7M17 7H8M17 7V16"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
+              <span className="text-lg sm:text-base md:text-xl leading-snug flex flex-wrap justify-center items-center gap-1">
+                <p className="italic">
+                  A Project Powered by
+                </p>
+                {validatedUrl ? (
+                  <a
+                    href={validatedUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="underline hover:text-[#ffd700] transition-colors duration-200 inline-flex items-center gap-1"
+                  >
+                    &nbsp;{organizationInformation.name}
+                    <svg
+                      viewBox="0 0 20 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-[0.85em] w-auto inline-block align-baseline flex-none ml-1 self-center"
+                    >
+                      <path
+                        d="M6.81037 4V6.46393L15.7932 6.46463L0 22.2564L1.74143 24L17.5357 8.20571V17.1893H20V4H6.81037Z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                  </a>
+                ) : (
+                  <span>&nbsp;{organizationInformation.name}</span>
+                )}
               </span>
             </div>
           )}
@@ -253,7 +260,11 @@ function SupportUsButton({
             <button
               key={index}
               rel="noopener noreferrer"
-              className={`px-4 py-3 w-fit rounded-md font-semibold text-[18px] ${Theme === "dark" ? "bg-[#F4F4F4] text-[#191919]" : "bg-[#191919] text-[#F4F4F4]"}`}
+              className={`px-6 py-2.5 w-fit rounded-lg font-semibold text-[18px] cursor-pointer transition-all duration-200 ease-in-out transform active:scale-95 shadow-md hover:-translate-y-1 hover:shadow-xl ${
+                Theme === "dark"
+                  ? "bg-[#F4F4F4] text-[#191919] hover:bg-[#ffd700] hover:text-[#191919] hover:shadow-yellow-500/20"
+                  : "bg-[#191919] text-[#F4F4F4] hover:bg-[#ffd700] hover:text-[#191919] hover:shadow-black/20"
+              }`}
               onClick={() => {
                 if (validateUrl(link.url)) {
                   window.open(link.url, "_blank");
@@ -266,22 +277,22 @@ function SupportUsButton({
         </div>
 
         <div
-          className={`mt-28 flex flex-col gap-12 ${projectInformation?.name && "md-container md:flex-row"} md:gap-4`}
+          className={`mt-20 sm:mt-24 flex flex-col gap-10 lg:gap-8 ${projectInformation?.name && "lg:flex-row lg:items-start"}`}
         >
           {projectInformation?.name && (
-            <div className="flex-1">
-              <div className="flex items-center gap-3">
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center justify-start gap-2.5 sm:gap-3 text-left w-full">
                 <img
-                  className="h-10 w-10 object-cover"
+                  className={`h-8 w-8 sm:h-9 sm:w-9 lg:h-10 lg:w-10 flex-none object-contain ${Theme === "dark" ? "brightness-0 invert" : "brightness-0"}`}
                   draggable="false"
                   src={projectInformation?.image}
                   alt={projectInformation?.name}
                 />
-                <span className="font-medium text-3xl">
+                <h2 className="font-medium text-xl sm:text-2xl lg:text-3xl leading-snug text-left break-words">
                   About {projectInformation?.name}
-                </span>
+                </h2>
               </div>
-              <p className="relative mt-6 p-6 text-start text-[18px]">
+              <p className="relative mt-4 sm:mt-6 p-5 sm:p-6 text-start text-base sm:text-lg leading-relaxed max-w-full">
                 <svg
                   className="absolute inset-0 w-full h-full pointer-events-none"
                   preserveAspectRatio="none"
@@ -304,30 +315,35 @@ function SupportUsButton({
             </div>
           )}
 
-          <div className="flex shrink-0 items-center justify-center px-4">
+          <div className="flex shrink-0 items-center justify-center px-4 py-2 lg:py-0 lg:self-center">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              viewBox="-70 0 160 160"
-              className="w-[clamp(2rem,5vw,4rem)] h-[clamp(2rem,5vw,4rem)] flex-none"
-              fill="currentColor"
+              width="62"
+              height="62"
+              viewBox="0 0 62 62"
+              fill="none"
+              className="w-[clamp(1.5rem,3.5vw,2.75rem)] h-[clamp(1.5rem,3.5vw,2.75rem)] flex-none"
             >
-              <path d="M0 0 C7.57076227 -1.38743945 15.58553081 -2.55450029 23 0 C28.67414192 4.96742551 31.45986777 12.42007563 34.57470703 19.13574219 C36.65622051 23.3187357 39.26264858 26.94699051 42.125 30.625 C42.61814697 31.26501953 43.11129395 31.90503906 43.61938477 32.56445312 C56.37528907 48.837261 68.92105471 59.97631641 89 66 C89 73.26 89 80.52 89 88 C85.9475 88.556875 82.895 89.11375 79.75 89.6875 C67.21933214 92.13127381 57.11908825 96.06609692 47 104 C45.51306641 105.15628906 45.51306641 105.15628906 43.99609375 106.3359375 C29.86947017 118.22779026 25.48247971 136.62264205 23 154 C15.41 154 7.82 154 0 154 C-1.5675 151.050625 -3.135 148.10125 -4.75 145.0625 C-12.82766234 130.22302115 -22.21843491 117.10151175 -34 105 C-34.60070312 104.32582031 -35.20140625 103.65164062 -35.8203125 102.95703125 C-43.74810076 94.28242235 -53.69266601 90.28838902 -65 88 C-65 80.41 -65 72.82 -65 65 C-62.586875 64.7525 -60.17375 64.505 -57.6875 64.25 C-50.67844885 63.42072815 -44.4554148 61.9530089 -38 59 C-37.11054687 58.60167969 -36.22109375 58.20335937 -35.3046875 57.79296875 C-18.88614384 49.67724988 -9.08698216 35.94806798 -3 19 C-1.48466584 14.445717 -0.86532343 10.03327603 -0.453125 5.25390625 C-0.36708008 4.26849854 -0.28103516 3.28309082 -0.19238281 2.26782227 C-0.12889648 1.51944092 -0.06541016 0.77105957 0 0 Z M12 42 C11.01798412 43.56875493 10.06593384 45.15626516 9.125 46.75 C2.16237078 57.81331882 -7.36434364 68.07743398 -18.7890625 74.58984375 C-19.51867187 75.05519531 -20.24828125 75.52054688 -21 76 C-21 76.66 -21 77.32 -21 78 C-19.48280017 79.53457367 -19.48280017 79.53457367 -17.5 81.125 C-9.36713831 88.10819014 -2.84728669 95.57179748 3.52026367 104.18505859 C4.05627197 104.90516113 4.59228027 105.62526367 5.14453125 106.3671875 C5.62253174 107.01800293 6.10053223 107.66881836 6.59301758 108.33935547 C8.08662378 110.25726849 8.08662378 110.25726849 11 112 C11.6290625 111.09378906 12.258125 110.18757813 12.90625 109.25390625 C20.34939162 98.6160383 27.59836088 89.62888585 38.265625 82.04296875 C40.75395056 80.18383408 42.87194985 78.25471981 45 76 C44.40574219 75.56171875 43.81148438 75.1234375 43.19921875 74.671875 C32.67831645 66.62166671 24.42840389 56.83998646 16.43969727 46.36865234 C15.31325557 44.89681289 14.15938961 43.44602836 13 42 C12.67 42 12.34 42 12 42 Z " />
+              <path
+                d="M35.431 0C39.6228 8.98514 51.2756 26.334 61.8182 26.334V35.4842H61.7276C47.2295 35.4842 35.431 47.2982 35.431 61.8182H26.29V61.8117C26.29 48.5541 33.5892 36.9699 44.3778 30.8816C40.0924 28.447 34.1734 20.7486 31.2286 16.7965C32.3689 14.2417 32.9599 13.6397 33.9892 10.0793M35.431 0C35.431 9.48036 31.7474 18.3846 25.0503 25.0911C22.7914 27.358 20.2371 29.3101 17.4566 30.8945C21.7293 33.3253 27.4488 41.3542 30.3815 45.2706C28.7626 48.7871 27.3396 58.2747 26.29 61.8182C22.2439 53.2247 11.1964 35.9179 1.20736 35.4648C0.803828 35.4777 0.401375 35.4842 0 35.4842V26.2822C0.405691 26.2822 0.808144 26.2887 1.20736 26.3016C7.76299 26.0151 13.9707 23.272 18.596 18.6176C21.0456 16.1771 22.9869 13.275 24.3076 10.0793C25.6283 6.88363 26.3021 3.45778 26.29 0H35.431Z"
+                fill="currentColor"
+              />
             </svg>
           </div>
 
-          <div className="flex-1">
-            <div className="flex items-center gap-3">
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center justify-start gap-2.5 sm:gap-3 text-left w-full">
               <img
-                className="h-10 w-10 object-cover"
+                className={`h-8 w-8 sm:h-9 sm:w-9 lg:h-10 lg:w-10 flex-none object-contain ${Theme === "dark" ? "brightness-0 invert" : "brightness-0"}`}
                 draggable="false"
                 src={organizationInformation.image}
                 alt={organizationInformation.name}
               />
-              <span className="font-medium text-3xl">
+              <h2 className="font-medium text-xl sm:text-2xl lg:text-3xl leading-snug text-left break-words">
                 About {organizationInformation.name}
-              </span>
+              </h2>
             </div>
-            <p className="relative mt-6 p-6 text-start text-[18px]">
+            <p className="relative mt-4 sm:mt-6 p-5 sm:p-6 text-start text-base sm:text-lg leading-relaxed max-w-full">
               <svg
                 className="absolute inset-0 w-full h-full pointer-events-none"
                 preserveAspectRatio="none"
@@ -350,30 +366,33 @@ function SupportUsButton({
           </div>
         </div>
 
-        <div className="mt-24 flex flex-col items-center justify-between md-justify-between min-[900px]:flex-row">
-          <div className="flex flex-col md:text-start text-[18px] font-normal ">
-            <span className="flex items-center gap-1.5">
-              <span>Supported By Global </span>
+        <div className="mt-20 sm:mt-24 flex flex-col lg:flex-row items-center justify-between gap-8 flex-wrap">
+          <div className="flex flex-col text-center lg:text-start text-base sm:text-lg font-normal pr-0 lg:pr-8 flex-none whitespace-nowrap">
+            <span className="flex items-center justify-center lg:justify-start gap-1.5 whitespace-nowrap">
+              <span>Supported By Global</span>
               <svg
+                width="11"
+                height="11"
+                viewBox="0 0 62 62"
+                fill="none"
                 xmlns="http://www.w3.org/2000/svg"
-                version="1.1"
-                width="13"
-                height="13"
-                viewBox="-70 0 160 160"
-                fill="currentColor"
+                className="flex-none"
               >
                 <path
-                  d="M0 0 C1.67820372 2.51730558 2.65358413 4.46224569 3.69921875 7.24609375 C4.01793945 8.07810303 4.33666016 8.9101123 4.66503906 9.76733398 C5.00245117 10.64848877 5.33986328 11.52964355 5.6875 12.4375 C14.24389588 34.3049343 25.71619687 45.49685997 47 55 C50.63102903 56.45812977 54.27573321 57.80065985 58 59 C58 59.33 58 59.66 58 60 C57.00742188 60.08636719 56.01484375 60.17273438 54.9921875 60.26171875 C40.80577518 61.65909179 26.88194838 64.61758896 17.296875 76.02734375 C7.80290106 89.28534271 4.24512801 106.13639817 2 122 C1.67 122 1.34 122 1 122 C0.92523438 121.14921875 0.85046875 120.2984375 0.7734375 119.421875 C-1.00825304 103.00237395 -4.68536712 83.0955274 -18 72 C-30.69870284 62.86680767 -44.73316023 61.85819514 -60 61 C-60 60.67 -60 60.34 -60 60 C-58.99324219 59.74347656 -57.98648438 59.48695312 -56.94921875 59.22265625 C-40.59152763 54.85325735 -21.12466126 48.79175719 -11.83984375 33.61328125 C-5.94710293 23.12417543 -2.93543003 11.59291953 0 0 Z "
-                  transform="translate(30.3125,7.875)"
+                  d="M35.431 0C39.6228 8.98514 51.2756 26.334 61.8182 26.334V35.4842H61.7276C47.2295 35.4842 35.431 47.2982 35.431 61.8182H26.29V61.8117C26.29 48.5541 33.5892 36.9699 44.3778 30.8816C40.0924 28.447 34.1734 20.7486 31.2286 16.7965C32.3689 14.2417 32.9599 13.6397 33.9892 10.0793M35.431 0C35.431 9.48036 31.7474 18.3846 25.0503 25.0911C22.7914 27.358 20.2371 29.3101 17.4566 30.8945C21.7293 33.3253 27.4488 41.3542 30.3815 45.2706C28.7626 48.7871 27.3396 58.2747 26.29 61.8182C22.2439 53.2247 11.1964 35.9179 1.20736 35.4648C0.803828 35.4777 0.401375 35.4842 0 35.4842V26.2822C0.405691 26.2822 0.808144 26.2887 1.20736 26.3016C7.76299 26.0151 13.9707 23.272 18.596 18.6176C21.0456 16.1771 22.9869 13.275 24.3076 10.0793C25.6283 6.88363 26.3021 3.45778 26.29 0H35.431Z"
+                  fill="currentColor"
                 />
               </svg>
             </span>
-            <span>Powerhouses</span>
+            <span className="whitespace-nowrap">Powerhouses</span>
           </div>
 
-          <div className="flex flex-col md-justify-between min-[900px]:flex-row gap-3 items-center select-none">
+          <div className="flex flex-wrap items-center justify-center lg:justify-start gap-6 select-none flex-1">
             {sponsors?.map((sponsor, index) => (
-              <div key={index} className="flex items-center gap-2">
+              <div
+                key={index}
+                className="group flex items-center gap-2 transition-all duration-300 hover:text-[#ffd700] hover:-translate-y-1 hover:scale-105 cursor-pointer active:scale-95"
+              >
                 <div>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"

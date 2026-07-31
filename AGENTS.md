@@ -14,6 +14,7 @@ Welcome, AI Agent! This document contains essential instructions, code style sta
 - **Dev Preview:** Vite 8 (`demo/App.tsx`)
 
 ### Key Build & Test Commands:
+
 - **Type-Check:** `npx tsc --noEmit`
 - **Build Package:** `npm run build`
 - **Develop Demo:** `npm run dev:demo`
@@ -34,7 +35,7 @@ Welcome, AI Agent! This document contains essential instructions, code style sta
 
 ## 📁 Repository Structure
 
-```
+```text
 SupportUsButton/
 ├── brand/               # Brand assets (logo.svg, favicon.svg, Brand.md)
 ├── demo/                # Interactive Vite Dev Preview app (App.tsx)

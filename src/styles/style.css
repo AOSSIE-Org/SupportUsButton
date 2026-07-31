@@ -53,3 +53,10 @@
     animation: sub-scale-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
+@media (prefers-reduced-motion: reduce) {
+    .animate-sub-fade-in,
+    .animate-sub-scale-in {
+        animation: none !important;
+    }
+}
+

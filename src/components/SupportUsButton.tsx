@@ -3,30 +3,38 @@ import type { supportUsButtonProps } from "../types/index";
 import type { Theme } from "../types/index";
 import { useParentStyles } from "../hooks/useParentStyles";
 
+function sRgbLuminance(c: number): number {
+  const norm = c / 255;
+  return norm <= 0.04045 ? norm / 12.92 : Math.pow((norm + 0.055) / 1.055, 2.4);
+}
+
 function isDarkColor(colorStr?: string): boolean {
   if (!colorStr) return true;
+  let r = 0, g = 0, b = 0;
   const rgbMatch = colorStr.match(/\d+/g);
   if (rgbMatch && rgbMatch.length >= 3) {
-    const r = parseInt(rgbMatch[0], 10);
-    const g = parseInt(rgbMatch[1], 10);
-    const b = parseInt(rgbMatch[2], 10);
-    return (0.299 * r + 0.587 * g + 0.114 * b) / 255 < 0.5;
-  }
-  if (colorStr.startsWith("#")) {
+    r = parseInt(rgbMatch[0], 10);
+    g = parseInt(rgbMatch[1], 10);
+    b = parseInt(rgbMatch[2], 10);
+  } else if (colorStr.startsWith("#")) {
     const hex = colorStr.replace("#", "");
     if (hex.length === 3) {
-      const r = parseInt(hex[0] + hex[0], 16);
-      const g = parseInt(hex[1] + hex[1], 16);
-      const b = parseInt(hex[2] + hex[2], 16);
-      return (0.299 * r + 0.587 * g + 0.114 * b) / 255 < 0.5;
+      r = parseInt(hex[0] + hex[0], 16);
+      g = parseInt(hex[1] + hex[1], 16);
+      b = parseInt(hex[2] + hex[2], 16);
     } else if (hex.length === 6) {
-      const r = parseInt(hex.substring(0, 2), 16);
-      const g = parseInt(hex.substring(2, 4), 16);
-      const b = parseInt(hex.substring(4, 6), 16);
-      return (0.299 * r + 0.587 * g + 0.114 * b) / 255 < 0.5;
+      r = parseInt(hex.substring(0, 2), 16);
+      g = parseInt(hex.substring(2, 4), 16);
+      b = parseInt(hex.substring(4, 6), 16);
+    } else {
+      return true;
     }
+  } else {
+    return true;
   }
-  return true;
+  // WCAG relative luminance formula: L = 0.2126 * R + 0.7152 * G + 0.0722 * B
+  const lum = 0.2126 * sRgbLuminance(r) + 0.7152 * sRgbLuminance(g) + 0.0722 * sRgbLuminance(b);
+  return lum < 0.179;
 }
 
 // Function to get the appropriate classes based on the selected theme
@@ -304,8 +312,8 @@ function SupportUsButton({
         <div className="mt-10 flex flex-wrap justify-center gap-6 animate-sub-fade-in" style={{ animationDelay: "150ms" }}>
           {ctaSection.sponsorLink.map((link, index) => (
             <button
-              key={index}
-              rel="noopener noreferrer"
+              key={link.url || link.name || index}
+              type="button"
               className={`px-6 py-2.5 w-fit rounded-lg font-semibold text-[18px] cursor-pointer transition-all duration-200 ease-in-out transform active:scale-95 shadow-md hover:-translate-y-1 hover:shadow-xl ${
                 darkThemeActive
                   ? "bg-[#F4F4F4] text-[#191919] hover:bg-[#ffd700] hover:text-[#191919] hover:shadow-yellow-500/20"
@@ -313,7 +321,7 @@ function SupportUsButton({
               }`}
               onClick={() => {
                 if (validateUrl(link.url)) {
-                  window.open(link.url, "_blank");
+                  window.open(link.url, "_blank", "noopener,noreferrer");
                 }
               }}
             >
@@ -413,9 +421,9 @@ function SupportUsButton({
           </div>
         </div>
 
-        <div className="mt-20 sm:mt-24 flex flex-col min-[1380px]:flex-row items-center justify-between gap-6 sm:gap-8 text-center min-[1380px]:text-left">
-          <div className="flex flex-col items-center min-[1380px]:items-start text-center min-[1380px]:text-left text-base sm:text-lg font-normal whitespace-nowrap flex-none">
-            <span className="flex items-center justify-center min-[1380px]:justify-start gap-1.5 whitespace-nowrap">
+        <div className="mt-20 sm:mt-24 flex flex-col min-[1380px]:flex-row items-center justify-between gap-6 sm:gap-8 text-center">
+          <div className="flex flex-col items-center text-center text-base sm:text-lg font-normal whitespace-nowrap flex-none">
+            <span className="flex items-center justify-center gap-1.5 whitespace-nowrap">
               <span>Supported By Global</span>
               <svg
                 width="11"
@@ -431,7 +439,7 @@ function SupportUsButton({
                 />
               </svg>
             </span>
-            <span className="whitespace-nowrap">Powerhouses</span>
+            <span className="whitespace-nowrap text-center">Powerhouses</span>
           </div>
 
           <div className="flex flex-wrap items-center justify-center min-[1380px]:justify-end gap-3 sm:gap-4 md:gap-6 lg:gap-8 select-none flex-1 w-full py-1">

@@ -46,9 +46,9 @@
   ],
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.esm.js",
-      "require": "./dist/index.cjs.js",
-      "types": "./dist/index.d.ts"
+      "require": "./dist/index.cjs.js"
     },
     "./style.css": "./dist/style.css"
   },
@@ -60,7 +60,7 @@
     "dev": "rollup -c -w",
     "dev:demo": "vite",
     "type-check": "tsc --noEmit",
-    "test": "npm run type-check",
+    "test": "npm run type-check && vitest run --passWithNoTests",
     "prepublishOnly": "npm run build"
   },
   "engines": {

@@ -15,7 +15,7 @@ We welcome contributions from everyone. By participating in this project, you ag
 
 **PRs without Discord updates will not be reviewed or may face delays.**
 
-## �📋 Table of Contents
+## 📋 Table of Contents
 
 - [How Can I Contribute?](#how-can-i-contribute)
 - [Coding with AI](#coding-with-ai)

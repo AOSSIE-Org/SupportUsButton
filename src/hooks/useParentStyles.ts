@@ -1,4 +1,5 @@
-import { useState, useEffect, useLayoutEffect, RefObject } from "react";
+import { useState, useEffect, useLayoutEffect } from "react";
+import type { RefObject } from "react";
 
 export interface ParentStyles {
   backgroundColor?: string;
@@ -129,19 +130,17 @@ export function useParentStyles(
     observer.observe(document.body, {
       attributes: true,
       attributeFilter: ["class", "style"],
-      subtree: true,
     });
     observer.observe(document.documentElement, {
       attributes: true,
       attributeFilter: ["class", "style"],
-      subtree: true,
     });
 
     return () => {
       window.removeEventListener("resize", detectStyles);
       observer.disconnect();
     };
-  });
+  }, [enabled]);
 
   return styles;
 }

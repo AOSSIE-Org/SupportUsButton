@@ -25,7 +25,7 @@ This document tracks compliance with the **AOSSIE Best Practices Guidelines** fo
 - [x] **Contrast Fail-Safes**: Dynamic relative luminance contrast calculation (`isDarkColor`) for logo and button visibility on light/dark host themes.
 - [x] **Automated Testing & CI**: Unit testing and GitHub Actions workflow configured for PR validation.
 - [x] **Micro-Animations**: GPU-accelerated CSS keyframe transitions (`animate-sub-fade-in`, `animate-sub-scale-in`).
-- [x] **Zero Dependencies**: Lightweight bundle footprint (<0.5 KB added overhead) using native Web APIs.
+- [x] **Zero Third-Party UI Dependencies**: Ultra-lightweight package architecture (only standard `tslib` helper; zero external UI framework dependencies) producing ~12 KB minified JS output (`dist/index.esm.js`) and ~4 KB minified CSS (`dist/style.css`).
 - [x] **Multi-Bundle Formats**: Exports ESM (`dist/index.esm.js`), CommonJS (`dist/index.cjs.js`), and UMD (`dist/index.umd.js`).
 
 ---

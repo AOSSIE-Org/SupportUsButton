@@ -3,6 +3,21 @@ import SupportUsButton from "../src/index";
 import type { Theme, supportUsButtonProps } from "../src/types/index";
 import "../src/styles/style.css";
 
+const DEMO_TEXT = {
+  headerTitle: "SupportUsButton — Dev Preview",
+  themeLabel: "Theme Prop:",
+  hostBgLabel: "Host BG:",
+  hostFontLabel: "Host Font:",
+  bgLogoLabel: "BG Logo:",
+  toggleLogoAction: "Toggle background logo visibility",
+  options: {
+    auto: "✨ Auto (Host Adapted)",
+    inherit: "🏛️ Inherit (Host Theme)",
+    light: "☀️ Light",
+    dark: "🌙 Dark",
+  },
+};
+
 const HOST_BG_MAP: Record<string, { bg: string; text: string; label: string }> = {
   zinc: { bg: "#09090b", text: "#ffffff", label: "Dark Zinc (#09090b)" },
   slate: { bg: "#0f172a", text: "#ffffff", label: "Slate Dark (#0f172a)" },
@@ -90,26 +105,33 @@ export function App() {
       <header className="sticky top-0 z-50 backdrop-blur-md bg-zinc-900/90 border-b border-zinc-800 p-4 flex flex-wrap items-center justify-between gap-4 max-w-7xl mx-auto rounded-b-xl shadow-lg">
         <div className="flex items-center gap-3">
           <img src="/aossie_logomark.svg" alt="AOSSIE Logo" className="h-8 w-auto brightness-0 invert" />
-          <h1 className="text-xl font-bold tracking-tight text-white font-sans">SupportUsButton — Dev Preview</h1>
+          <h1 className="text-xl font-bold tracking-tight text-white font-sans">{DEMO_TEXT.headerTitle}</h1>
         </div>
 
         <div className="flex flex-wrap items-center gap-4 font-sans">
           <div className="flex items-center gap-2">
-            <span className="text-sm font-medium text-gray-300">Theme Prop:</span>
+            <label htmlFor="theme-select" className="text-sm font-medium text-gray-300">
+              {DEMO_TEXT.themeLabel}
+            </label>
             <select
+              id="theme-select"
               value={theme}
               onChange={(e) => setTheme(e.target.value as Theme)}
               className="px-3 py-1.5 rounded-lg text-sm font-semibold bg-zinc-800 text-amber-400 border border-zinc-700 cursor-pointer focus:outline-none focus:ring-2 focus:ring-amber-500"
             >
-              <option value="auto">✨ Auto (Host Adapted)</option>
-              <option value="light">☀️ Light</option>
-              <option value="dark">🌙 Dark</option>
+              <option value="auto">{DEMO_TEXT.options.auto}</option>
+              <option value="inherit">{DEMO_TEXT.options.inherit}</option>
+              <option value="light">{DEMO_TEXT.options.light}</option>
+              <option value="dark">{DEMO_TEXT.options.dark}</option>
             </select>
           </div>
 
           <div className="flex items-center gap-2">
-            <span className="text-sm font-medium text-gray-300">Host BG:</span>
+            <label htmlFor="host-bg-select" className="text-sm font-medium text-gray-300">
+              {DEMO_TEXT.hostBgLabel}
+            </label>
             <select
+              id="host-bg-select"
               value={customHostBgKey}
               onChange={(e) => setCustomHostBgKey(e.target.value)}
               className="px-3 py-1.5 rounded-lg text-sm font-semibold bg-zinc-800 text-blue-400 border border-zinc-700 cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -123,8 +145,11 @@ export function App() {
           </div>
 
           <div className="flex items-center gap-2">
-            <span className="text-sm font-medium text-gray-300">Host Font:</span>
+            <label htmlFor="host-font-select" className="text-sm font-medium text-gray-300">
+              {DEMO_TEXT.hostFontLabel}
+            </label>
             <select
+              id="host-font-select"
               value={customHostFontKey}
               onChange={(e) => setCustomHostFontKey(e.target.value)}
               className="px-3 py-1.5 rounded-lg text-sm font-semibold bg-zinc-800 text-emerald-400 border border-zinc-700 cursor-pointer focus:outline-none focus:ring-2 focus:ring-emerald-500"
@@ -138,8 +163,14 @@ export function App() {
           </div>
 
           <div className="flex items-center gap-2">
-            <span className="text-sm font-medium text-gray-300">BG Logo:</span>
+            <label htmlFor="logo-toggle-button" className="text-sm font-medium text-gray-300">
+              {DEMO_TEXT.bgLogoLabel}
+            </label>
             <button
+              id="logo-toggle-button"
+              type="button"
+              aria-label={DEMO_TEXT.toggleLogoAction}
+              aria-pressed={showLogo}
               onClick={() => setShowLogo(!showLogo)}
               className={`px-4 py-1.5 rounded-lg text-sm font-semibold transition-all duration-200 border cursor-pointer active:scale-95 shadow-sm ${
                 showLogo

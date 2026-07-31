@@ -1,40 +1,39 @@
+import { describe, it, expect } from "vitest";
 import SupportUsButton from "../index";
 import type { Theme, supportUsButtonProps } from "../types/index";
 
-export function testSupportUsButtonPackage(): boolean {
-  // Test 1: Export definition
-  if (typeof SupportUsButton !== "function") {
-    throw new Error("SupportUsButton default export is missing or invalid");
-  }
+describe("SupportUsButton Unit & Contract Tests", () => {
+  it("should export default SupportUsButton React component", () => {
+    expect(SupportUsButton).toBeDefined();
+    expect(typeof SupportUsButton).toBe("function");
+  });
 
-  // Test 2: Theme prop types
-  const validThemes: Theme[] = ["auto", "inherit", "light", "dark"];
-  if (!validThemes.includes("auto") || !validThemes.includes("inherit")) {
-    throw new Error("Theme type definition is missing auto or inherit options");
-  }
+  it("should support auto, inherit, light, and dark Theme modes", () => {
+    const validThemes: Theme[] = ["auto", "inherit", "light", "dark"];
+    expect(validThemes).toContain("auto");
+    expect(validThemes).toContain("inherit");
+    expect(validThemes).toContain("light");
+    expect(validThemes).toContain("dark");
+  });
 
-  // Test 3: Sample props validation
-  const sampleProps: supportUsButtonProps = {
-    Theme: "auto",
-    Logo: true,
-    organizationInformation: {
-      name: "AOSSIE",
-      desc: "Australian Open Source Software Innovation and Education organization",
-      image: "/aossie_logomark.svg",
-      link: "https://aossie.org",
-    },
-    ctaSection: {
-      sponsorLink: [
-        { name: "Sponsor Us", url: "https://github.com/sponsors/AOSSIE-Org" },
-      ],
-    },
-  };
+  it("should structure supportUsButtonProps cleanly", () => {
+    const sampleProps: supportUsButtonProps = {
+      Theme: "auto",
+      Logo: true,
+      organizationInformation: {
+        name: "AOSSIE",
+        desc: "Australian Open Source Software Innovation and Education organization",
+        image: "/aossie_logomark.svg",
+        link: "https://aossie.org",
+      },
+      ctaSection: {
+        sponsorLink: [
+          { name: "Sponsor Us", url: "https://github.com/sponsors/AOSSIE-Org" },
+        ],
+      },
+    };
 
-  if (sampleProps.organizationInformation.name !== "AOSSIE") {
-    throw new Error("Organization name mismatch");
-  }
-
-  return true;
-}
-
-testSupportUsButtonPackage();
+    expect(sampleProps.organizationInformation.name).toBe("AOSSIE");
+    expect(sampleProps.Theme).toBe("auto");
+  });
+});

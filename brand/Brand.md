@@ -12,12 +12,13 @@ This document defines the official branding, logo assets, color palette, typogra
 
 ## 🖼️ Logo & Assets
 
-All official brand assets are located inside the [`brand/`](file:///x:/Work/Dev/AOSSIE/SupportUsButton/brand/) directory.
+All official brand assets are located inside the [`brand/`](./) directory.
 
-* **Primary Logo (SVG)**: [`brand/logo.svg`](file:///x:/Work/Dev/AOSSIE/SupportUsButton/brand/logo.svg)
-* **Favicon / Logomark (SVG)**: [`brand/favicon.svg`](file:///x:/Work/Dev/AOSSIE/SupportUsButton/brand/favicon.svg)
+* **Primary Logo (SVG)**: [`logo.svg`](./logo.svg)
+* **Favicon / Logomark (SVG)**: [`favicon.svg`](./favicon.svg)
 
 ### Usage Rules:
+
 * Always maintain aspect ratios when displaying the SVG logo.
 * On dark backgrounds, use the primary logo or inverted contrast version (`brightness-0 invert`).
 * On light host backgrounds, use dark contrast text and borders (`brightness-0`).
@@ -44,6 +45,7 @@ The SupportUsButton brand palette balances modern dark UI elements with high-con
 SupportUsButton is designed with **automatic font-family inheritance** so that it matches the host website typography natively out-of-the-box.
 
 ### Font Family Specs:
+
 * **Primary (Inherited)**: `font-family: inherit` (Default for `Theme="auto"`)
 * **Fallback Stack**: `system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`
 * **Heading Sizes**:

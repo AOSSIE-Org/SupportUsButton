@@ -2,7 +2,7 @@
 
 This document lists the maintainers of the **SupportUsButton** project.
 
-| Name                             | Github Username    | Discord Username   | Email Address                |     
+| Name                             | GitHub Username    | Discord Username   | Email Address                |     
 | -------------------------------- | ------------------ | ------------------ | ---------------------------- |
 | Bruno Woltzenlogel Paleo         | @Zahnentferner     | @b.wp              | zahnentferner@gmail.com      |
 | Rahul Vyas                       | @rahul-vyas-dev    | @rahulvyas_de      | rahulvyas.5100@gmail.com     |
@@ -12,6 +12,7 @@ This document lists the maintainers of the **SupportUsButton** project.
 
 ## 📩 Contacting Maintainers
 
-For security reports, architectural questions, or governance inquiries, please reach out via:
-1. **AOSSIE Discord Channel**
-2. **GitHub Issues:** [github.com/AOSSIE-Org/SupportUsButton/issues](https://github.com/AOSSIE-Org/SupportUsButton/issues)
+* **Security Vulnerabilities**: For private security reports, please email [reach2saksham2004@gmail.com](mailto:reach2saksham2004@gmail.com) directly before public disclosure.
+* **Architectural Questions & Governance**:
+  1. **AOSSIE Discord Channel**: [#support-us-button](https://discord.gg/vK2NfgG)
+  2. **GitHub Issues**: [github.com/AOSSIE-Org/SupportUsButton/issues](https://github.com/AOSSIE-Org/SupportUsButton/issues)

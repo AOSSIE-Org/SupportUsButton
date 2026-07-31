@@ -2,7 +2,7 @@
    Theme
 ========================= */
 
-export type Theme = "light" | "dark";
+export type Theme = "auto" | "inherit" | "light" | "dark";
 
 /* =========================
    PROJECT INFORMATION

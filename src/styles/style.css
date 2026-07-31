@@ -20,6 +20,36 @@
 .md-justify-between {
     @media (width >= 900px) {
         flex-direction: row;
-        
     }
 }
+
+@keyframes sub-fade-in-up {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes sub-scale-in {
+    from {
+        opacity: 0;
+        transform: scale(0.94);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.animate-sub-fade-in {
+    animation: sub-fade-in-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-sub-scale-in {
+    animation: sub-scale-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+

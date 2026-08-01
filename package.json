@@ -46,9 +46,9 @@
   ],
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.esm.js",
-      "require": "./dist/index.cjs.js",
-      "types": "./dist/index.d.ts"
+      "require": "./dist/index.cjs.js"
     },
     "./style.css": "./dist/style.css"
   },
@@ -59,6 +59,8 @@
     "build": "npm run build:css && npm run build:js",
     "dev": "rollup -c -w",
     "dev:demo": "vite",
+    "type-check": "tsc --noEmit",
+    "test": "npm run type-check && vitest run --passWithNoTests",
     "prepublishOnly": "npm run build"
   },
   "engines": {
@@ -84,7 +86,8 @@
     "rollup-plugin-postcss": "^4.0.2",
     "tailwindcss": "^4.2.1",
     "typescript": "^5.9.3",
-    "vite": "^8.1.5"
+    "vite": "^8.1.5",
+    "vitest": "^3.0.5"
   },
   "peerDependencies": {
     "react": ">=18",

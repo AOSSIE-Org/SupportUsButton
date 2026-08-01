@@ -1,16 +1,53 @@
-import React from "react";
+import React, { useRef } from "react";
 import type { supportUsButtonProps } from "../types/index";
 import type { Theme } from "../types/index";
+import { useParentStyles } from "../hooks/useParentStyles";
 
-// Function to get the appropriate classes based on the selected theme, used for styling different sections of the component according to the chosen theme
+function sRgbLuminance(c: number): number {
+  const norm = c / 255;
+  return norm <= 0.04045 ? norm / 12.92 : Math.pow((norm + 0.055) / 1.055, 2.4);
+}
+
+function isDarkColor(colorStr?: string): boolean {
+  if (!colorStr) return true;
+  let r = 0, g = 0, b = 0;
+  const rgbMatch = colorStr.match(/\d+/g);
+  if (rgbMatch && rgbMatch.length >= 3) {
+    r = parseInt(rgbMatch[0], 10);
+    g = parseInt(rgbMatch[1], 10);
+    b = parseInt(rgbMatch[2], 10);
+  } else if (colorStr.startsWith("#")) {
+    const hex = colorStr.replace("#", "");
+    if (hex.length === 3) {
+      r = parseInt(hex[0] + hex[0], 16);
+      g = parseInt(hex[1] + hex[1], 16);
+      b = parseInt(hex[2] + hex[2], 16);
+    } else if (hex.length === 6) {
+      r = parseInt(hex.substring(0, 2), 16);
+      g = parseInt(hex.substring(2, 4), 16);
+      b = parseInt(hex.substring(4, 6), 16);
+    } else {
+      return true;
+    }
+  } else {
+    return true;
+  }
+  // WCAG relative luminance formula: L = 0.2126 * R + 0.7152 * G + 0.0722 * B
+  const lum = 0.2126 * sRgbLuminance(r) + 0.7152 * sRgbLuminance(g) + 0.0722 * sRgbLuminance(b);
+  return lum < 0.179;
+}
+
+// Function to get the appropriate classes based on the selected theme
 function classAccordingToTheme(Theme: Theme): string {
   switch (Theme) {
     case "light":
       return "bg-[#F4F4F4] text-[#191919]";
     case "dark":
       return "bg-[#191919] text-[#F4F4F4]";
+    case "inherit":
+    case "auto":
     default:
-      return "bg-black text-white";
+      return "bg-transparent text-inherit";
   }
 }
 
@@ -26,7 +63,7 @@ function validateUrl(url?: string): string | undefined {
 
 // Main component function that renders the support us button, taking in various props for customization and rendering different sections such as hero, organization information, sponsors, and call-to-action based on the provided data and selected theme and button variant
 function SupportUsButton({
-  Theme = "dark",
+  Theme = "auto",
   organizationInformation,
   sponsors,
   ctaSection,
@@ -44,33 +81,50 @@ function SupportUsButton({
     RightY2: "1000",
   },
 }: supportUsButtonProps): React.JSX.Element {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const isAuto = Theme === "auto" || Theme === "inherit";
+  const parentStyles = useParentStyles(containerRef, isAuto);
+  const darkThemeActive =
+    Theme === "dark" || (isAuto && isDarkColor(parentStyles.backgroundColor));
+
   const validatedUrl = validateUrl(organizationInformation?.link);
 
   return (
     <div
-      className={`relative w-full h-full overflow-hidden px-12 sm:px-14 md:px-20 py-10 sm:py-10 md:py-14 font-sans text-center ${classAccordingToTheme(Theme)} ${className}`}
+      ref={containerRef}
+      style={
+        isAuto
+          ? {
+              fontFamily: parentStyles.fontFamily || "inherit",
+              color: parentStyles.color !== "inherit" ? parentStyles.color : "inherit",
+            }
+          : undefined
+      }
+      className={`relative w-full h-full px-12 sm:px-14 md:px-20 py-10 sm:py-10 md:py-14 text-center ${isAuto ? "bg-transparent font-inherit text-inherit" : "font-sans"} ${classAccordingToTheme(Theme)} ${className}`}
     >
       {Logo && (
-        <svg
-          viewBox="0 -74 1440 1172"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          className="absolute inset-0 w-full h-full pointer-events-none"
-          preserveAspectRatio="xMidYMid slice"
-        >
-          <path
-            d="M1436.43 653.604C1436.43 733.153 1410.91 792.793 1378.25 847.98C1370.61 860.889 1361.02 863.843 1351.83 875.574C1330.57 902.761 1339.26 931.96 1310.06 953.774C1284.56 972.826 1279.05 1006.01 1278.03 1040.49C1277.53 1056.53 1242.68 1037.56 1232.96 1047.49C1227.39 1053.17 1207.75 1045.25 1200 1049.59C1183.05 1059.1 1168.68 1081.32 1148.85 1091.06C1133.01 1098.85 1121.87 1055.69 1102.03 1058.43C1068.28 1063.1 1030.1 1048.29 989.059 1051.45C969.875 1052.93 963.173 1011.94 943.56 1014.7C916.09 1018.57 944.417 915.006 919.258 934.7C891.445 956.471 903.799 887.433 876.607 887.433C864.895 887.433 893.008 822.913 881.253 822.806C876.2 822.763 811.474 894.84 808.605 890.666C799.59 877.586 791.754 846.739 775.76 833.274C764.519 823.79 758.845 809.126 747.069 800.97C727.82 787.634 712.575 795.918 692.127 785.729C679.773 779.585 667.418 770.529 654.935 771.129C636.008 772.028 623.825 776.224 596.932 778.386C553.039 781.939 522.72 809.298 479.063 808.591C442.621 807.992 412.238 883.73 376.952 878.742C338.347 873.283 307.708 887.926 280.323 887.562C256.749 887.262 236.536 950.841 215.189 941.122C184.7 927.229 137.83 946.281 112.796 912.373C101.05 896.446 139.693 898.908 130.15 878.464C124.401 866.155 131.261 852.411 130.724 836.57C130.313 824.411 122.896 810.304 118.17 799.001C113.316 787.398 102.018 777.765 96.7461 763.936C92.5152 752.847 94.6713 737.82 88.3143 726.324C79.0881 709.627 62.9954 693.314 53.8806 677.259C49.1936 668.996 50.8295 659.834 45.9198 652.277C31.6406 630.313 8.03675 620.488 0.549201 601.928C-5.73289 586.365 43.9072 613.787 46.0611 602.292C47.6049 594.071 32.8418 583.903 24.4485 567.997C13.9955 548.196 9.21651 522.443 9.21651 514.373C9.21651 493.951 4.22553 456.445 11.1071 441.054C17.9545 425.748 28.7822 435.081 41.5691 424.699C60.8992 409.007 79.5185 389.013 107.46 375.313C117.123 370.582 131.503 371.438 142.177 367.157C183.565 350.523 226.687 330.957 266.298 310.492C284.99 300.816 290.279 267.464 308.115 256.482C315.93 251.666 293.855 228.503 301.584 223.451C312.911 216.066 304.346 200.182 315.63 192.283C324.537 186.053 348.282 224.329 357.039 217.65C362.692 213.326 348.389 175.671 353.935 171.047C361.108 165.053 386.501 187.123 393.674 180.937C399.263 176.099 376.631 141.312 382.155 136.282C411.296 109.63 450.307 87.6877 482.981 62.8984C492.53 55.6414 525.354 109.844 535.053 102.908C550.641 91.7336 575.307 124.572 589.802 110.144C601.792 98.1986 565.008 93.1893 576.227 77.1983C591.13 56.0267 603.505 26.5278 628.642 4.64979C645.6 -10.1211 672.429 8.80275 692.726 -0.637757C699.193 -3.63474 701.612 -13.8031 692.491 -21.2741C683.819 -28.3599 663.586 -32.7055 668.617 -38.0573C675.662 -45.5711 716.407 -23.9072 740.238 -25.213C752.186 -25.8767 765.289 -16.0936 768.608 -16.0936C779.742 -16.0936 794.131 -4.34118 805.136 -4.02007C812.908 -3.806 816.077 -15.1089 823.764 -14.745C840.786 -13.9315 847.873 -8.38712 864.531 -6.803C880.375 -5.32591 873.138 15.2035 862.647 26.8061C857.251 32.7787 826.44 43.2467 835.497 54.9349C844.726 66.8158 803.787 96.2291 818.004 105.027C873.652 139.45 923.091 203.393 989.102 220.518C1042.61 234.412 1046.83 116.544 1052.63 63.2623C1056.29 29.6104 1090.7 -73.9997 1098.58 -51.9504C1106.8 -28.9165 1115.49 4.77821 1136.84 49.7544C1140.52 57.5252 1136.63 86.125 1141.64 94.4951C1146.75 103.058 1157.03 95.33 1166.79 98.9478C1175.92 102.352 1184.44 117.037 1191.44 125.749C1202.57 139.578 1188.14 187.123 1200.9 201.916C1218.37 222.188 1209.57 285.425 1229.79 305.269C1237.84 313.168 1247.84 299.211 1256.4 306.553C1268.65 317.043 1294 333.912 1302.11 348.126C1308.02 358.508 1296.25 366.686 1305.63 373.75C1321.3 385.524 1325.8 432.919 1341.68 443.194C1348.19 447.39 1343.16 429.644 1359.69 441.396C1371.85 450.045 1367.03 475.412 1375.32 486.48C1387.85 503.177 1416.34 536.486 1426.47 551.557C1449.19 585.38 1436.43 635.901 1436.43 653.604Z"
-            stroke="currentColor"
-            strokeOpacity="0.04"
-            strokeWidth="2.5"
-          />
-        </svg>
+        <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none">
+          <svg
+            viewBox="0 -74 1440 1172"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            className="absolute inset-0 w-full h-full pointer-events-none"
+            preserveAspectRatio="xMidYMid slice"
+          >
+            <path
+              d="M1436.43 653.604C1436.43 733.153 1410.91 792.793 1378.25 847.98C1370.61 860.889 1361.02 863.843 1351.83 875.574C1330.57 902.761 1339.26 931.96 1310.06 953.774C1284.56 972.826 1279.05 1006.01 1278.03 1040.49C1277.53 1056.53 1242.68 1037.56 1232.96 1047.49C1227.39 1053.17 1207.75 1045.25 1200 1049.59C1183.05 1059.1 1168.68 1081.32 1148.85 1091.06C1133.01 1098.85 1121.87 1055.69 1102.03 1058.43C1068.28 1063.1 1030.1 1048.29 989.059 1051.45C969.875 1052.93 963.173 1011.94 943.56 1014.7C916.09 1018.57 944.417 915.006 919.258 934.7C891.445 956.471 903.799 887.433 876.607 887.433C864.895 887.433 893.008 822.913 881.253 822.806C876.2 822.763 811.474 894.84 808.605 890.666C799.59 877.586 791.754 846.739 775.76 833.274C764.519 823.79 758.845 809.126 747.069 800.97C727.82 787.634 712.575 795.918 692.127 785.729C679.773 779.585 667.418 770.529 654.935 771.129C636.008 772.028 623.825 776.224 596.932 778.386C553.039 781.939 522.72 809.298 479.063 808.591C442.621 807.992 412.238 883.73 376.952 878.742C338.347 873.283 307.708 887.926 280.323 887.562C256.749 887.262 236.536 950.841 215.189 941.122C184.7 927.229 137.83 946.281 112.796 912.373C101.05 896.446 139.693 898.908 130.15 878.464C124.401 866.155 131.261 852.411 130.724 836.57C130.313 824.411 122.896 810.304 118.17 799.001C113.316 787.398 102.018 777.765 96.7461 763.936C92.5152 752.847 94.6713 737.82 88.3143 726.324C79.0881 709.627 62.9954 693.314 53.8806 677.259C49.1936 668.996 50.8295 659.834 45.9198 652.277C31.6406 630.313 8.03675 620.488 0.549201 601.928C-5.73289 586.365 43.9072 613.787 46.0611 602.292C47.6049 594.071 32.8418 583.903 24.4485 567.997C13.9955 548.196 9.21651 522.443 9.21651 514.373C9.21651 493.951 4.22553 456.445 11.1071 441.054C17.9545 425.748 28.7822 435.081 41.5691 424.699C60.8992 409.007 79.5185 389.013 107.46 375.313C117.123 370.582 131.503 371.438 142.177 367.157C183.565 350.523 226.687 330.957 266.298 310.492C284.99 300.816 290.279 267.464 308.115 256.482C315.93 251.666 293.855 228.503 301.584 223.451C312.911 216.066 304.346 200.182 315.63 192.283C324.537 186.053 348.282 224.329 357.039 217.65C362.692 213.326 348.389 175.671 353.935 171.047C361.108 165.053 386.501 187.123 393.674 180.937C399.263 176.099 376.631 141.312 382.155 136.282C411.296 109.63 450.307 87.6877 482.981 62.8984C492.53 55.6414 525.354 109.844 535.053 102.908C550.641 91.7336 575.307 124.572 589.802 110.144C601.792 98.1986 565.008 93.1893 576.227 77.1983C591.13 56.0267 603.505 26.5278 628.642 4.64979C645.6 -10.1211 672.429 8.80275 692.726 -0.637757C699.193 -3.63474 701.612 -13.8031 692.491 -21.2741C683.819 -28.3599 663.586 -32.7055 668.617 -38.0573C675.662 -45.5711 716.407 -23.9072 740.238 -25.213C752.186 -25.8767 765.289 -16.0936 768.608 -16.0936C779.742 -16.0936 794.131 -4.34118 805.136 -4.02007C812.908 -3.806 816.077 -15.1089 823.764 -14.745C840.786 -13.9315 847.873 -8.38712 864.531 -6.803C880.375 -5.32591 873.138 15.2035 862.647 26.8061C857.251 32.7787 826.44 43.2467 835.497 54.9349C844.726 66.8158 803.787 96.2291 818.004 105.027C873.652 139.45 923.091 203.393 989.102 220.518C1042.61 234.412 1046.83 116.544 1052.63 63.2623C1056.29 29.6104 1090.7 -73.9997 1098.58 -51.9504C1106.8 -28.9165 1115.49 4.77821 1136.84 49.7544C1140.52 57.5252 1136.63 86.125 1141.64 94.4951C1146.75 103.058 1157.03 95.33 1166.79 98.9478C1175.92 102.352 1184.44 117.037 1191.44 125.749C1202.57 139.578 1188.14 187.123 1200.9 201.916C1218.37 222.188 1209.57 285.425 1229.79 305.269C1237.84 313.168 1247.84 299.211 1256.4 306.553C1268.65 317.043 1294 333.912 1302.11 348.126C1308.02 358.508 1296.25 366.686 1305.63 373.75C1321.3 385.524 1325.8 432.919 1341.68 443.194C1348.19 447.39 1343.16 429.644 1359.69 441.396C1371.85 450.045 1367.03 475.412 1375.32 486.48C1387.85 503.177 1416.34 536.486 1426.47 551.557C1449.19 585.38 1436.43 635.901 1436.43 653.604Z"
+              stroke="currentColor"
+              strokeOpacity="0.04"
+              strokeWidth="2.5"
+            />
+          </svg>
+        </div>
       )}
 
-      <div className="relative p-2 sm:p-10 max-w-7xl mx-auto">
+      <div className="relative z-10 p-2 sm:p-10 max-w-7xl mx-auto">
         {/* Border around page - wrapped around content */}
         <svg
-          className="absolute -inset-4 w-[calc(100%+2rem)] h-[calc(100%+2rem)] overflow-visible pointer-events-none"
+          className="absolute -inset-4 w-[calc(100%+2rem)] h-[calc(100%+2rem)] overflow-visible pointer-events-none z-0"
           viewBox="0 0 100 100"
           preserveAspectRatio="none"
         >
@@ -195,7 +249,7 @@ function SupportUsButton({
           />
         </svg>
 
-        <div className="flex flex-col gap-4 sm:gap-6">
+        <div className="flex flex-col gap-4 sm:gap-6 animate-sub-fade-in">
           <div className="flex justify-center items-center gap-2.5 sm:gap-4 flex-wrap max-w-full">
             <span className="flex-none flex items-center">
               <svg
@@ -255,19 +309,19 @@ function SupportUsButton({
           )}
         </div>
 
-        <div className="mt-10 flex flex-wrap justify-center gap-6">
+        <div className="mt-10 flex flex-wrap justify-center gap-6 animate-sub-fade-in" style={{ animationDelay: "150ms" }}>
           {ctaSection.sponsorLink.map((link, index) => (
             <button
-              key={index}
-              rel="noopener noreferrer"
+              key={link.url || link.name || index}
+              type="button"
               className={`px-6 py-2.5 w-fit rounded-lg font-semibold text-[18px] cursor-pointer transition-all duration-200 ease-in-out transform active:scale-95 shadow-md hover:-translate-y-1 hover:shadow-xl ${
-                Theme === "dark"
+                darkThemeActive
                   ? "bg-[#F4F4F4] text-[#191919] hover:bg-[#ffd700] hover:text-[#191919] hover:shadow-yellow-500/20"
                   : "bg-[#191919] text-[#F4F4F4] hover:bg-[#ffd700] hover:text-[#191919] hover:shadow-black/20"
               }`}
               onClick={() => {
                 if (validateUrl(link.url)) {
-                  window.open(link.url, "_blank");
+                  window.open(link.url, "_blank", "noopener,noreferrer");
                 }
               }}
             >
@@ -277,13 +331,14 @@ function SupportUsButton({
         </div>
 
         <div
-          className={`mt-20 sm:mt-24 flex flex-col gap-10 lg:gap-8 ${projectInformation?.name && "lg:flex-row lg:items-start"}`}
+          className={`mt-20 sm:mt-24 flex flex-col gap-10 lg:gap-8 animate-sub-fade-in ${projectInformation?.name && "lg:flex-row lg:items-start"}`}
+          style={{ animationDelay: "250ms" }}
         >
           {projectInformation?.name && (
             <div className="flex-1 min-w-0">
               <div className="flex items-center justify-start gap-2.5 sm:gap-3 text-left w-full">
                 <img
-                  className={`h-8 w-8 sm:h-9 sm:w-9 lg:h-10 lg:w-10 flex-none object-contain ${Theme === "dark" ? "brightness-0 invert" : "brightness-0"}`}
+                  className={`h-8 w-8 sm:h-9 sm:w-9 lg:h-10 lg:w-10 flex-none object-contain ${darkThemeActive ? "brightness-0 invert" : "brightness-0"}`}
                   draggable="false"
                   src={projectInformation?.image}
                   alt={projectInformation?.name}
@@ -334,7 +389,7 @@ function SupportUsButton({
           <div className="flex-1 min-w-0">
             <div className="flex items-center justify-start gap-2.5 sm:gap-3 text-left w-full">
               <img
-                className={`h-8 w-8 sm:h-9 sm:w-9 lg:h-10 lg:w-10 flex-none object-contain ${Theme === "dark" ? "brightness-0 invert" : "brightness-0"}`}
+                className={`h-8 w-8 sm:h-9 sm:w-9 lg:h-10 lg:w-10 flex-none object-contain ${darkThemeActive ? "brightness-0 invert" : "brightness-0"}`}
                 draggable="false"
                 src={organizationInformation.image}
                 alt={organizationInformation.name}
@@ -366,9 +421,9 @@ function SupportUsButton({
           </div>
         </div>
 
-        <div className="mt-20 sm:mt-24 flex flex-col lg:flex-row items-center justify-between gap-8 flex-wrap">
-          <div className="flex flex-col text-center lg:text-start text-base sm:text-lg font-normal pr-0 lg:pr-8 flex-none whitespace-nowrap">
-            <span className="flex items-center justify-center lg:justify-start gap-1.5 whitespace-nowrap">
+        <div className="mt-20 sm:mt-24 flex flex-col min-[1380px]:flex-row items-center justify-between gap-6 sm:gap-8 text-center">
+          <div className="flex flex-col items-center text-center text-base sm:text-lg font-normal whitespace-nowrap flex-none">
+            <span className="flex items-center justify-center gap-1.5 whitespace-nowrap">
               <span>Supported By Global</span>
               <svg
                 width="11"
@@ -384,14 +439,15 @@ function SupportUsButton({
                 />
               </svg>
             </span>
-            <span className="whitespace-nowrap">Powerhouses</span>
+            <span className="whitespace-nowrap text-center">Powerhouses</span>
           </div>
 
-          <div className="flex flex-wrap items-center justify-center lg:justify-start gap-6 select-none flex-1">
+          <div className="flex flex-wrap items-center justify-center min-[1380px]:justify-end gap-3 sm:gap-4 md:gap-6 lg:gap-8 select-none flex-1 w-full py-1">
             {sponsors?.map((sponsor, index) => (
               <div
                 key={index}
-                className="group flex items-center gap-2 transition-all duration-300 hover:text-[#ffd700] hover:-translate-y-1 hover:scale-105 cursor-pointer active:scale-95"
+                style={{ animationDelay: `${(index + 1) * 120}ms` }}
+                className="group flex items-center gap-1.5 sm:gap-2 shrink-0 whitespace-nowrap transition-all duration-300 hover:text-[#ffd700] hover:-translate-y-1 hover:scale-105 cursor-pointer active:scale-95 animate-sub-scale-in"
               >
                 <div>
                   <svg

@@ -100,7 +100,7 @@ function SupportUsButton({
             }
           : undefined
       }
-      className={`relative w-full h-full px-12 sm:px-14 md:px-20 py-10 sm:py-10 md:py-14 text-center ${isAuto ? "bg-transparent font-inherit text-inherit" : "font-sans"} ${classAccordingToTheme(Theme)} ${className}`}
+      className={`relative overflow-hidden w-full h-full px-12 sm:px-14 md:px-20 py-10 sm:py-10 md:py-14 text-center ${isAuto ? "bg-transparent font-inherit text-inherit" : "font-sans"} ${classAccordingToTheme(Theme)} ${className}`}
     >
       {Logo && (
         <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none">

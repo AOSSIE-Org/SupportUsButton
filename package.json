@@ -58,7 +58,9 @@
     "build:js": "rollup -c",
     "build": "npm run build:css && npm run build:js",
     "dev": "rollup -c -w",
-    "dev:demo": "vite",
+    "vite:dev": "vite",
+    "vite:build": "vite build",
+    "vite:preview": "vite preview",
     "type-check": "tsc --noEmit",
     "test": "npm run type-check && vitest run --passWithNoTests",
     "prepublishOnly": "npm run build"

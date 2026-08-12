@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import type { supportUsButtonProps } from "../types/index";
 import type { Theme } from "../types/index";
 import { useParentStyles } from "../hooks/useParentStyles";
-
+import { validateProps } from "../utils/validateProps";
 function sRgbLuminance(c: number): number {
   const norm = c / 255;
   return norm <= 0.04045 ? norm / 12.92 : Math.pow((norm + 0.055) / 1.055, 2.4);
@@ -81,6 +81,16 @@ function SupportUsButton({
     RightY2: "1000",
   },
 }: supportUsButtonProps): React.JSX.Element {
+  validateProps({
+    Theme,
+    organizationInformation,
+    sponsors,
+    ctaSection,
+    projectInformation,
+    Logo,
+    className,
+    border,
+  });
   const containerRef = useRef<HTMLDivElement>(null);
   const isAuto = Theme === "auto" || Theme === "inherit";
   const parentStyles = useParentStyles(containerRef, isAuto);

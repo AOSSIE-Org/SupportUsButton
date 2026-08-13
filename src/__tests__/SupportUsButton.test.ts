@@ -1,3 +1,5 @@
+import React from "react";
+import { renderToString } from "react-dom/server";
 import { describe, it, expect } from "vitest";
 import SupportUsButton from "../index";
 import type { Theme, supportUsButtonProps } from "../types/index";
@@ -16,7 +18,7 @@ describe("SupportUsButton Unit & Contract Tests", () => {
     expect(validThemes).toContain("dark");
   });
 
-  it("should structure supportUsButtonProps cleanly", () => {
+  it("should render SupportUsButton component with organization info, image src, accessible name, and CTA link", () => {
     const sampleProps: supportUsButtonProps = {
       Theme: "auto",
       Logo: true,
@@ -26,6 +28,14 @@ describe("SupportUsButton Unit & Contract Tests", () => {
         image: "/brand/icons/aossie_logomark.svg",
         link: "https://aossie.org",
       },
+      projectInformation: {
+        name: "TestProject",
+        description: "Test description",
+        image: "/brand/icons/placeholder_project_icon.svg",
+      },
+      sponsors: [
+        { name: "Google", sponsorshipTier: "Platinum", link: "https://google.com" },
+      ],
       ctaSection: {
         sponsorLink: [
           { name: "Sponsor Us", url: "https://github.com/sponsors/AOSSIE-Org" },
@@ -33,7 +43,42 @@ describe("SupportUsButton Unit & Contract Tests", () => {
       },
     };
 
-    expect(sampleProps.organizationInformation.name).toBe("AOSSIE");
-    expect(sampleProps.Theme).toBe("auto");
+    const html = renderToString(React.createElement(SupportUsButton, sampleProps));
+
+    // Verify rendered organization image src and accessible name
+    expect(html).toContain('src="/brand/icons/aossie_logomark.svg"');
+    expect(html).toContain('alt="AOSSIE"');
+    expect(html).toContain("AOSSIE");
+
+    // Verify rendered sponsor CTA button
+    expect(html).toContain("Sponsor Us");
+
+    // Verify rendered sponsor link anchor
+    expect(html).toContain('href="https://google.com"');
+    expect(html).toContain("Google");
+  });
+
+  it("should render localized custom heading string or function", () => {
+    const customProps: supportUsButtonProps = {
+      Theme: "dark",
+      heading: (projectName?: string) => `Apoya a ${projectName || "nuestro proyecto"}`,
+      organizationInformation: {
+        name: "AOSSIE",
+        desc: "Test org",
+        image: "/brand/icons/aossie_logomark.svg",
+        link: "https://aossie.org",
+      },
+      projectInformation: {
+        name: "SupportUsButton",
+        description: "Test",
+        image: "/test.svg",
+      },
+      ctaSection: {
+        sponsorLink: [],
+      },
+    };
+
+    const html = renderToString(React.createElement(SupportUsButton, customProps));
+    expect(html).toContain("Apoya a SupportUsButton");
   });
 });

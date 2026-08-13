@@ -1,0 +1,10 @@
+{
+  "default": true,
+  "MD041": {
+    "front_matter_title": ""
+  },
+  "ignores": [
+    "DCO.md",
+    "CLAUDE.md"
+  ]
+}

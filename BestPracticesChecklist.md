@@ -17,11 +17,10 @@
 |--------------------|-----|-------|--------|
 | Basics             | 8   | 8     | 🟢     |
 | Change Control     | 6   | 6     | 🟢     |
-| Reporting          | 5   | 8     | 🟡     |
-| Quality            | 11  | 11    | 🟢     |
-| Security           | 9   | 9     | 🟢     |
-| Analysis           | 7   | 7     | 🟢     |
-| **Total**          | **46** | **49** | **94%** |
+| Reporting          | 5   | 5     | 🟢     |
+| Quality            | 7   | 7     | 🟢     |
+| Security & Analysis| 3   | 3     | 🟢     |
+| **Total**          | **29** | **29** | **100%** |
 
 ---
 

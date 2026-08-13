@@ -109,29 +109,31 @@ export function useParentStyles(
       });
     };
 
+    let animationFrameId: number | null = null;
+    const scheduleDetectStyles = () => {
+      if (animationFrameId !== null) return;
+      animationFrameId = requestAnimationFrame(() => {
+        animationFrameId = null;
+        detectStyles();
+      });
+    };
+
     // Synchronous layout detection
     detectStyles();
 
-    window.addEventListener("resize", detectStyles);
+    window.addEventListener("resize", scheduleDetectStyles);
 
-    // Observe parent element & body for dynamic class/style mutations (e.g. host theme toggles)
+    // Observe root element for dynamic class/style mutations (e.g. host theme toggles)
     const observer = new MutationObserver(() => {
-      detectStyles();
+      scheduleDetectStyles();
     });
 
     if (element.parentElement) {
       observer.observe(element.parentElement, {
         attributes: true,
         attributeFilter: ["class", "style"],
-        childList: true,
-        subtree: true,
       });
     }
-    observer.observe(document.body, {
-      attributes: true,
-      attributeFilter: ["class", "style"],
-      subtree: true,
-    });
     observer.observe(document.documentElement, {
       attributes: true,
       attributeFilter: ["class", "style"],
@@ -139,7 +141,10 @@ export function useParentStyles(
     });
 
     return () => {
-      window.removeEventListener("resize", detectStyles);
+      window.removeEventListener("resize", scheduleDetectStyles);
+      if (animationFrameId !== null) {
+        cancelAnimationFrame(animationFrameId);
+      }
       observer.disconnect();
     };
   }, [enabled]);

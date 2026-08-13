@@ -64,6 +64,7 @@ function validateUrl(url?: string): string | undefined {
 // Main component function that renders the support us button, taking in various props for customization and rendering different sections such as hero, organization information, sponsors, and call-to-action based on the provided data and selected theme and button variant
 function SupportUsButton({
   Theme = "auto",
+  heading,
   organizationInformation,
   sponsors,
   ctaSection,
@@ -271,8 +272,16 @@ function SupportUsButton({
               </svg>
             </span>
             <h1 className="min-w-0 font-medium text-3xl sm:text-3xl md:text-5xl leading-tight tracking-tight text-center">
-              Support-us {projectInformation?.name && "for"}{" "}
-              {projectInformation?.name}
+              {typeof heading === "function" ? (
+                heading(projectInformation?.name)
+              ) : typeof heading === "string" ? (
+                heading
+              ) : (
+                <>
+                  Support-us {projectInformation?.name && "for"}{" "}
+                  {projectInformation?.name}
+                </>
+              )}
             </h1>
           </div>
           {projectInformation?.name && (
@@ -445,12 +454,11 @@ function SupportUsButton({
           </div>
 
           <div className="flex flex-wrap items-center justify-center xl:justify-end gap-x-5 sm:gap-x-8 gap-y-3 select-none flex-1 max-w-full m-0 p-0">
-            {sponsors?.map((sponsor, index) => (
-              <div
-                key={index}
-                style={{ animationDelay: `${(index + 1) * 120}ms` }}
-                className="group inline-flex items-center justify-center gap-1.5 sm:gap-2 w-max flex-none p-0 m-0 border-none bg-transparent shadow-none transition-all duration-300 hover:text-[#ffcd00] hover:-translate-y-1 hover:scale-105 cursor-pointer active:scale-95 animate-sub-scale-in"
-              >
+            {sponsors?.map((sponsor, index) => {
+              const validatedSponsorLink = validateUrl(sponsor.link);
+              const itemClassName = "group inline-flex items-center justify-center gap-1.5 sm:gap-2 w-max flex-none p-0 m-0 border-none bg-transparent shadow-none transition-all duration-300 hover:text-[#ffcd00] hover:-translate-y-1 hover:scale-105 cursor-pointer active:scale-95 animate-sub-scale-in";
+              const itemContent = (
+                <>
                 <div>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -589,8 +597,30 @@ function SupportUsButton({
                     />
                   </svg>
                 </div>
-              </div>
-            ))}
+              </>
+              );
+
+              return validatedSponsorLink ? (
+                <a
+                  key={index}
+                  href={validatedSponsorLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ animationDelay: `${(index + 1) * 120}ms` }}
+                  className={itemClassName}
+                >
+                  {itemContent}
+                </a>
+              ) : (
+                <div
+                  key={index}
+                  style={{ animationDelay: `${(index + 1) * 120}ms` }}
+                  className={itemClassName}
+                >
+                  {itemContent}
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>

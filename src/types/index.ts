@@ -41,6 +41,9 @@ export type sponsor = {
 
   /** Sponsorship tier */
   sponsorshipTier?: Tier;
+
+  /** Optional sponsor website or profile URL */
+  link?: string;
 };
 
 /* =========================
@@ -88,6 +91,9 @@ export type borderAroundPage = {
 export interface supportUsButtonProps {
   // Theme for the button, can be one of "AOSSIE", "light", "dark", "minimal", or "corporate"
   Theme?: Theme;
+
+  // Optional custom heading string or formatter callback to localize the title
+  heading?: string | ((projectName?: string) => React.ReactNode);
 
   // BG Logo
   Logo?: boolean;

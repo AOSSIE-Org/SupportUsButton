@@ -60,9 +60,9 @@
     }
 }
 .brightness-0 {
-    filter: brightness(0);
+  filter: brightness(0);
 }
 
 .invert {
-    filter: invert(1);
+  filter: invert(1);
 }

@@ -62,38 +62,37 @@ function validateUrl(url?: string): string | undefined {
 }
 
 // Main component function that renders the support us button, taking in various props for customization and rendering different sections such as hero, organization information, sponsors, and call-to-action based on the provided data and selected theme and button variant
-function SupportUsButton({
-  Theme = "auto",
-  organizationInformation,
-  sponsors,
-  ctaSection,
-  projectInformation,
-  Logo = true,
-  className = "",
-  border = {
-    TopX1: "-1000",
-    TopX2: "1000",
-    BottomX1: "-1000",
-    BottomX2: "1000",
-    LeftY1: "-1000",
-    LeftY2: "1000",
-    RightY1: "-1000",
-    RightY2: "1000",
-  },
-}: supportUsButtonProps): React.JSX.Element {
-  validateProps({
-    Theme,
-    organizationInformation,
-    sponsors,
-    ctaSection,
-    projectInformation,
-    Logo,
-    className,
-    border,
-  });
+function SupportUsButton(
+  props: supportUsButtonProps,
+): React.JSX.Element {
+   const validatedProps = validateProps(props ?? ({} as supportUsButtonProps));
+
+ const {
+   Theme = "auto",
+   organizationInformation,
+   sponsors = [],
+   ctaSection,
+   projectInformation,
+   Logo = true,
+   className = "",
+ } = validatedProps ?? ({} as supportUsButtonProps);
+
+ const border = validatedProps.border ?? {
+   TopX1: "-1000",
+   TopX2: "1000",
+   BottomX1: "-1000",
+   BottomX2: "1000",
+   LeftY1: "-1000",
+   LeftY2: "1000",
+   RightY1: "-1000",
+   RightY2: "1000",
+ };
   const containerRef = useRef<HTMLDivElement>(null);
+
   const isAuto = Theme === "auto" || Theme === "inherit";
+
   const parentStyles = useParentStyles(containerRef, isAuto);
+
   const darkThemeActive =
     Theme === "dark" || (isAuto && isDarkColor(parentStyles.backgroundColor));
 

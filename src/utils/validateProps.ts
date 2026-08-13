@@ -1,4 +1,4 @@
-import type { supportUsButtonProps } from "../types";
+import type { supportUsButtonProps } from "../types/index";
 
 const VALID_THEMES = ["auto", "inherit", "light", "dark"] as const;
 
@@ -9,24 +9,95 @@ const VALID_SPONSOR_TIERS = [
   "Bronze",
 ] as const;
 
+const DEFAULT_BORDER = {
+  TopX1: "-1000",
+  TopX2: "1000",
+  BottomX1: "-1000",
+  BottomX2: "1000",
+  LeftY1: "-1000",
+  LeftY2: "1000",
+  RightY1: "-1000",
+  RightY2: "1000",
+} as const;
+
+type Border = {
+  TopX1: string;
+  TopX2: string;
+  BottomX1: string;
+  BottomX2: string;
+  LeftY1: string;
+  LeftY2: string;
+  RightY1: string;
+  RightY2: string;
+};
+declare const process:
+  | {
+    env?: {
+      NODE_ENV?: string;
+    };
+  }
+  | undefined;
+
 function warn(message: string): void {
-  console.warn(`[SupportUsButton] ${message}`);
+  let isProduction = false;
+
+  try {
+    isProduction =
+      typeof process !== "undefined" && process.env?.NODE_ENV === "production";
+  } catch {
+    isProduction = false;
+  }
+
+  if (!isProduction) {
+    console.warn(`[SupportUsButton] ${message}`);
+  }
 }
 
 function isObject(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null;
 }
 
-export function validateProps(props: supportUsButtonProps): void {
+function isValidUrl(value: unknown): value is string {
+  if (typeof value !== "string" || !value.trim()) {
+    return false;
+  }
+
+  try {
+    const url = new URL(value);
+
+    return url.protocol === "http:" || url.protocol === "https:";
+  } catch {
+    return false;
+  }
+}
+
+function isValidBorderValue(value: unknown): value is string {
+  if (typeof value !== "string" || !value.trim()) {
+    return false;
+  }
+
+  return Number.isFinite(Number(value));
+}
+
+export function validateProps(
+  props: supportUsButtonProps,
+): supportUsButtonProps {
+  props = props ?? ({} as supportUsButtonProps);
   // --------------------------------
   // Theme
   // --------------------------------
 
-  if (!VALID_THEMES.includes(props.Theme as (typeof VALID_THEMES)[number])) {
+  const Theme = VALID_THEMES.includes(
+    props.Theme as (typeof VALID_THEMES)[number],
+  )
+    ? props.Theme
+    : "auto";
+
+  if (Theme !== props.Theme) {
     warn(
       `Invalid Theme "${String(
-        props.Theme
-      )}". Expected one of: ${VALID_THEMES.join(", ")}.`
+        props.Theme,
+      )}". Expected one of: ${VALID_THEMES.join(", ")}. Falling back to "auto".`,
     );
   }
 
@@ -34,53 +105,125 @@ export function validateProps(props: supportUsButtonProps): void {
   // organizationInformation
   // --------------------------------
 
-  if (!isObject(props.organizationInformation)) {
-    warn("organizationInformation must be an object.");
+  let organizationInformation = props.organizationInformation;
+
+  if (!isObject(organizationInformation)) {
+    warn(
+      "organizationInformation must be an object. Falling back to safe defaults.",
+    );
+
+    organizationInformation = {
+      name: "",
+      desc: "",
+      image: "",
+      link: "",
+    };
   } else {
-    if (
-      typeof props.organizationInformation.name !== "string" ||
-      !props.organizationInformation.name.trim()
-    ) {
-      warn("organizationInformation.name must be a non-empty string.");
+    const name =
+      typeof organizationInformation.name === "string"
+        ? organizationInformation.name.trim()
+        : "";
+
+    const desc =
+      typeof organizationInformation.desc === "string"
+        ? organizationInformation.desc
+        : "";
+
+    const image =
+      typeof organizationInformation.image === "string"
+        ? organizationInformation.image
+        : "";
+
+    const link = isValidUrl(organizationInformation.link)
+      ? organizationInformation.link
+      : "";
+
+    if (!name) {
+      warn(
+        "organizationInformation.name must be a non-empty string. Falling back to an empty value.",
+      );
     }
 
-    if (typeof props.organizationInformation.desc !== "string") {
-      warn("organizationInformation.desc must be a string.");
+    if (typeof organizationInformation.desc !== "string") {
+      warn(
+        "organizationInformation.desc must be a string. Falling back to an empty value.",
+      );
     }
 
-    if (typeof props.organizationInformation.image !== "string") {
-      warn("organizationInformation.image must be a string.");
+    if (typeof organizationInformation.image !== "string") {
+      warn(
+        "organizationInformation.image must be a string. Falling back to an empty value.",
+      );
     }
 
-    if (
-      typeof props.organizationInformation.link !== "string" ||
-      !props.organizationInformation.link.trim()
-    ) {
-      warn("organizationInformation.link must be a non-empty string.");
+    if (organizationInformation.link !== link) {
+      warn(
+        "organizationInformation.link must be a valid http(s) URL. Falling back to an empty value.",
+      );
     }
+
+    organizationInformation = {
+      ...organizationInformation,
+      name,
+      desc,
+      image,
+      link,
+    };
   }
 
   // --------------------------------
   // projectInformation
   // --------------------------------
 
-  if (props.projectInformation !== undefined) {
-    if (!isObject(props.projectInformation)) {
-      warn("projectInformation must be an object when provided.");
+  let projectInformation = props.projectInformation;
+
+  if (projectInformation !== undefined) {
+    if (!isObject(projectInformation)) {
+      warn(
+        "projectInformation must be an object when provided. The project section will not be rendered.",
+      );
+
+      projectInformation = undefined;
     } else {
-      if (
-        typeof props.projectInformation.name !== "string" ||
-        !props.projectInformation.name.trim()
-      ) {
-        warn("projectInformation.name must be a non-empty string.");
-      }
+      const name =
+        typeof projectInformation.name === "string"
+          ? projectInformation.name.trim()
+          : "";
 
-      if (typeof props.projectInformation.description !== "string") {
-        warn("projectInformation.description must be a string.");
-      }
+      const description =
+        typeof projectInformation.description === "string"
+          ? projectInformation.description
+          : "";
 
-      if (typeof props.projectInformation.image !== "string") {
-        warn("projectInformation.image must be a string.");
+      const image =
+        typeof projectInformation.image === "string"
+          ? projectInformation.image
+          : "";
+
+      if (!name) {
+        warn(
+          "projectInformation.name must be a non-empty string. The project section will not be rendered.",
+        );
+        projectInformation = undefined;
+      } else {
+        if (typeof projectInformation.description !== "string") {
+          warn(
+            "projectInformation.description must be a string. Falling back to an empty value.",
+          );
+        }
+
+        if (typeof projectInformation.image !== "string") {
+          warn(
+            "projectInformation.image must be a string. Falling back to an empty value.",
+          );
+        }
+
+        projectInformation = {
+          ...projectInformation,
+          name,
+          description,
+          image,
+        };
       }
     }
   }
@@ -89,104 +232,169 @@ export function validateProps(props: supportUsButtonProps): void {
   // sponsors
   // --------------------------------
 
-  if (props.sponsors !== undefined) {
-    if (!Array.isArray(props.sponsors)) {
-      warn("sponsors must be an array when provided.");
+  let sponsors = props.sponsors;
+
+  if (sponsors !== undefined) {
+    if (!Array.isArray(sponsors)) {
+      warn(
+        "sponsors must be an array when provided. Falling back to an empty array.",
+      );
+
+      sponsors = [];
     } else {
-      props.sponsors.forEach((sponsor, index) => {
+      sponsors = sponsors.filter((sponsor, index) => {
         if (!isObject(sponsor)) {
-          warn(`sponsors[${index}] must be an object.`);
-          return;
-        }
-
-        if (
-          typeof sponsor.name !== "string" ||
-          !sponsor.name.trim()
-        ) {
           warn(
-            `sponsors[${index}].name must be a non-empty string.`
+            `sponsors[${index}] must be an object. This sponsor will be ignored.`,
           );
+          return false;
         }
 
+        const name =
+          typeof sponsor.name === "string" ? sponsor.name.trim() : "";
+
+        if (!name) {
+          warn(
+            `sponsors[${index}].name must be a non-empty string. This sponsor will be ignored.`,
+          );
+          return false;
+        }
+
+        let sponsorshipTier = sponsor.sponsorshipTier;
+
         if (
-          sponsor.sponsorshipTier !== undefined &&
+          sponsorshipTier !== undefined &&
           !VALID_SPONSOR_TIERS.includes(
-            sponsor.sponsorshipTier as (typeof VALID_SPONSOR_TIERS)[number]
+            sponsorshipTier as (typeof VALID_SPONSOR_TIERS)[number],
           )
         ) {
           warn(
             `sponsors[${index}].sponsorshipTier must be one of: ${VALID_SPONSOR_TIERS.join(
-              ", "
-            )}.`
+              ", ",
+            )}. The invalid tier will be removed.`,
           );
+
+          sponsorshipTier = undefined;
         }
+
+        sponsor.name = name;
+
+        if (sponsorshipTier === undefined) {
+          delete sponsor.sponsorshipTier;
+        } else {
+          sponsor.sponsorshipTier = sponsorshipTier;
+        }
+
+        return true;
       });
     }
+  } else {
+    sponsors = [];
   }
 
   // --------------------------------
   // ctaSection
   // --------------------------------
 
-  if (!isObject(props.ctaSection)) {
-    warn("ctaSection must be an object.");
-  } else if (!Array.isArray(props.ctaSection.sponsorLink)) {
-    warn("ctaSection.sponsorLink must be an array.");
-  } else if (props.ctaSection.sponsorLink.length === 0) {
+  let ctaSection = props.ctaSection;
+
+  if (!isObject(ctaSection)) {
     warn(
-      "ctaSection.sponsorLink should contain at least one link."
+      "ctaSection must be an object. Falling back to an empty sponsor link list.",
     );
+
+    ctaSection = {
+      sponsorLink: [],
+    };
+  } else if (!Array.isArray(ctaSection.sponsorLink)) {
+    warn(
+      "ctaSection.sponsorLink must be an array. Falling back to an empty sponsor link list.",
+    );
+
+    ctaSection = {
+      ...ctaSection,
+      sponsorLink: [],
+    };
   } else {
-    props.ctaSection.sponsorLink.forEach((link, index) => {
+    const sponsorLink = ctaSection.sponsorLink.filter((link, index) => {
       if (!isObject(link)) {
         warn(
-          `ctaSection.sponsorLink[${index}] must be an object.`
+          `ctaSection.sponsorLink[${index}] must be an object. This link will be ignored.`,
         );
-        return;
+        return false;
       }
 
-      if (typeof link.name !== "string" || !link.name.trim()) {
+      const name = typeof link.name === "string" ? link.name.trim() : "";
+
+      if (!name) {
         warn(
-          `ctaSection.sponsorLink[${index}].name must be a non-empty string.`
+          `ctaSection.sponsorLink[${index}].name must be a non-empty string. This link will be ignored.`,
         );
+        return false;
       }
 
-      if (typeof link.url !== "string" || !link.url.trim()) {
+      if (!isValidUrl(link.url)) {
         warn(
-          `ctaSection.sponsorLink[${index}].url must be a non-empty string.`
+          `ctaSection.sponsorLink[${index}].url must be a valid http(s) URL. This link will be ignored.`,
         );
+        return false;
       }
+
+      link.name = name;
+
+      return true;
     });
+
+    if (sponsorLink.length === 0) {
+      warn(
+        "ctaSection.sponsorLink should contain at least one valid link.",
+      );
+    }
+
+    ctaSection = {
+      ...ctaSection,
+      sponsorLink,
+    };
   }
 
   // --------------------------------
   // Logo
   // --------------------------------
 
-  if (props.Logo !== undefined && typeof props.Logo !== "boolean") {
-    warn("Logo must be a boolean when provided.");
+  let Logo = props.Logo;
+
+  if (Logo !== undefined && typeof Logo !== "boolean") {
+    warn("Logo must be a boolean when provided. Falling back to true.");
+    Logo = true;
   }
 
   // --------------------------------
   // className
   // --------------------------------
 
-  if (
-    props.className !== undefined &&
-    typeof props.className !== "string"
-  ) {
-    warn("className must be a string when provided.");
+  let className = props.className;
+
+  if (className !== undefined && typeof className !== "string") {
+    warn("className must be a string when provided. Falling back to an empty string.");
+    className = "";
   }
+
 
   // --------------------------------
   // border
   // --------------------------------
 
+  let border: Border = {
+    ...DEFAULT_BORDER,
+  };
+
   if (props.border !== undefined) {
     if (!isObject(props.border)) {
-      warn("border must be an object when provided.");
+      warn(
+        "border must be an object when provided. Falling back to default border values.",
+      );
     } else {
-      const borderKeys = [
+      const borderKeys: (keyof Border)[] = [
         "TopX1",
         "TopX2",
         "BottomX1",
@@ -195,13 +403,31 @@ export function validateProps(props: supportUsButtonProps): void {
         "LeftY2",
         "RightY1",
         "RightY2",
-      ] as const;
+      ];
 
       borderKeys.forEach((key) => {
-        if (typeof props.border?.[key] !== "string") {
-          warn(`border.${key} must be a string.`);
+        const value = props.border?.[key];
+
+        if (isValidBorderValue(value)) {
+          border[key] = value;
+        } else {
+          warn(
+            `border.${key} must be a numeric string. Falling back to "${DEFAULT_BORDER[key]}".`,
+          );
         }
       });
     }
   }
+
+  return {
+    ...props,
+    Theme,
+    organizationInformation,
+    projectInformation,
+    sponsors,
+    ctaSection,
+    Logo,
+    className,
+    border,
+  };
 }

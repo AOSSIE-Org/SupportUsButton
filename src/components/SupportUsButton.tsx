@@ -66,7 +66,7 @@ function SupportUsButton({
   Theme = "auto",
   heading,
   organizationInformation,
-  sponsors,
+  sponsors = [],
   ctaSection,
   projectInformation,
   Logo = true,

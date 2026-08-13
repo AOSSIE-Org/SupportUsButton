@@ -23,7 +23,7 @@ describe("SupportUsButton Unit & Contract Tests", () => {
       organizationInformation: {
         name: "AOSSIE",
         desc: "Australian Open Source Software Innovation and Education organization",
-        image: "/aossie_logomark.svg",
+        image: "/brand/icons/aossie_logomark.svg",
         link: "https://aossie.org",
       },
       ctaSection: {

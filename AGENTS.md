@@ -37,9 +37,12 @@ Welcome, AI Agent! This document contains essential instructions, code style sta
 
 ```text
 SupportUsButton/
-├── brand/               # Brand assets (logo.svg, favicon.svg, Brand.md)
 ├── demo/                # Interactive Vite Dev Preview app (App.tsx)
 ├── dist/                # Bundled package outputs (ESM, CJS, UMD, style.css)
+├── public/              # Static assets & dev preview assets
+│   ├── brand/           # Brand assets & specs (Brand.md)
+│   │   └── icons/       # SVG icons (supportUsButton_dark_logo.svg, etc.)
+│   └── favicon.ico      # Dev preview favicon
 ├── src/
 │   ├── components/      # SupportUsButton.tsx
 │   ├── hooks/           # useParentStyles.ts

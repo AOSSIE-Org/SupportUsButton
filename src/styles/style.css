@@ -4,7 +4,7 @@
 @source "../index.ts";
 
 @theme {
-    --color-primary: #ffd700;
+    --color-primary: #ffcd00;
     --color-background-light: #f9fafb;
     --color-background-dark: #000000;
     --color-surface-dark: #111111;
@@ -59,4 +59,10 @@
         animation: none !important;
     }
 }
+.brightness-0 {
+    filter: brightness(0);
+}
 
+.invert {
+    filter: invert(1);
+}

@@ -130,10 +130,12 @@ export function useParentStyles(
     observer.observe(document.body, {
       attributes: true,
       attributeFilter: ["class", "style"],
+      subtree: true,
     });
     observer.observe(document.documentElement, {
       attributes: true,
       attributeFilter: ["class", "style"],
+      subtree: true,
     });
 
     return () => {

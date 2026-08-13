@@ -243,12 +243,24 @@ export function validateProps(
           );
           sponsorshipTier = undefined;
         }
-        const { sponsorshipTier: _originalTier, ...sponsorRest } = sponsor;
-        normalized.push(
-          sponsorshipTier === undefined
-            ? { ...sponsorRest, name }
-            : { ...sponsorRest, name, sponsorshipTier },
-        );
+        let link: string | undefined = undefined;
+        if (sponsor.link !== undefined) {
+          if (isValidUrl(sponsor.link)) {
+            link = sponsor.link;
+          } else {
+            warn(
+              `sponsors[${index}].link must be a valid http(s) URL. The invalid link will be removed.`,
+            );
+          }
+        }
+        const { sponsorshipTier: _originalTier, link: _originalLink, ...sponsorRest } = sponsor;
+        const normalizedSponsor: typeof sponsor = {
+          ...sponsorRest,
+          name,
+          ...(sponsorshipTier !== undefined ? { sponsorshipTier } : {}),
+          ...(link !== undefined ? { link } : {}),
+        };
+        normalized.push(normalizedSponsor);
         return normalized;
       }, [] as typeof sponsors);
     }

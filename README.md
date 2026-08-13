@@ -69,7 +69,7 @@ A lightweight React component library for displaying **Support us page** in a cl
 
 - **🎨 Tier-based Layouts**: Display sponsors in different tiers with logos and links, styled according to the selected theme.
 
-- **🎨 Theme Support**: Choose from **light**, **dark**, **minimal**, **corporate**, or **AOSSIE** themes for consistent branding.
+- **🎨 Theme Support**: Choose from **auto**, **inherit**, **light**, or **dark** themes for consistent branding.
 
 - **🎨 Customizable Styling**: Tailwind CSS classes for easy customization of the support us page.
 
@@ -201,7 +201,7 @@ Props template — fill in your own values:
 
 ```tsx
 const props: supportUsButtonProps = {
-  // Theme for the button, can be one of "light", "dark".
+  // Theme for the button, can be one of "auto", "inherit", "light", or "dark".
   Theme: Theme,
 
   // Information about the organization, including name, description, logo, and project information
@@ -231,7 +231,7 @@ const props: supportUsButtonProps = {
 
 | Prop                      | Type             | Required | Description                                                                                                    |
 | ------------------------- | ---------------- | -------- | -------------------------------------------------------------------------------------------------------------- |
-| `Theme`                   | string           | No       | "light" or "dark"                      |
+| `Theme`                   | string           | No       | "auto", "inherit", "light", or "dark" |
 | `organizationInformation` | object           | Yes      | Information about the organization, including name, description, logo, and project information                 |
 | `sponsors`                | array of objects | No       | List of current sponsors, each with name, optional logo, link, and sponsorship tier                            |
 | `ctaSection`              | array of object           | Yes      | Information about the call-to-action section, including title, description, and sponsor links                  |
@@ -259,8 +259,10 @@ Controls the overall visual appearance of the widget.
 
 | Value       | Description                              |
 | ----------- | ---------------------------------------- |
-| `dark`      | Dark mode UI                             |
+| `auto`      | Automatically adapt to host environment  |
+| `inherit`   | Inherit parent styles                    |
 | `light`     | Light mode UI                            |
+| `dark`      | Dark mode UI                             |
 
 </details>
 

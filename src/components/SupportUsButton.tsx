@@ -132,7 +132,7 @@ function SupportUsButton(
       <div className="relative z-10 p-4 sm:p-8 md:p-12 max-w-7xl mx-auto h-full flex flex-col justify-between">
         {/* Border around page - wrapped around content */}
         <svg
-          className="absolute inset-0 w-full h-full overflow-visible pointer-events-none z-0"
+          className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-0"
           viewBox="0 0 100 100"
           preserveAspectRatio="none"
         >

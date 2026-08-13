@@ -100,4 +100,50 @@ describe("SupportUsButton Unit & Contract Tests", () => {
     const html = renderToString(React.createElement(SupportUsButton, customProps));
     expect(html).toContain("Support Our Project Today");
   });
+
+  it("should validate sponsor link values and omit invalid or non-string links while preserving valid links and non-link fallback", () => {
+    const propsWithSponsors: supportUsButtonProps = {
+      Theme: "auto",
+      organizationInformation: {
+        name: "Org",
+        desc: "Desc",
+        image: "/img.svg",
+        link: "https://org.com",
+      },
+      ctaSection: { sponsorLink: [] },
+      sponsors: [
+        { name: "Valid Sponsor", link: "https://valid.com", sponsorshipTier: "Gold" },
+        { name: "Invalid Link Sponsor", link: "javascript:alert(1)", sponsorshipTier: "Silver" },
+        { name: "NonString Link Sponsor", link: (123 as unknown) as string, sponsorshipTier: "Bronze" },
+        { name: "No Link Sponsor", sponsorshipTier: "Bronze" },
+      ],
+    };
+
+    const html = renderToString(React.createElement(SupportUsButton, propsWithSponsors));
+    // Valid link rendered as anchor
+    expect(html).toContain('href="https://valid.com"');
+    expect(html).toContain("Valid Sponsor");
+    // Invalid links omitted from hrefs
+    expect(html).not.toContain("javascript:alert(1)");
+    expect(html).not.toContain('href="123"');
+    // Non-link fallback rendered as div for Invalid/NonString/No link sponsors
+    expect(html).toContain("Invalid Link Sponsor");
+    expect(html).toContain("NonString Link Sponsor");
+    expect(html).toContain("No Link Sponsor");
+  });
+
+  it("should render border SVG with overflow-hidden boundary to clip border strokes", () => {
+    const props: supportUsButtonProps = {
+      organizationInformation: {
+        name: "Org",
+        desc: "Desc",
+        image: "/img.svg",
+        link: "https://org.com",
+      },
+      ctaSection: { sponsorLink: [] },
+    };
+
+    const html = renderToString(React.createElement(SupportUsButton, props));
+    expect(html).toContain('overflow-hidden pointer-events-none z-0');
+  });
 });

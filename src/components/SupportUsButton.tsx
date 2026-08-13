@@ -2,6 +2,7 @@ import React, { useRef } from "react";
 import type { supportUsButtonProps } from "../types/index";
 import type { Theme } from "../types/index";
 import { useParentStyles } from "../hooks/useParentStyles";
+import { validateProps } from "../utils/validateProps";
 
 function sRgbLuminance(c: number): number {
   const norm = c / 255;
@@ -62,16 +63,23 @@ function validateUrl(url?: string): string | undefined {
 }
 
 // Main component function that renders the support us button, taking in various props for customization and rendering different sections such as hero, organization information, sponsors, and call-to-action based on the provided data and selected theme and button variant
-function SupportUsButton({
-  Theme = "auto",
-  heading,
-  organizationInformation,
-  sponsors = [],
-  ctaSection,
-  projectInformation,
-  Logo = true,
-  className = "",
-  border = {
+function SupportUsButton(
+  props: supportUsButtonProps,
+): React.JSX.Element {
+  const validatedProps = validateProps(props ?? ({} as supportUsButtonProps));
+
+  const {
+    Theme = "auto",
+    heading,
+    organizationInformation,
+    sponsors = [],
+    ctaSection,
+    projectInformation,
+    Logo = true,
+    className = "",
+  } = validatedProps ?? ({} as supportUsButtonProps);
+
+  const border = validatedProps.border ?? {
     TopX1: "-1000",
     TopX2: "1000",
     BottomX1: "-1000",
@@ -80,8 +88,7 @@ function SupportUsButton({
     LeftY2: "1000",
     RightY1: "-1000",
     RightY2: "1000",
-  },
-}: supportUsButtonProps): React.JSX.Element {
+  };
   const containerRef = useRef<HTMLDivElement>(null);
   const isAuto = Theme === "auto" || Theme === "inherit";
   const parentStyles = useParentStyles(containerRef, isAuto);

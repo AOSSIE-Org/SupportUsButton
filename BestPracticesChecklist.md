@@ -1,43 +1,139 @@
 # AOSSIE Best Practices Checklist — SupportUsButton
 
-This document tracks compliance with the **AOSSIE Best Practices Guidelines** for the **SupportUsButton** project.
+> Criteria adapted from the [OpenSSF Best Practices Badge](https://github.com/coreinfrastructure/best-practices-badge)
+> (MIT / CC BY 3.0) by OpenSSF contributors. Modified for AOSSIE multi-repo template use.
+>
+> **[Discord Channel Link](https://discord.com/channels/1022871757289422898/1458840574076387448)**
+>
+> **Purpose:** Covers OpenSSF Best Practices criteria that are NOT auto-detected by OpenSSF Scorecard.
+> Scorecard already handles: License, SAST tools, CI tests, Security Policy file, Branch Protection,
+> Pinned Dependencies, Signed Releases, Maintained status, and Known Vulnerabilities.
 
 ---
 
-## 🔴 Must (Mandatory Practices)
+## Score Summary
 
-- [x] **Licensing & Copyright**: Includes GNU General Public License v3.0 in [`LICENSE`](LICENSE).
-- [x] **Project Branding**: Complete SVG logo, favicon, color palette, and typography documented in [`brand/Brand.md`](brand/Brand.md).
-- [x] **Maintainers List**: Listed in [`MAINTAINERS.md`](MAINTAINERS.md).
-- [x] **Clean Documentation**: `README.md` and `CONTRIBUTING.md` contain no broken links or TODOs left.
-- [x] **Build & Run Instructions**: `README.md` contains clear installation, development, testing, and build instructions.
-- [x] **Type Safety**: Written in 100% strict TypeScript with type definitions exported.
-- [x] **No Magic Constants**: Styling tokens and default properties are configured cleanly in types and CSS variables.
-- [x] **Zero Build Warnings**: `npm run build` compiles cleanly with zero warnings or errors.
-- [x] **AI Agent Directives**: Context and operational guidelines provided in [`AGENTS.md`](AGENTS.md).
-- [x] **CodeRabbit Configuration**: Customized in [`.coderabbit.yaml`](.coderabbit.yaml).
+| Category           | Met | Total | Status |
+|--------------------|-----|-------|--------|
+| Basics             | 8   | 8     | 🟢     |
+| Change Control     | 6   | 6     | 🟢     |
+| Reporting          | 5   | 5     | 🟢     |
+| Quality            | 7   | 7     | 🟢     |
+| Security & Analysis| 3   | 3     | 🟢     |
+| **Total**          | **29** | **29** | **100%** |
 
 ---
 
-## 🟡 Should (Recommended Practices)
+## 🏗️ Basics
 
-- [x] **Automatic Host Style Adaptation**: Package inherits host page `font-family`, `background-color`, and `color` natively.
-- [x] **Contrast Fail-Safes**: Dynamic relative luminance contrast calculation (`isDarkColor`) for logo and button visibility on light/dark host themes.
-- [x] **Automated Testing & CI**: Unit testing and GitHub Actions workflow configured for PR validation.
-- [x] **Micro-Animations**: GPU-accelerated CSS keyframe transitions (`animate-sub-fade-in`, `animate-sub-scale-in`).
-- [x] **Zero Third-Party UI Dependencies**: Ultra-lightweight package architecture (only standard `tslib` helper; zero external UI framework dependencies) producing ~12 KB minified JS output (`dist/index.esm.js`) and ~4 KB minified CSS (`dist/style.css`).
-- [x] **Multi-Bundle Formats**: Exports ESM (`dist/index.esm.js`), CommonJS (`dist/index.cjs.js`), and UMD (`dist/index.umd.js`).
+### Project Website & Documentation
+
+- [x] 🔴 **description_good** — The project README clearly describes what the software does and what problem it solves.
+  - *Evidence URL:* https://github.com/AOSSIE-Org/SupportUsButton#readme
+
+- [x] 🔴 **interact** — The project provides information on how to obtain the software, submit bug reports, and contribute.
+  - *Evidence URL:* https://github.com/AOSSIE-Org/SupportUsButton/blob/main/CONTRIBUTING.md
+
+- [x] 🔴 **contribution** — `CONTRIBUTING.md` explains the contribution process (e.g., PRs are used, how to open one).
+  - *Evidence URL:* https://github.com/AOSSIE-Org/SupportUsButton/blob/main/CONTRIBUTING.md
+
+- [x] 🟡 **contribution_requirements** — `CONTRIBUTING.md` references acceptable contribution standards (coding style, tests required, etc.).
+  - *Evidence URL:* https://github.com/AOSSIE-Org/SupportUsButton/blob/main/AGENTS.md
+
+- [x] 🔴 **documentation_basics** — Basic documentation exists for the software (README, Wiki, or docs folder).
+  - *Evidence URL:* https://github.com/AOSSIE-Org/SupportUsButton/blob/main/README.md
+
+- [x] 🔴 **documentation_interface** — Reference documentation describes the external interface (API inputs/outputs, props schema, exports).
+  - *Evidence URL:* https://github.com/AOSSIE-Org/SupportUsButton/blob/main/README.md#component-props-api
+
+### Other Basics
+
+- [x] 🔴 **discussion** — Project has a searchable, URL-addressable discussion mechanism.
+  - *Evidence URL:* https://discord.com/channels/1022871757289422898/1458840574076387448
+
+- [x] 🟡 **english** — Documentation is provided in English and English bug reports/comments are accepted.
+  - *Note:* Fully documented in English.
 
 ---
 
-## 🟢 Could (Optional / Future Enhancements)
+## 🔄 Change Control
 
-- [ ] Interactive online playground demo deployed to GitHub Pages.
-- [ ] Automated npm release workflow via GitHub Actions on tagged releases.
+### Version Control
+
+- [x] 🔵 **repo_distributed** — Project uses a distributed VCS (git).
+  - *Evidence URL:* https://github.com/AOSSIE-Org/SupportUsButton
+
+### Version Numbering
+
+- [x] 🔴 **version_unique** — Each release has a unique version identifier (e.g., v2.2.0).
+  - *Evidence URL:* https://github.com/AOSSIE-Org/SupportUsButton/blob/main/.github/workflows/version-release.yml
+
+- [x] 🔵 **version_semver** — Project uses SemVer format.
+  - *Evidence URL:* https://github.com/AOSSIE-Org/SupportUsButton/blob/main/.github/workflows/version-release.yml
+
+- [x] 🔵 **version_tags** — Releases are tagged in the VCS (e.g., `git tag v2.2.0`).
+  - *Evidence URL:* https://github.com/AOSSIE-Org/SupportUsButton/releases
+
+### Release Notes
+
+- [x] 🔴 **release_notes** — Each release includes human-readable release notes summarizing major changes.
+  - *Evidence URL:* https://github.com/AOSSIE-Org/SupportUsButton/releases
+
+- [x] 🔴 **release_notes_vulns** — Release notes identify every publicly known vulnerability fixed in that release.
+  - *Note:* `[~]` N/A — No publicly known vulnerabilities have been reported or fixed in releases to date. Any future security advisories and vulnerability fixes will be documented directly in GitHub Security Advisories and individual release notes at https://github.com/AOSSIE-Org/SupportUsButton/security/advisories and https://github.com/AOSSIE-Org/SupportUsButton/releases.
 
 ---
 
-## 📑 Verification Log
+## 🐛 Reporting
 
-* **TypeScript Validation (`npx tsc --noEmit`)**: ✅ Passed (0 errors)
-* **Bundle Build (`npm run build`)**: ✅ Passed (0 warnings)
+### Bug Reporting
+
+- [x] 🔴 **report_process** — A bug-reporting process exists.
+  - *Evidence URL:* https://github.com/AOSSIE-Org/SupportUsButton/issues
+
+- [x] 🟡 **report_tracker** — An issue tracker is used to track individual bugs.
+  - *Evidence URL:* https://github.com/AOSSIE-Org/SupportUsButton/issues
+
+- [x] 🔴 **report_responses** — Bug reports submitted are acknowledged promptly.
+  - *Self-certification note:* Maintained actively by AOSSIE core team.
+
+- [x] 🟡 **enhancement_responses** — Enhancement requests receive a response.
+  - *Self-certification note:* Responded to on GitHub and Discord.
+
+- [x] 🔴 **report_archive** — Reports and responses are publicly archived and searchable.
+  - *Evidence URL:* https://github.com/AOSSIE-Org/SupportUsButton/issues?q=is%3Aissue+is%3Aclosed
+
+---
+
+## ✅ Quality
+
+### Build System
+
+- [x] 🔴 **build** — Working build system exists (`npm run build`).
+  - *Evidence URL:* https://github.com/AOSSIE-Org/SupportUsButton/blob/main/.github/workflows/ci.yml
+
+- [x] 🔵 **build_common_tools** — Common build tools are used (Rollup, Vite, Tailwind v4).
+  - *Evidence URL:* https://github.com/AOSSIE-Org/SupportUsButton/blob/main/package.json
+
+- [x] 🟡 **build_floss_tools** — Built using only FLOSS tools.
+  - *Note:* Node.js, Rollup, Vite FLOSS stack.
+
+### Automated Testing
+
+- [x] 🔵 **test_invocation** — Test suite invoked via standard command (`npm run test`).
+  - *Evidence URL:* https://github.com/AOSSIE-Org/SupportUsButton/blob/main/package.json
+
+- [x] 🔵 **test_most** — Test suite covers key component interfaces and hooks (`src/__tests__`).
+  - *Evidence URL:* https://github.com/AOSSIE-Org/SupportUsButton/blob/main/src/__tests__/SupportUsButton.test.ts
+
+- [x] 🔴 **warnings** — Compiler and type-checker strict flags enabled (`npx tsc --noEmit`).
+- [x] 🔴 **warnings_fixed** — Zero linter/compiler warnings on build (`0 errors, 0 warnings`).
+
+---
+
+## 🔐 Security & Analysis
+
+- [x] 🔴 **know_secure_design** — OWASP React security best practices followed (automatic XSS escaping, safe URL validation via `validateUrl`).
+- [x] 🔴 **static_analysis_fixed** — CodeRabbit AI and TypeScript static analysis active on all commits.
+- [x] 🔴 **audit_report** — Comprehensive end-to-end evaluation, testing, performance, and security audit report completed.
+  - *Evidence URL:* [`audit/AuditReport.md`](audit/AuditReport.md)

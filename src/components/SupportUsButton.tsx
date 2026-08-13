@@ -3,6 +3,7 @@ import type { supportUsButtonProps } from "../types/index";
 import type { Theme } from "../types/index";
 import { useParentStyles } from "../hooks/useParentStyles";
 import { validateProps } from "../utils/validateProps";
+
 function sRgbLuminance(c: number): number {
   const norm = c / 255;
   return norm <= 0.04045 ? norm / 12.92 : Math.pow((norm + 0.055) / 1.055, 2.4);
@@ -65,34 +66,32 @@ function validateUrl(url?: string): string | undefined {
 function SupportUsButton(
   props: supportUsButtonProps,
 ): React.JSX.Element {
-   const validatedProps = validateProps(props ?? ({} as supportUsButtonProps));
+  const validatedProps = validateProps(props ?? ({} as supportUsButtonProps));
 
- const {
-   Theme = "auto",
-   organizationInformation,
-   sponsors = [],
-   ctaSection,
-   projectInformation,
-   Logo = true,
-   className = "",
- } = validatedProps ?? ({} as supportUsButtonProps);
+  const {
+    Theme = "auto",
+    heading,
+    organizationInformation,
+    sponsors = [],
+    ctaSection,
+    projectInformation,
+    Logo = true,
+    className = "",
+  } = validatedProps ?? ({} as supportUsButtonProps);
 
- const border = validatedProps.border ?? {
-   TopX1: "-1000",
-   TopX2: "1000",
-   BottomX1: "-1000",
-   BottomX2: "1000",
-   LeftY1: "-1000",
-   LeftY2: "1000",
-   RightY1: "-1000",
-   RightY2: "1000",
- };
+  const border = validatedProps.border ?? {
+    TopX1: "-1000",
+    TopX2: "1000",
+    BottomX1: "-1000",
+    BottomX2: "1000",
+    LeftY1: "-1000",
+    LeftY2: "1000",
+    RightY1: "-1000",
+    RightY2: "1000",
+  };
   const containerRef = useRef<HTMLDivElement>(null);
-
   const isAuto = Theme === "auto" || Theme === "inherit";
-
   const parentStyles = useParentStyles(containerRef, isAuto);
-
   const darkThemeActive =
     Theme === "dark" || (isAuto && isDarkColor(parentStyles.backgroundColor));
 
@@ -109,7 +108,7 @@ function SupportUsButton(
             }
           : undefined
       }
-      className={`relative overflow-hidden w-full h-full px-12 sm:px-14 md:px-20 py-10 sm:py-10 md:py-14 text-center ${isAuto ? "bg-transparent font-inherit text-inherit" : "font-sans"} ${classAccordingToTheme(Theme)} ${className}`}
+      className={`relative w-full h-full px-6 sm:px-10 md:px-16 py-6 sm:py-10 text-center ${isAuto ? "bg-transparent font-inherit text-inherit" : "font-sans"} ${classAccordingToTheme(Theme)} ${className}`}
     >
       {Logo && (
         <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none">
@@ -130,10 +129,10 @@ function SupportUsButton(
         </div>
       )}
 
-      <div className="relative z-10 p-2 sm:p-10 max-w-7xl mx-auto">
+      <div className="relative z-10 p-4 sm:p-8 md:p-12 max-w-7xl mx-auto h-full flex flex-col justify-between">
         {/* Border around page - wrapped around content */}
         <svg
-          className="absolute -inset-4 w-[calc(100%+2rem)] h-[calc(100%+2rem)] overflow-visible pointer-events-none z-0"
+          className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-0"
           viewBox="0 0 100 100"
           preserveAspectRatio="none"
         >
@@ -197,7 +196,7 @@ function SupportUsButton(
           height="16"
           viewBox="0 0 16 16"
           fill="none"
-          className="absolute top-[-16px] left-[-16px] -translate-x-1/2 -translate-y-1/2 pointer-events-none"
+          className="absolute top-0 left-0 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
         >
           <path
             d="M8 3V13M3 8H13"
@@ -214,7 +213,7 @@ function SupportUsButton(
           height="16"
           viewBox="0 0 16 16"
           fill="none"
-          className="absolute top-[-16px] right-[-16px] translate-x-1/2 -translate-y-1/2 pointer-events-none"
+          className="absolute top-0 right-0 translate-x-1/2 -translate-y-1/2 pointer-events-none"
         >
           <path
             d="M8 3V13M3 8H13"
@@ -231,7 +230,7 @@ function SupportUsButton(
           height="16"
           viewBox="0 0 16 16"
           fill="none"
-          className="absolute bottom-[-16px] left-[-16px] -translate-x-1/2 translate-y-1/2 pointer-events-none"
+          className="absolute bottom-0 left-0 -translate-x-1/2 translate-y-1/2 pointer-events-none"
         >
           <path
             d="M8 3V13M3 8H13"
@@ -248,7 +247,7 @@ function SupportUsButton(
           height="16"
           viewBox="0 0 16 16"
           fill="none"
-          className="absolute bottom-[-16px] right-[-16px] translate-x-1/2 translate-y-1/2 pointer-events-none"
+          className="absolute bottom-0 right-0 translate-x-1/2 translate-y-1/2 pointer-events-none"
         >
           <path
             d="M8 3V13M3 8H13"
@@ -280,8 +279,16 @@ function SupportUsButton(
               </svg>
             </span>
             <h1 className="min-w-0 font-medium text-3xl sm:text-3xl md:text-5xl leading-tight tracking-tight text-center">
-              Support-us {projectInformation?.name && "and"}{" "}
-              {projectInformation?.name}
+              {typeof heading === "function" ? (
+                heading(projectInformation?.name)
+              ) : typeof heading === "string" ? (
+                heading
+              ) : (
+                <>
+                  Support-us {projectInformation?.name && "for"}{" "}
+                  {projectInformation?.name}
+                </>
+              )}
             </h1>
           </div>
           {projectInformation?.name && (
@@ -295,7 +302,7 @@ function SupportUsButton(
                     href={validatedUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="underline hover:text-[#ffd700] transition-colors duration-200 inline-flex items-center gap-1"
+                    className="underline hover:text-[#ffcd00] transition-colors duration-200 inline-flex items-center gap-1"
                   >
                     &nbsp;{organizationInformation.name}
                     <svg
@@ -325,8 +332,8 @@ function SupportUsButton(
               type="button"
               className={`px-6 py-2.5 w-fit rounded-lg font-semibold text-[18px] cursor-pointer transition-all duration-200 ease-in-out transform active:scale-95 shadow-md hover:-translate-y-1 hover:shadow-xl ${
                 darkThemeActive
-                  ? "bg-[#F4F4F4] text-[#191919] hover:bg-[#ffd700] hover:text-[#191919] hover:shadow-yellow-500/20"
-                  : "bg-[#191919] text-[#F4F4F4] hover:bg-[#ffd700] hover:text-[#191919] hover:shadow-black/20"
+                  ? "bg-[#F4F4F4] text-[#191919] hover:bg-[#ffcd00] hover:text-[#191919] hover:shadow-amber-500/20"
+                  : "bg-[#191919] text-[#F4F4F4] hover:bg-[#ffcd00] hover:text-[#191919] hover:shadow-black/20"
               }`}
               onClick={() => {
                 if (validateUrl(link.url)) {
@@ -348,6 +355,7 @@ function SupportUsButton(
               <div className="flex items-center justify-start gap-2.5 sm:gap-3 text-left w-full">
                 <img
                   className={`h-8 w-8 sm:h-9 sm:w-9 lg:h-10 lg:w-10 flex-none object-contain ${darkThemeActive ? "brightness-0 invert" : "brightness-0"}`}
+                  style={{ filter: darkThemeActive ? "brightness(0) invert(1)" : "brightness(0)" }}
                   draggable="false"
                   src={projectInformation?.image}
                   alt={projectInformation?.name}
@@ -399,6 +407,7 @@ function SupportUsButton(
             <div className="flex items-center justify-start gap-2.5 sm:gap-3 text-left w-full">
               <img
                 className={`h-8 w-8 sm:h-9 sm:w-9 lg:h-10 lg:w-10 flex-none object-contain ${darkThemeActive ? "brightness-0 invert" : "brightness-0"}`}
+                style={{ filter: darkThemeActive ? "brightness(0) invert(1)" : "brightness(0)" }}
                 draggable="false"
                 src={organizationInformation.image}
                 alt={organizationInformation.name}
@@ -430,7 +439,7 @@ function SupportUsButton(
           </div>
         </div>
 
-        <div className="mt-20 sm:mt-24 flex flex-col min-[1380px]:flex-row items-center justify-between gap-6 sm:gap-8 text-center">
+        <div className="mt-12 sm:mt-16 flex flex-col xl:flex-row items-center justify-between gap-4 sm:gap-6 text-center w-full max-w-full">
           <div className="flex flex-col items-center text-center text-base sm:text-lg font-normal whitespace-nowrap flex-none">
             <span className="flex items-center justify-center gap-1.5 whitespace-nowrap">
               <span>Supported By Global</span>
@@ -451,19 +460,19 @@ function SupportUsButton(
             <span className="whitespace-nowrap text-center">Powerhouses</span>
           </div>
 
-          <div className="flex flex-wrap items-center justify-center min-[1380px]:justify-end gap-3 sm:gap-4 md:gap-6 lg:gap-8 select-none flex-1 w-full py-1">
-            {sponsors?.map((sponsor, index) => (
-              <div
-                key={index}
-                style={{ animationDelay: `${(index + 1) * 120}ms` }}
-                className="group flex items-center gap-1.5 sm:gap-2 shrink-0 whitespace-nowrap transition-all duration-300 hover:text-[#ffd700] hover:-translate-y-1 hover:scale-105 cursor-pointer active:scale-95 animate-sub-scale-in"
-              >
+          <div className="flex flex-wrap items-center justify-center xl:justify-end gap-x-5 sm:gap-x-8 gap-y-3 select-none flex-1 max-w-full m-0 p-0">
+            {sponsors?.map((sponsor, index) => {
+              const validatedSponsorLink = validateUrl(sponsor.link);
+              const itemClassName = "group inline-flex items-center justify-center gap-1.5 sm:gap-2 w-max flex-none p-0 m-0 border-none bg-transparent shadow-none transition-all duration-300 hover:text-[#ffcd00] hover:-translate-y-1 hover:scale-105 cursor-pointer active:scale-95 animate-sub-scale-in";
+              const itemContent = (
+                <>
                 <div>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     version="1.1"
                     width="50"
                     height="80"
+                    className="w-[32px] sm:w-[40px] md:w-[46px] h-auto flex-none object-contain"
                     viewBox="-80 1 200 200"
                     fill="currentColor"
                   >
@@ -522,8 +531,8 @@ function SupportUsButton(
                   </svg>
                 </div>
 
-                <div className="flex flex-col gap-1.5">
-                  <span className="text-2xl font-medium">{sponsor.name}</span>
+                <div className="flex flex-col gap-1">
+                  <span className="text-base sm:text-lg md:text-xl font-medium whitespace-nowrap">{sponsor.name}</span>
                   {sponsor.sponsorshipTier && (
                     <span className="text-[9px]">
                       {sponsor.sponsorshipTier} Sponsor
@@ -537,6 +546,7 @@ function SupportUsButton(
                     version="1.1"
                     width="40"
                     height="70"
+                    className="w-[26px] sm:w-[32px] md:w-[38px] h-auto flex-none object-contain"
                     viewBox="50 10 220 220"
                     fill="currentColor"
                   >
@@ -594,8 +604,30 @@ function SupportUsButton(
                     />
                   </svg>
                 </div>
-              </div>
-            ))}
+              </>
+              );
+
+              return validatedSponsorLink ? (
+                <a
+                  key={index}
+                  href={validatedSponsorLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ animationDelay: `${(index + 1) * 120}ms` }}
+                  className={itemClassName}
+                >
+                  {itemContent}
+                </a>
+              ) : (
+                <div
+                  key={index}
+                  style={{ animationDelay: `${(index + 1) * 120}ms` }}
+                  className={itemClassName}
+                >
+                  {itemContent}
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>

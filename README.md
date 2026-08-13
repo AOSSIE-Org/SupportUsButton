@@ -1,48 +1,59 @@
 <!-- Don't delete it -->
 <div name="readme-top"></div>
 
-<!-- Organization Logo -->
+<!-- Organization & Project Logo -->
 <div align="center" style="display: flex; align-items: center; justify-content: center; gap: 16px;">
-  <img alt="AOSSIE" src="public/aossie-logo.svg" width="175">
+  <img alt="AOSSIE" src="public/brand/icons/aossie_logo.svg" width="160">
+  <span style="font-size: 20px; font-weight: bold; color: #888;">✕</span>
+  <img alt="SupportUsButton" src="public/brand/icons/supportUsButton_logo.svg" width="160">
 </div>
 
 &nbsp;
 
-<!-- Organization Name -->
-<div align="center">
+<!-- Organization Name & Status Badges -->
+<div align="center" style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
 
-[![Static Badge](https://img.shields.io/badge/AOSSIE-SUPPORT_US_BUTTON-228B22?style=for-the-badge&labelColor=FFC517)](https://github.com/AOSSIE-Org/SupportUsButton)
 
-<!-- Correct deployed url to be added -->
+[![Static Badge](https://img.shields.io/badge/AOSSIE-SUPPORT_US_BUTTON-228B22?style=for-the-badge&labelColor=FFC517)](https://aossie-org.github.io/SupportUsButton/)
+[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/AOSSIE-Org/SupportUsButton/badge)](https://scorecard.dev/viewer/?uri=github.com/AOSSIE-Org/SupportUsButton)
+[![CI](https://github.com/AOSSIE-Org/SupportUsButton/actions/workflows/ci.yml/badge.svg)](https://github.com/AOSSIE-Org/SupportUsButton/actions/workflows/ci.yml)
 
 </div>
 
 <!-- Organization/Project Social Handles -->
 <p align="center">
-<!-- Telegram -->
-<a href="https://t.me/StabilityNexus">
-<img src="https://img.shields.io/badge/Telegram-black?style=flat&logo=telegram&logoColor=white&logoSize=auto&color=24A1DE" alt="Telegram Badge"/></a>
-&nbsp;&nbsp;
-<!-- X (formerly Twitter) -->
-<a href="https://x.com/aossie_org">
-<img src="https://img.shields.io/twitter/follow/aossie_org" alt="X (formerly Twitter) Badge"/></a>
-&nbsp;&nbsp;
-<!-- Discord -->
-<a href="https://discord.gg/hjUhu33uAn">
-<img src="https://img.shields.io/discord/1022871757289422898?style=flat&logo=discord&logoColor=white&logoSize=auto&label=Discord&labelColor=5865F2&color=57F287" alt="Discord Badge"/></a>
-&nbsp;&nbsp;
-<!-- Medium -->
+  <a href="https://t.me/+bMWGzaMTMa8xN2Ex">
+    <img src="https://img.shields.io/badge/Telegram_AOSSIE-black?style=flat&logo=telegram&logoColor=white&color=24A1DE" alt="Telegram Badge"/>
+  </a>
+  &nbsp;
+  <a href="https://x.com/aossie_org">
+    <img src="https://img.shields.io/twitter/follow/aossie_org" alt="X Badge"/>
+  </a>
+  &nbsp;
+  <a href="https://discord.gg/hjUhu33uAn">
+    <img src="https://img.shields.io/discord/995968619034984528?style=flat&logo=discord&logoColor=white&label=Discord%20AOSSIE&labelColor=5865F2&color=57F287" alt="Discord AOSSIE"/>
+  </a>
+  &nbsp;
+  <a href="https://discord.gg/YzDKeEfWtS">
+    <img src="https://img.shields.io/discord/995968619034984528?style=flat&logo=discord&logoColor=white&label=Discord%20Stability%20Nexus&labelColor=5865F2&color=57F287" alt="Discord Stability Nexus"/>
+  </a>
+  &nbsp;
+  <a href="https://www.linkedin.com/company/aossie/">
+    <img src="https://img.shields.io/badge/LinkedIn_AOSSIE-black?style=flat&logo=LinkedIn&logoColor=white&color=0A66C2" alt="LinkedIn Badge"/>
+  </a>
+  &nbsp;
+  <a href="https://www.youtube.com/@AOSSIE-Org">
+    <img src="https://img.shields.io/badge/Subscribe_to_AOSSIE-red?style=flat&logo=youtube&logoColor=white" alt="Subscribe to AOSSIE"/>
+  </a>
+  &nbsp;
+  <a href="https://www.youtube.com/@StabilityNexus">
+    <img src="https://img.shields.io/badge/Subscribe_to_Stability_Nexus-red?style=flat&logo=youtube&logoColor=white" alt="Subscribe to Stability Nexus"/>
+  </a>
+  &nbsp;
 <a href="https://news.stability.nexus/">
-  <img src="https://img.shields.io/badge/Medium-black?style=flat&logo=medium&logoColor=black&logoSize=auto&color=white" alt="Medium Badge"></a>
-&nbsp;&nbsp;
-<!-- LinkedIn -->
-<a href="https://www.linkedin.com/company/aossie/">
-  <img src="https://img.shields.io/badge/LinkedIn-black?style=flat&logo=LinkedIn&logoColor=white&logoSize=auto&color=0A66C2" alt="LinkedIn Badge"></a>
-&nbsp;&nbsp;
-<!-- Youtube -->
-<a href="https://www.youtube.com/@AOSSIE-Org">
-  <img src="https://img.shields.io/youtube/channel/subscribers/UCKVVLbawY7Gej_3o2WKsoiA?style=flat&logo=youtube&logoColor=white%20&logoSize=auto&labelColor=FF0000&color=FF0000" alt="Youtube Badge"></a>
+  <img src="https://img.shields.io/badge/Medium--Stability--Nexus-black?style=flat&logo=medium&logoColor=black&logoSize=auto&color=white" alt="Medium Badge"></a>
 </p>
+
 
 ---
 
@@ -58,7 +69,7 @@ A lightweight React component library for displaying **Support us page** in a cl
 
 - **🎨 Tier-based Layouts**: Display sponsors in different tiers with logos and links, styled according to the selected theme.
 
-- **🎨 Theme Support**: Choose from **light**, **dark**, **minimal**, **corporate**, or **AOSSIE** themes for consistent branding.
+- **🎨 Theme Support**: Choose from **auto**, **inherit**, **light**, or **dark** themes for consistent branding.
 
 - **🎨 Customizable Styling**: Tailwind CSS classes for easy customization of the support us page.
 
@@ -190,7 +201,7 @@ Props template — fill in your own values:
 
 ```tsx
 const props: supportUsButtonProps = {
-  // Theme for the button, can be one of "light", "dark".
+  // Theme for the button, can be one of "auto", "inherit", "light", or "dark".
   Theme: Theme,
 
   // Information about the organization, including name, description, logo, and project information
@@ -220,7 +231,7 @@ const props: supportUsButtonProps = {
 
 | Prop                      | Type             | Required | Description                                                                                                    |
 | ------------------------- | ---------------- | -------- | -------------------------------------------------------------------------------------------------------------- |
-| `Theme`                   | string           | No       | "light" or "dark"                      |
+| `Theme`                   | string           | No       | "auto", "inherit", "light", or "dark" |
 | `organizationInformation` | object           | Yes      | Information about the organization, including name, description, logo, and project information                 |
 | `sponsors`                | array of objects | No       | List of current sponsors, each with name, optional logo, link, and sponsorship tier                            |
 | `ctaSection`              | array of object           | Yes      | Information about the call-to-action section, including title, description, and sponsor links                  |
@@ -248,8 +259,10 @@ Controls the overall visual appearance of the widget.
 
 | Value       | Description                              |
 | ----------- | ---------------------------------------- |
-| `dark`      | Dark mode UI                             |
+| `auto`      | Automatically adapt to host environment  |
+| `inherit`   | Inherit parent styles                    |
 | `light`     | Light mode UI                            |
+| `dark`      | Dark mode UI                             |
 
 </details>
 

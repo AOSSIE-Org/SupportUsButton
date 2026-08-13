@@ -242,12 +242,12 @@ export function validateProps(
 
       sponsors = [];
     } else {
-      sponsors = sponsors.filter((sponsor, index) => {
+      sponsors = sponsors.reduce((normalized, sponsor, index) => {
         if (!isObject(sponsor)) {
           warn(
             `sponsors[${index}] must be an object. This sponsor will be ignored.`,
           );
-          return false;
+          return normalized;
         }
 
         const name =
@@ -257,7 +257,7 @@ export function validateProps(
           warn(
             `sponsors[${index}].name must be a non-empty string. This sponsor will be ignored.`,
           );
-          return false;
+          return normalized;
         }
 
         let sponsorshipTier = sponsor.sponsorshipTier;
@@ -277,16 +277,19 @@ export function validateProps(
           sponsorshipTier = undefined;
         }
 
-        sponsor.name = name;
+        // Build a brand-new sponsor object instead of mutating the
+        // caller-owned one — omit sponsorshipTier from the spread first,
+        // then add it back only if it's valid.
+        const { sponsorshipTier: _originalTier, ...sponsorRest } = sponsor;
 
-        if (sponsorshipTier === undefined) {
-          delete sponsor.sponsorshipTier;
-        } else {
-          sponsor.sponsorshipTier = sponsorshipTier;
-        }
+        normalized.push(
+          sponsorshipTier === undefined
+            ? { ...sponsorRest, name }
+            : { ...sponsorRest, name, sponsorshipTier },
+        );
 
-        return true;
-      });
+        return normalized;
+      }, [] as typeof sponsors);
     }
   } else {
     sponsors = [];
@@ -316,12 +319,12 @@ export function validateProps(
       sponsorLink: [],
     };
   } else {
-    const sponsorLink = ctaSection.sponsorLink.filter((link, index) => {
+    const sponsorLink = ctaSection.sponsorLink.reduce((normalized, link, index) => {
       if (!isObject(link)) {
         warn(
           `ctaSection.sponsorLink[${index}] must be an object. This link will be ignored.`,
         );
-        return false;
+        return normalized;
       }
 
       const name = typeof link.name === "string" ? link.name.trim() : "";
@@ -330,20 +333,22 @@ export function validateProps(
         warn(
           `ctaSection.sponsorLink[${index}].name must be a non-empty string. This link will be ignored.`,
         );
-        return false;
+        return normalized;
       }
 
       if (!isValidUrl(link.url)) {
         warn(
           `ctaSection.sponsorLink[${index}].url must be a valid http(s) URL. This link will be ignored.`,
         );
-        return false;
+        return normalized;
       }
 
-      link.name = name;
+      // Build a brand-new link object instead of mutating the
+      // caller-owned one.
+      normalized.push({ ...link, name });
 
-      return true;
-    });
+      return normalized;
+    }, [] as typeof ctaSection.sponsorLink);
 
     if (sponsorLink.length === 0) {
       warn(

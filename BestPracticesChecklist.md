@@ -66,10 +66,10 @@
 ### Version Numbering
 
 - [x] 🔴 **version_unique** — Each release has a unique version identifier (e.g., v2.2.0).
-  - *Evidence URL:* https://github.com/AOSSIE-Org/SupportUsButton/blob/main/package.json
+  - *Evidence URL:* https://github.com/AOSSIE-Org/SupportUsButton/blob/main/.github/workflows/version-release.yml
 
 - [x] 🔵 **version_semver** — Project uses SemVer format.
-  - *Note:* Follows Semantic Versioning.
+  - *Evidence URL:* https://github.com/AOSSIE-Org/SupportUsButton/blob/main/.github/workflows/version-release.yml
 
 - [x] 🔵 **version_tags** — Releases are tagged in the VCS (e.g., `git tag v2.2.0`).
   - *Evidence URL:* https://github.com/AOSSIE-Org/SupportUsButton/releases
@@ -80,7 +80,7 @@
   - *Evidence URL:* https://github.com/AOSSIE-Org/SupportUsButton/releases
 
 - [x] 🔴 **release_notes_vulns** — Release notes identify every publicly known vulnerability fixed in that release.
-  - *Note:* `[~]` N/A — No publicly known vulnerabilities.
+  - *Note:* `[~]` N/A — No publicly known vulnerabilities have been reported or fixed in releases to date. Any future security advisories and vulnerability fixes will be documented directly in GitHub Security Advisories and individual release notes at https://github.com/AOSSIE-Org/SupportUsButton/security/advisories and https://github.com/AOSSIE-Org/SupportUsButton/releases.
 
 ---
 

@@ -58,7 +58,7 @@ describe("SupportUsButton Unit & Contract Tests", () => {
     expect(html).toContain("Google");
   });
 
-  it("should render localized custom heading string or function", () => {
+  it("should render localized custom heading function callback", () => {
     const customProps: supportUsButtonProps = {
       Theme: "dark",
       heading: (projectName?: string) => `Apoya a ${projectName || "nuestro proyecto"}`,
@@ -80,5 +80,24 @@ describe("SupportUsButton Unit & Contract Tests", () => {
 
     const html = renderToString(React.createElement(SupportUsButton, customProps));
     expect(html).toContain("Apoya a SupportUsButton");
+  });
+
+  it("should render custom heading literal string", () => {
+    const customProps: supportUsButtonProps = {
+      Theme: "light",
+      heading: "Support Our Project Today",
+      organizationInformation: {
+        name: "AOSSIE",
+        desc: "Test org",
+        image: "/brand/icons/aossie_logomark.svg",
+        link: "https://aossie.org",
+      },
+      ctaSection: {
+        sponsorLink: [],
+      },
+    };
+
+    const html = renderToString(React.createElement(SupportUsButton, customProps));
+    expect(html).toContain("Support Our Project Today");
   });
 });

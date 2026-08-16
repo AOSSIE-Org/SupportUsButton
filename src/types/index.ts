@@ -109,4 +109,22 @@ export interface supportUsButtonProps {
 
   // These defines the length in X and Y axis of border around page. Only pass it when border is not covering full page (e.g. TopX1: "-10"    TopX2: "110").
   border?: borderAroundPage;
+
+  /** Show/hide project information section (default: true) */
+  showProjectInfo?: boolean;
+
+  /** Show/hide organization information section (default: true) */
+  showOrganizationInfo?: boolean;
+
+  /** Show/hide sponsors section (default: true) */
+  showSponsors?: boolean;
+
+  /** Show/hide background logo (default: true) */
+  showBackgroundLogo?: boolean;
+
+  /** Show/hide decorative border (default: true) */
+  showBorder?: boolean;
+
+  /** Show/hide corner icons (default: true) */
+  showCornerIcons?: boolean;
 }

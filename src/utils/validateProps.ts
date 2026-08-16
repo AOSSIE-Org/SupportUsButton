@@ -2,12 +2,7 @@ import type { supportUsButtonProps } from "../types/index";
 
 const VALID_THEMES = ["auto", "inherit", "light", "dark"] as const;
 
-const VALID_SPONSOR_TIERS = [
-  "Platinum",
-  "Gold",
-  "Silver",
-  "Bronze",
-] as const;
+const VALID_SPONSOR_TIERS = ["Platinum", "Gold", "Silver", "Bronze"] as const;
 
 const DEFAULT_BORDER = {
   TopX1: "-1000",
@@ -30,12 +25,13 @@ type Border = {
   RightY1: string;
   RightY2: string;
 };
+
 declare const process:
   | {
-    env?: {
-      NODE_ENV?: string;
-    };
-  }
+      env?: {
+        NODE_ENV?: string;
+      };
+    }
   | undefined;
 
 function warn(message: string): void {
@@ -79,13 +75,23 @@ function isValidBorderValue(value: unknown): value is string {
   return Number.isFinite(Number(value));
 }
 
+function validateBoolean(value: unknown, defaultValue: boolean): boolean {
+  if (value === undefined || value === null) {
+    return defaultValue;
+  }
+  if (typeof value === "boolean") {
+    return value;
+  }
+  warn(
+    `Expected boolean, got ${typeof value}. Falling back to ${defaultValue}.`,
+  );
+  return defaultValue;
+}
+
 export function validateProps(
   props: supportUsButtonProps,
 ): supportUsButtonProps {
   props = props ?? ({} as supportUsButtonProps);
-  // --------------------------------
-  // Theme
-  // --------------------------------
 
   const Theme = VALID_THEMES.includes(
     props.Theme as (typeof VALID_THEMES)[number],
@@ -100,10 +106,6 @@ export function validateProps(
       )}". Expected one of: ${VALID_THEMES.join(", ")}. Falling back to "auto".`,
     );
   }
-
-  // --------------------------------
-  // organizationInformation
-  // --------------------------------
 
   let organizationInformation = props.organizationInformation;
 
@@ -171,10 +173,6 @@ export function validateProps(
     };
   }
 
-  // --------------------------------
-  // projectInformation
-  // --------------------------------
-
   let projectInformation = props.projectInformation;
 
   if (projectInformation !== undefined) {
@@ -228,10 +226,6 @@ export function validateProps(
     }
   }
 
-  // --------------------------------
-  // sponsors
-  // --------------------------------
-
   let sponsors = props.sponsors;
 
   if (sponsors !== undefined) {
@@ -242,62 +236,58 @@ export function validateProps(
 
       sponsors = [];
     } else {
-      sponsors = sponsors.reduce((normalized, sponsor, index) => {
-        if (!isObject(sponsor)) {
-          warn(
-            `sponsors[${index}] must be an object. This sponsor will be ignored.`,
+      sponsors = sponsors.reduce(
+        (normalized, sponsor, index) => {
+          if (!isObject(sponsor)) {
+            warn(
+              `sponsors[${index}] must be an object. This sponsor will be ignored.`,
+            );
+            return normalized;
+          }
+
+          const name =
+            typeof sponsor.name === "string" ? sponsor.name.trim() : "";
+
+          if (!name) {
+            warn(
+              `sponsors[${index}].name must be a non-empty string. This sponsor will be ignored.`,
+            );
+            return normalized;
+          }
+
+          let sponsorshipTier = sponsor.sponsorshipTier;
+
+          if (
+            sponsorshipTier !== undefined &&
+            !VALID_SPONSOR_TIERS.includes(
+              sponsorshipTier as (typeof VALID_SPONSOR_TIERS)[number],
+            )
+          ) {
+            warn(
+              `sponsors[${index}].sponsorshipTier must be one of: ${VALID_SPONSOR_TIERS.join(
+                ", ",
+              )}. The invalid tier will be removed.`,
+            );
+
+            sponsorshipTier = undefined;
+          }
+
+          const { sponsorshipTier: _originalTier, ...sponsorRest } = sponsor;
+
+          normalized.push(
+            sponsorshipTier === undefined
+              ? { ...sponsorRest, name }
+              : { ...sponsorRest, name, sponsorshipTier },
           );
+
           return normalized;
-        }
-
-        const name =
-          typeof sponsor.name === "string" ? sponsor.name.trim() : "";
-
-        if (!name) {
-          warn(
-            `sponsors[${index}].name must be a non-empty string. This sponsor will be ignored.`,
-          );
-          return normalized;
-        }
-
-        let sponsorshipTier = sponsor.sponsorshipTier;
-
-        if (
-          sponsorshipTier !== undefined &&
-          !VALID_SPONSOR_TIERS.includes(
-            sponsorshipTier as (typeof VALID_SPONSOR_TIERS)[number],
-          )
-        ) {
-          warn(
-            `sponsors[${index}].sponsorshipTier must be one of: ${VALID_SPONSOR_TIERS.join(
-              ", ",
-            )}. The invalid tier will be removed.`,
-          );
-
-          sponsorshipTier = undefined;
-        }
-
-        // Build a brand-new sponsor object instead of mutating the
-        // caller-owned one — omit sponsorshipTier from the spread first,
-        // then add it back only if it's valid.
-        const { sponsorshipTier: _originalTier, ...sponsorRest } = sponsor;
-
-        normalized.push(
-          sponsorshipTier === undefined
-            ? { ...sponsorRest, name }
-            : { ...sponsorRest, name, sponsorshipTier },
-        );
-
-        return normalized;
-      }, [] as typeof sponsors);
+        },
+        [] as typeof sponsors,
+      );
     }
   } else {
     sponsors = [];
   }
-
-  // --------------------------------
-  // ctaSection
-  // --------------------------------
 
   let ctaSection = props.ctaSection;
 
@@ -319,41 +309,40 @@ export function validateProps(
       sponsorLink: [],
     };
   } else {
-    const sponsorLink = ctaSection.sponsorLink.reduce((normalized, link, index) => {
-      if (!isObject(link)) {
-        warn(
-          `ctaSection.sponsorLink[${index}] must be an object. This link will be ignored.`,
-        );
+    const sponsorLink = ctaSection.sponsorLink.reduce(
+      (normalized, link, index) => {
+        if (!isObject(link)) {
+          warn(
+            `ctaSection.sponsorLink[${index}] must be an object. This link will be ignored.`,
+          );
+          return normalized;
+        }
+
+        const name = typeof link.name === "string" ? link.name.trim() : "";
+
+        if (!name) {
+          warn(
+            `ctaSection.sponsorLink[${index}].name must be a non-empty string. This link will be ignored.`,
+          );
+          return normalized;
+        }
+
+        if (!isValidUrl(link.url)) {
+          warn(
+            `ctaSection.sponsorLink[${index}].url must be a valid http(s) URL. This link will be ignored.`,
+          );
+          return normalized;
+        }
+
+        normalized.push({ ...link, name });
+
         return normalized;
-      }
-
-      const name = typeof link.name === "string" ? link.name.trim() : "";
-
-      if (!name) {
-        warn(
-          `ctaSection.sponsorLink[${index}].name must be a non-empty string. This link will be ignored.`,
-        );
-        return normalized;
-      }
-
-      if (!isValidUrl(link.url)) {
-        warn(
-          `ctaSection.sponsorLink[${index}].url must be a valid http(s) URL. This link will be ignored.`,
-        );
-        return normalized;
-      }
-
-      // Build a brand-new link object instead of mutating the
-      // caller-owned one.
-      normalized.push({ ...link, name });
-
-      return normalized;
-    }, [] as typeof ctaSection.sponsorLink);
+      },
+      [] as typeof ctaSection.sponsorLink,
+    );
 
     if (sponsorLink.length === 0) {
-      warn(
-        "ctaSection.sponsorLink should contain at least one valid link.",
-      );
+      warn("ctaSection.sponsorLink should contain at least one valid link.");
     }
 
     ctaSection = {
@@ -362,10 +351,6 @@ export function validateProps(
     };
   }
 
-  // --------------------------------
-  // Logo
-  // --------------------------------
-
   let Logo = props.Logo;
 
   if (Logo !== undefined && typeof Logo !== "boolean") {
@@ -373,21 +358,14 @@ export function validateProps(
     Logo = true;
   }
 
-  // --------------------------------
-  // className
-  // --------------------------------
-
   let className = props.className;
 
   if (className !== undefined && typeof className !== "string") {
-    warn("className must be a string when provided. Falling back to an empty string.");
+    warn(
+      "className must be a string when provided. Falling back to an empty string.",
+    );
     className = "";
   }
-
-
-  // --------------------------------
-  // border
-  // --------------------------------
 
   let border: Border = {
     ...DEFAULT_BORDER,
@@ -424,6 +402,16 @@ export function validateProps(
     }
   }
 
+  const showProjectInfo = validateBoolean(props.showProjectInfo, true);
+  const showOrganizationInfo = validateBoolean(
+    props.showOrganizationInfo,
+    true,
+  );
+  const showSponsors = validateBoolean(props.showSponsors, true);
+  const showBackgroundLogo = validateBoolean(props.showBackgroundLogo, true);
+  const showBorder = validateBoolean(props.showBorder, true);
+  const showCornerIcons = validateBoolean(props.showCornerIcons, true);
+
   return {
     ...props,
     Theme,
@@ -434,5 +422,12 @@ export function validateProps(
     Logo,
     className,
     border,
+    // Visibility props
+    showProjectInfo,
+    showOrganizationInfo,
+    showSponsors,
+    showBackgroundLogo,
+    showBorder,
+    showCornerIcons,
   };
 }

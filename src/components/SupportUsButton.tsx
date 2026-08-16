@@ -362,7 +362,7 @@ function SupportUsButton(props: supportUsButtonProps): React.JSX.Element {
             className={`mt-20 sm:mt-24 flex flex-col gap-10 lg:gap-8 animate-sub-fade-in ${projectInformation?.name && "lg:flex-row lg:items-start"}`}
             style={{ animationDelay: "250ms" }}
           >
-            {projectInformation?.name && (
+            {showProjectInfo && projectInformation?.name && (
               <div className="flex-1 min-w-0">
                 <div className="flex items-center justify-start gap-2.5 sm:gap-3 text-left w-full">
                   <img

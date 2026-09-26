@@ -284,18 +284,15 @@ function SupportUsButton(
               ) : typeof heading === "string" ? (
                 heading
               ) : (
-                <>
-                  Support-us {projectInformation?.name && "for"}{" "}
-                  {projectInformation?.name}
-                </>
+                <>Support {projectInformation?.name}</>
               )}
             </h1>
           </div>
           {projectInformation?.name && (
             <div>
               <span className="text-lg sm:text-base md:text-xl leading-snug flex flex-wrap justify-center items-center gap-1">
-                <p className="italic">
-                  A Project Powered by
+                <p>
+                  A project made by
                 </p>
                 {validatedUrl ? (
                   <a
@@ -394,11 +391,14 @@ function SupportUsButton(
               height="62"
               viewBox="0 0 62 62"
               fill="none"
-              className="w-[clamp(1.5rem,3.5vw,2.75rem)] h-[clamp(1.5rem,3.5vw,2.75rem)] flex-none"
+              className="w-[clamp(1.5rem,3.5vw,2.75rem)] h-[clamp(1.5rem,3.5vw,2.75rem)] overflow-visible"
             >
               <path
-                d="M35.431 0C39.6228 8.98514 51.2756 26.334 61.8182 26.334V35.4842H61.7276C47.2295 35.4842 35.431 47.2982 35.431 61.8182H26.29V61.8117C26.29 48.5541 33.5892 36.9699 44.3778 30.8816C40.0924 28.447 34.1734 20.7486 31.2286 16.7965C32.3689 14.2417 32.9599 13.6397 33.9892 10.0793M35.431 0C35.431 9.48036 31.7474 18.3846 25.0503 25.0911C22.7914 27.358 20.2371 29.3101 17.4566 30.8945C21.7293 33.3253 27.4488 41.3542 30.3815 45.2706C28.7626 48.7871 27.3396 58.2747 26.29 61.8182C22.2439 53.2247 11.1964 35.9179 1.20736 35.4648C0.803828 35.4777 0.401375 35.4842 0 35.4842V26.2822C0.405691 26.2822 0.808144 26.2887 1.20736 26.3016C7.76299 26.0151 13.9707 23.272 18.596 18.6176C21.0456 16.1771 22.9869 13.275 24.3076 10.0793C25.6283 6.88363 26.3021 3.45778 26.29 0H35.431Z"
-                fill="currentColor"
+                d="M24.5 37.5L37.5 24.5M19.2 42.8L14.5 47.5C10.4 51.6 3.7 51.6 0 47.9C-3.7 44.2 -3.7 37.5 0.4 33.4L14.2 19.6C18.3 15.5 25 15.5 29.1 19.6L31.5 22M42.8 19.2L47.5 14.5C51.6 10.4 58.3 10.4 62 14.1C65.7 17.8 65.7 24.5 61.6 28.6L47.8 42.4C43.7 46.5 37 46.5 32.9 42.4L30.5 40"
+                stroke="currentColor"
+                strokeWidth="4"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               />
             </svg>
           </div>
@@ -442,22 +442,8 @@ function SupportUsButton(
         <div className="mt-12 sm:mt-16 flex flex-col xl:flex-row items-center justify-between gap-4 sm:gap-6 text-center w-full max-w-full">
           <div className="flex flex-col items-center text-center text-base sm:text-lg font-normal whitespace-nowrap flex-none">
             <span className="flex items-center justify-center gap-1.5 whitespace-nowrap">
-              <span>Supported By Global</span>
-              <svg
-                width="11"
-                height="11"
-                viewBox="0 0 62 62"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                className="flex-none"
-              >
-                <path
-                  d="M35.431 0C39.6228 8.98514 51.2756 26.334 61.8182 26.334V35.4842H61.7276C47.2295 35.4842 35.431 47.2982 35.431 61.8182H26.29V61.8117C26.29 48.5541 33.5892 36.9699 44.3778 30.8816C40.0924 28.447 34.1734 20.7486 31.2286 16.7965C32.3689 14.2417 32.9599 13.6397 33.9892 10.0793M35.431 0C35.431 9.48036 31.7474 18.3846 25.0503 25.0911C22.7914 27.358 20.2371 29.3101 17.4566 30.8945C21.7293 33.3253 27.4488 41.3542 30.3815 45.2706C28.7626 48.7871 27.3396 58.2747 26.29 61.8182C22.2439 53.2247 11.1964 35.9179 1.20736 35.4648C0.803828 35.4777 0.401375 35.4842 0 35.4842V26.2822C0.405691 26.2822 0.808144 26.2887 1.20736 26.3016C7.76299 26.0151 13.9707 23.272 18.596 18.6176C21.0456 16.1771 22.9869 13.275 24.3076 10.0793C25.6283 6.88363 26.3021 3.45778 26.29 0H35.431Z"
-                  fill="currentColor"
-                />
-              </svg>
+              <span>Supported By</span>
             </span>
-            <span className="whitespace-nowrap text-center">Powerhouses</span>
           </div>
 
           <div className="flex flex-wrap items-center justify-center xl:justify-end gap-x-5 sm:gap-x-8 gap-y-3 select-none flex-1 max-w-full m-0 p-0">

@@ -16,7 +16,7 @@ Fixes #(issue number)
 - [ ] My code follows the project's code style and conventions
 - [ ] I have made corresponding changes to the documentation
 - [ ] My changes generate no new warnings or errors
-- [ ] I have joined the [Discord server](https://discord.gg/hjUhu33uAn) and I will share a link to this PR with the project maintainers there
+- [ ] I have joined the [Discord server](https://discord.com/channels/1022871757289422898/1458840574076387448) and I will share a link to this PR with the project maintainers there
 - [ ] I have read the [Contributing Guidelines](./CONTRIBUTING.md)
 
 ## ⚠️ AI Notice - Important!

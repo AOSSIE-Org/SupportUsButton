@@ -2,13 +2,13 @@
 
 ⭐ First off, thank you for considering contributing to this project! ⭐
 
-We welcome contributions from everyone. By participating in this project, you agree to abide by our Code of Conduct.
+We welcome contributions from everyone. By participating in this project, you agree to abide by our Code of Conduct and certify your contributions under the [Developer Certificate of Origin (DCO 1.1)](DCO.md) by including a `Signed-off-by:` commit trailer (`git commit -s`). See [COPYRIGHT.md](COPYRIGHT.md) for copyright statements.
 
 ## 💬 IMPORTANT: Discord Communication is Mandatory
 
-**All project communication MUST happen on Discord in the [#support-us-button](https://discord.gg/vK2NfgG) channel. We do not pay attention to GitHub notifications.**
+**All project communication MUST happen on Discord in the [#support-us-button](https://discord.com/channels/1022871757289422898/1458840574076387448) channel. We do not pay attention to GitHub notifications.**
 
-- Join our [Discord server & #support-us-button channel](https://discord.gg/vK2NfgG) before starting any work
+- Join our [Discord server & #support-us-button channel](https://discord.com/channels/1022871757289422898/1458840574076387448) before starting any work
 - Post your PR/issue updates in the `#support-us-button` Discord channel (**MANDATORY**)
 - All discussions, questions, and updates should be on Discord
 - GitHub is for code only - Discord is for communication
@@ -137,13 +137,13 @@ npm run build
 
 ### 4. Commit Your Changes
 
-Write clear, concise commit messages:
+Write clear, concise commit messages. All commits must be signed off to satisfy DCO 1.1 (`git commit -s`), which appends a `Signed-off-by: Name <email>` trailer:
 
 ```bash
 git add .
-git commit -m "feat: add user authentication"
+git commit -s -m "feat: add user authentication"
 # or
-git commit -m "fix: resolve navigation bug"
+git commit -s -m "fix: resolve navigation bug"
 ```
 
 **Commit Message Format:**

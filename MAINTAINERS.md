@@ -14,5 +14,5 @@ This document lists the maintainers of the **SupportUsButton** project.
 
 * **Security Vulnerabilities**: For private security reports, please email [reach2saksham2004@gmail.com](mailto:reach2saksham2004@gmail.com) directly before public disclosure.
 * **Architectural Questions & Governance**:
-  1. **AOSSIE Discord Channel**: [#support-us-button](https://discord.gg/hjUhu33uAn)
-  2. **GitHub Issues**: [github.com/AOSSIE-Org/SupportUsButton/issues](https://github.com/AOSSIE-Org/SupportUsButton/issues)
+  1. **AOSSIE Discord Channel**: [#support-us-button](https://discord.com/channels/1022871757289422898/1458840574076387448)
+  2. **GitHub Issues**: [github.com/AOSSIE-Org/SupportUsButton/issues](https://github.com/AOSSIE-Org/SupportUsButton/issues)

@@ -20,11 +20,13 @@ export default [
         file: packageJson.module,
         format: "esm",
         sourcemap: true,
+        banner: '"use client";',
       },
       {
         file: packageJson.main,
         format: "cjs",
         sourcemap: true,
+        banner: '"use client";',
       },
       {
         file: "dist/index.umd.js",
@@ -44,7 +46,8 @@ export default [
       resolve(),
       commonjs(),
       typescript({ tsconfig: "./tsconfig.json" }),
-      terser(),
+      // keep the "use client" banner so Next.js App Router treats the bundle as a client component
+      terser({ compress: { directives: false } }),
     ],
   },
 ];

@@ -71,6 +71,8 @@ function SupportUsButton(
   const {
     Theme = "auto",
     heading,
+    labels,
+    monochromeLogos = true,
     organizationInformation,
     sponsors = [],
     ctaSection,
@@ -94,6 +96,13 @@ function SupportUsButton(
   const parentStyles = useParentStyles(containerRef, isAuto);
   const darkThemeActive =
     Theme === "dark" || (isAuto && isDarkColor(parentStyles.backgroundColor));
+  // Monochrome filter keeps logos legible on any host background; disabled when callers want the original colors
+  const logoFilterClassName = monochromeLogos
+    ? darkThemeActive ? "brightness-0 invert" : "brightness-0"
+    : "";
+  const logoFilterStyle = monochromeLogos
+    ? { filter: darkThemeActive ? "brightness(0) invert(1)" : "brightness(0)" }
+    : undefined;
 
   const validatedUrl = validateUrl(organizationInformation?.link);
 
@@ -292,7 +301,7 @@ function SupportUsButton(
             <div>
               <span className="text-lg sm:text-base md:text-xl leading-snug flex flex-wrap justify-center items-center gap-1">
                 <p>
-                  A project made by
+                  {labels?.madeBy ?? "A project made by"}
                 </p>
                 {validatedUrl ? (
                   <a
@@ -351,8 +360,8 @@ function SupportUsButton(
             <div className="flex-1 min-w-0">
               <div className="flex items-center justify-start gap-2.5 sm:gap-3 text-left w-full">
                 <img
-                  className={`h-8 w-8 sm:h-9 sm:w-9 lg:h-10 lg:w-10 flex-none object-contain ${darkThemeActive ? "brightness-0 invert" : "brightness-0"}`}
-                  style={{ filter: darkThemeActive ? "brightness(0) invert(1)" : "brightness(0)" }}
+                  className={`h-8 w-8 sm:h-9 sm:w-9 lg:h-10 lg:w-10 flex-none object-contain ${logoFilterClassName}`}
+                  style={logoFilterStyle}
                   draggable="false"
                   src={projectInformation?.image}
                   alt={projectInformation?.name}
@@ -406,8 +415,8 @@ function SupportUsButton(
           <div className="flex-1 min-w-0">
             <div className="flex items-center justify-start gap-2.5 sm:gap-3 text-left w-full">
               <img
-                className={`h-8 w-8 sm:h-9 sm:w-9 lg:h-10 lg:w-10 flex-none object-contain ${darkThemeActive ? "brightness-0 invert" : "brightness-0"}`}
-                style={{ filter: darkThemeActive ? "brightness(0) invert(1)" : "brightness(0)" }}
+                className={`h-8 w-8 sm:h-9 sm:w-9 lg:h-10 lg:w-10 flex-none object-contain ${logoFilterClassName}`}
+                style={logoFilterStyle}
                 draggable="false"
                 src={organizationInformation.image}
                 alt={organizationInformation.name}
@@ -442,14 +451,16 @@ function SupportUsButton(
         <div className="mt-12 sm:mt-16 flex flex-col xl:flex-row items-center justify-between gap-4 sm:gap-6 text-center w-full max-w-full">
           <div className="flex flex-col items-center text-center text-base sm:text-lg font-normal whitespace-nowrap flex-none">
             <span className="flex items-center justify-center gap-1.5 whitespace-nowrap">
-              <span>Supported By</span>
+              <span>{labels?.supportedBy ?? "Supported By"}</span>
             </span>
           </div>
 
           <div className="flex flex-wrap items-center justify-center xl:justify-end gap-x-5 sm:gap-x-8 gap-y-3 select-none flex-1 max-w-full m-0 p-0">
             {sponsors?.map((sponsor, index) => {
               const validatedSponsorLink = validateUrl(sponsor.link);
-              const itemClassName = "group inline-flex items-center justify-center gap-1.5 sm:gap-2 w-max flex-none p-0 m-0 border-none bg-transparent shadow-none transition-all duration-300 hover:text-[#ffcd00] hover:-translate-y-1 hover:scale-105 cursor-pointer active:scale-95 animate-sub-scale-in";
+              const baseClassName = "group inline-flex items-center justify-center gap-1.5 sm:gap-2 w-max flex-none p-0 m-0 border-none bg-transparent shadow-none transition-all duration-300 animate-sub-scale-in";
+              const anchorClassName = `${baseClassName} hover:text-[#ffcd00] hover:-translate-y-1 hover:scale-105 cursor-pointer active:scale-95`;
+              const fallbackClassName = `${baseClassName} cursor-default`;
               const itemContent = (
                 <>
                 <div>
@@ -600,7 +611,7 @@ function SupportUsButton(
                   target="_blank"
                   rel="noopener noreferrer"
                   style={{ animationDelay: `${(index + 1) * 120}ms` }}
-                  className={itemClassName}
+                  className={anchorClassName}
                 >
                   {itemContent}
                 </a>
@@ -608,7 +619,7 @@ function SupportUsButton(
                 <div
                   key={index}
                   style={{ animationDelay: `${(index + 1) * 120}ms` }}
-                  className={itemClassName}
+                  className={fallbackClassName}
                 >
                   {itemContent}
                 </div>

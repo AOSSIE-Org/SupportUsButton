@@ -8,7 +8,7 @@ We welcome contributions from everyone. By participating in this project, you ag
 
 **All project communication MUST happen on Discord in the [#support-us-button](https://discord.com/channels/1022871757289422898/1458840574076387448) channel. We do not pay attention to GitHub notifications.**
 
-- Join our [Discord server & #support-us-button channel](https://discord.com/channels/1022871757289422898/1458840574076387448) before starting any work
+- First join the [AOSSIE Discord server](https://discord.gg/hjUhu33uAn), then open the [#support-us-button channel](https://discord.com/channels/1022871757289422898/1458840574076387448) before starting any work (the channel link only works once you are a member)
 - Post your PR/issue updates in the `#support-us-button` Discord channel (**MANDATORY**)
 - All discussions, questions, and updates should be on Discord
 - GitHub is for code only - Discord is for communication

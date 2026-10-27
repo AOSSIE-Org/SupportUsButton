@@ -110,6 +110,11 @@ describe("SupportUsButton Unit & Contract Tests", () => {
         image: "/img.svg",
         link: "https://org.com",
       },
+      projectInformation: {
+        name: "Project",
+        description: "Desc",
+        image: "/img.svg",
+      },
       ctaSection: { sponsorLink: [] },
       sponsors: [
         { name: "Valid Sponsor", link: "https://valid.com", sponsorshipTier: "Gold" },
@@ -120,9 +125,16 @@ describe("SupportUsButton Unit & Contract Tests", () => {
     };
 
     const html = renderToString(React.createElement(SupportUsButton, propsWithSponsors));
-    // Valid link rendered as anchor
+    // Valid link rendered as anchor with target="_blank" and rel="noopener noreferrer"
     expect(html).toContain('href="https://valid.com"');
+    expect(html).toContain('target="_blank"');
+    expect(html).toContain('rel="noopener noreferrer"');
     expect(html).toContain("Valid Sponsor");
+
+    // Assert that only the organization anchor and valid sponsor anchor are rendered as <a> elements
+    const anchorMatches = html.match(/<a\b/g) || [];
+    expect(anchorMatches.length).toBe(2);
+
     // Invalid links omitted from hrefs
     expect(html).not.toContain("javascript:alert(1)");
     expect(html).not.toContain('href="123"');
@@ -145,5 +157,47 @@ describe("SupportUsButton Unit & Contract Tests", () => {
 
     const html = renderToString(React.createElement(SupportUsButton, props));
     expect(html).toContain('overflow-hidden pointer-events-none z-0');
+  });
+  it("should render custom labels and fall back to default captions", () => {
+    const base: supportUsButtonProps = {
+      organizationInformation: { name: "Org", desc: "Desc", image: "/img.svg", link: "https://org.com" },
+      projectInformation: { name: "Project", description: "Desc", image: "/img.svg" },
+      ctaSection: { sponsorLink: [] },
+    };
+
+    const defaultHtml = renderToString(React.createElement(SupportUsButton, base));
+    expect(defaultHtml).toContain("A project made by");
+    expect(defaultHtml).toContain("Supported By");
+
+    const localizedHtml = renderToString(
+      React.createElement(SupportUsButton, {
+        ...base,
+        labels: { madeBy: "Un projet de", supportedBy: "Soutenu par" },
+      }),
+    );
+    expect(localizedHtml).toContain("Un projet de");
+    expect(localizedHtml).toContain("Soutenu par");
+    expect(localizedHtml).not.toContain("A project made by");
+    expect(localizedHtml).not.toContain("Supported By");
+  });
+
+  it("should apply monochrome logo filters by default and keep supplied colors when monochromeLogos is false", () => {
+    const base: supportUsButtonProps = {
+      Theme: "light",
+      organizationInformation: { name: "Org", desc: "Desc", image: "/org.svg", link: "https://org.com" },
+      projectInformation: { name: "Project", description: "Desc", image: "/project.svg" },
+      ctaSection: { sponsorLink: [] },
+    };
+
+    const monoHtml = renderToString(React.createElement(SupportUsButton, base));
+    expect(monoHtml.match(/filter:brightness\(0\)/g)?.length).toBe(2);
+
+    const colorHtml = renderToString(
+      React.createElement(SupportUsButton, { ...base, monochromeLogos: false }),
+    );
+    expect(colorHtml).not.toContain("filter:brightness(0)");
+    expect(colorHtml).not.toContain("brightness-0");
+    expect(colorHtml).toContain('src="/org.svg"');
+    expect(colorHtml).toContain('src="/project.svg"');
   });
 });

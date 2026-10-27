@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /pr-preview/
+
+Sitemap: https://aossie-org.github.io/SupportUsButton/sitemap.xml

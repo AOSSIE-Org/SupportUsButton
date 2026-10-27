@@ -134,9 +134,11 @@ export function useParentStyles(
         attributeFilter: ["class", "style"],
       });
     }
+    // childList catches hosts that switch themes by injecting or swapping <style>/<link> nodes instead of toggling classes
     observer.observe(document.documentElement, {
       attributes: true,
       attributeFilter: ["class", "style"],
+      childList: true,
       subtree: true,
     });
 

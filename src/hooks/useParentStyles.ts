@@ -123,9 +123,20 @@ export function useParentStyles(
 
     window.addEventListener("resize", scheduleDetectStyles);
 
+    const isStylesheetNode = (node: Node | EventTarget | null) =>
+      node instanceof HTMLStyleElement || node instanceof HTMLLinkElement;
+
     // Observe root element for dynamic class/style mutations (e.g. host theme toggles)
-    const observer = new MutationObserver(() => {
-      scheduleDetectStyles();
+    const observer = new MutationObserver((mutations) => {
+      const relevant = mutations.some(
+        (m) =>
+          m.type === "childList" ||
+          m.attributeName === "class" ||
+          m.attributeName === "style" ||
+          // href/media/disabled/rel only matter on stylesheet nodes, not on every <a href>
+          isStylesheetNode(m.target)
+      );
+      if (relevant) scheduleDetectStyles();
     });
 
     if (element.parentElement) {
@@ -134,14 +145,23 @@ export function useParentStyles(
         attributeFilter: ["class", "style"],
       });
     }
+    // childList catches hosts that switch themes by injecting or swapping <style>/<link> nodes instead of toggling classes
     observer.observe(document.documentElement, {
       attributes: true,
-      attributeFilter: ["class", "style"],
+      attributeFilter: ["class", "style", "href", "media", "disabled", "rel"],
+      childList: true,
       subtree: true,
     });
 
+    // A new or re-pointed <link> only applies its styles once it has loaded; load does not bubble, so listen in the capture phase
+    const onStylesheetLoad = (event: Event) => {
+      if (event.target instanceof HTMLLinkElement) scheduleDetectStyles();
+    };
+    document.addEventListener("load", onStylesheetLoad, true);
+
     return () => {
       window.removeEventListener("resize", scheduleDetectStyles);
+      document.removeEventListener("load", onStylesheetLoad, true);
       if (animationFrameId !== null) {
         cancelAnimationFrame(animationFrameId);
       }

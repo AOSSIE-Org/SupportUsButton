@@ -232,6 +232,9 @@ const props: supportUsButtonProps = {
 | Prop                      | Type             | Required | Description                                                                                                    |
 | ------------------------- | ---------------- | -------- | -------------------------------------------------------------------------------------------------------------- |
 | `Theme`                   | string           | No       | "auto", "inherit", "light", or "dark" |
+| `heading`                 | string \| function | No     | Custom title, or `(projectName) => ReactNode` to localize it. Default: "Support {project name}" |
+| `labels`                  | object           | No       | Localize fixed captions: `{ madeBy?: string, supportedBy?: string }`. Defaults: "A project made by", "Supported By" |
+| `monochromeLogos`         | boolean          | No       | Render project and organization logos in one theme-matched color (default `true`). Set `false` to keep the logos' original colors |
 | `organizationInformation` | object           | Yes      | Information about the organization, including name, description, logo, and project information                 |
 | `sponsors`                | array of objects | No       | List of current sponsors, each with name, optional logo, link, and sponsorship tier                            |
 | `ctaSection`              | array of object           | Yes      | Information about the call-to-action section, including title, description, and sponsor links                  |
@@ -393,6 +396,20 @@ Dark-Theme mobile screen preview.
 
 ---
 
+## 🛠️ Local Development
+
+```bash
+git clone https://github.com/AOSSIE-Org/SupportUsButton.git
+cd SupportUsButton
+npm install
+npm run vite:dev     # interactive dev preview at http://localhost:3000
+npm test             # type-check + Vitest unit tests
+npm run build        # bundles dist/ (ESM, CJS, UMD + style.css)
+npm run vite:build   # builds the dev preview deployed to GitHub Pages
+```
+
+---
+
 ## 🙌 Contributing
 
 ⭐ Don't forget to star this repository if you find it useful! ⭐
@@ -403,8 +420,12 @@ Thank you for considering contributing to this project! Contributions are highly
 
 ## ✨ Maintainers
 
-- [Rahul vyas](https://github.com/rahul-vyas-dev/)
-- [Zahnentferner](https://github.com/Zahnentferner)
+- [Bruno Woltzenlogel Paleo](https://github.com/Zahnentferner)
+- [Rahul Vyas](https://github.com/rahul-vyas-dev/)
+- [Saksham Jain](https://github.com/reach2saksham)
+- [Madhav](https://github.com/M4dhav)
+
+See [MAINTAINERS.md](MAINTAINERS.md) for contact details.
 
 ---
 

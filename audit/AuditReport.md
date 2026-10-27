@@ -3,7 +3,8 @@
 **Project:** SupportUsButton (`support-us-button`)  
 **Organization:** AOSSIE (Australian Open Source Software Innovation and Education)  
 **Date:** August 2026  
-**Auditor(s):** AOSSIE Peer Reviewers & Maintainers  
+**Author(s):** Saksham Jain ([@reach2saksham](https://github.com/reach2saksham))
+**Peer reviewer(s):** Rahul Vyas ([@rahul-vyas-dev](https://github.com/rahul-vyas-dev))
 
 ---
 

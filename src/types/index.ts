@@ -96,6 +96,15 @@ export interface supportUsButtonProps {
   // Optional custom heading string or formatter callback to localize the title
   heading?: string | ((projectName?: string) => React.ReactNode);
 
+  // Optional captions to localize the fixed UI text (defaults: "A project made by", "Supported By")
+  labels?: {
+    madeBy?: string;
+    supportedBy?: string;
+  };
+
+  // Render project and organization logos as monochrome to match the theme (default: true). Set false to keep the supplied image colors.
+  monochromeLogos?: boolean;
+
   // BG Logo
   Logo?: boolean;
 

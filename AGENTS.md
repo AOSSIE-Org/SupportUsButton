@@ -15,9 +15,10 @@ Welcome, AI Agent! This document contains essential instructions, code style sta
 
 ### Key Build & Test Commands:
 
-- **Type-Check:** `npx tsc --noEmit`
+- **Type-Check:** `npm run type-check`
+- **Unit Tests:** `npm test` (type-check + Vitest, `src/__tests__/`)
 - **Build Package:** `npm run build`
-- **Develop Demo:** `npm run dev:demo`
+- **Develop Demo:** `npm run vite:dev`
 
 ---
 
@@ -61,5 +62,6 @@ SupportUsButton/
 ## ⚠️ Important Guidelines for Agents
 
 1. **Preserve Compatibility**: Maintain support for both React 18 and React 19.
-2. **Always Run Type-Check & Build**: Before declaring a task completed, execute `npx tsc --noEmit` and `npm run build`.
-3. **No Unneeded Dependencies**: Avoid adding external runtime dependencies unless explicitly approved.
+2. **Always Run Tests & Build**: Before declaring a task completed, execute `npm test` and `npm run build`.
+3. **Localizable Text**: Never hardcode new user-visible strings in the component; expose them through the `labels` prop with an English default.
+4. **No Unneeded Dependencies**: Avoid adding external runtime dependencies unless explicitly approved.

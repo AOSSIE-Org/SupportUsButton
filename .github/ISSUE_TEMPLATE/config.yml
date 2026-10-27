@@ -1,8 +1,11 @@
 blank_issues_enabled: true
 contact_links:
-  - name: Discord Community
+  - name: Join the AOSSIE Discord
+    url: https://discord.gg/hjUhu33uAn
+    about: Join our Discord server first (MANDATORY for all contributors)
+  - name: "#support-us-button Discord Channel"
     url: https://discord.com/channels/1022871757289422898/1458840574076387448
-    about: Join our Discord channel for discussions and support (MANDATORY for all contributors)
+    about: Project channel for discussions and support (opens once you have joined the server)
   - name: AOSSIE Website
     url: https://aossie.org/
     about: Learn more about AOSSIE and our projects

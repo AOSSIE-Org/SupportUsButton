@@ -125,10 +125,11 @@ describe("SupportUsButton Unit & Contract Tests", () => {
     };
 
     const html = renderToString(React.createElement(SupportUsButton, propsWithSponsors));
-    // Valid link rendered as anchor with target="_blank" and rel="noopener noreferrer"
-    expect(html).toContain('href="https://valid.com"');
-    expect(html).toContain('target="_blank"');
-    expect(html).toContain('rel="noopener noreferrer"');
+    // The valid sponsor's own anchor opens in a new tab without leaking the opener
+    const sponsorAnchor = html.match(/<a\b[^>]*href="https:\/\/valid\.com"[^>]*>/)?.[0];
+    expect(sponsorAnchor).toBeDefined();
+    expect(sponsorAnchor).toContain('target="_blank"');
+    expect(sponsorAnchor).toContain('rel="noopener noreferrer"');
     expect(html).toContain("Valid Sponsor");
 
     // Assert that only the organization anchor and valid sponsor anchor are rendered as <a> elements

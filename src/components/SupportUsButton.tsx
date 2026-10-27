@@ -449,8 +449,8 @@ function SupportUsButton(
         </div>
 
         <div className="mt-12 sm:mt-16 flex flex-col xl:flex-row items-center justify-between gap-4 sm:gap-6 text-center w-full max-w-full">
-          <div className="flex flex-col items-center text-center text-base sm:text-lg font-normal whitespace-nowrap flex-none">
-            <span className="flex items-center justify-center gap-1.5 whitespace-nowrap">
+          <div className="flex flex-col items-center text-center text-base sm:text-lg font-normal flex-none max-w-full">
+            <span className="flex items-center justify-center gap-1.5 text-center">
               <span>{labels?.supportedBy ?? "Supported By"}</span>
             </span>
           </div>

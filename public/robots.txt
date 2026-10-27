@@ -1,5 +1,9 @@
+# Crawlers only read robots.txt at a host root. While the demo is served under
+# aossie-org.github.io/SupportUsButton/ this file is not applied; it takes effect once
+# the demo has its own (sub)domain, or if these rules are copied to the host root.
 User-agent: *
 Allow: /
+Disallow: /SupportUsButton/pr-preview/
 Disallow: /pr-preview/
 
 Sitemap: https://aossie-org.github.io/SupportUsButton/sitemap.xml

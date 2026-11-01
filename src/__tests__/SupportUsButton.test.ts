@@ -10,12 +10,26 @@ describe("SupportUsButton Unit & Contract Tests", () => {
     expect(typeof SupportUsButton).toBe("function");
   });
 
-  it("should support auto, inherit, light, and dark Theme modes", () => {
-    const validThemes: Theme[] = ["auto", "inherit", "light", "dark"];
-    expect(validThemes).toContain("auto");
-    expect(validThemes).toContain("inherit");
-    expect(validThemes).toContain("light");
-    expect(validThemes).toContain("dark");
+  it.each<[Theme, string[], string[]]>([
+    ["auto", ["bg-transparent", "font-inherit", "text-inherit"], ["font-sans", "bg-[#F4F4F4]", "bg-[#191919]"]],
+    ["inherit", ["bg-transparent", "font-inherit", "text-inherit"], ["font-sans", "bg-[#F4F4F4]", "bg-[#191919]"]],
+    ["light", ["font-sans", "bg-[#F4F4F4]", "text-[#191919]"], ["bg-transparent", "bg-[#191919]"]],
+    ["dark", ["font-sans", "bg-[#191919]", "text-[#F4F4F4]"], ["bg-transparent", "bg-[#F4F4F4]"]],
+  ])("applies the %s theme's classes to the scoped root element", (Theme, present, absent) => {
+    const html = renderToString(
+      React.createElement(SupportUsButton, {
+        Theme,
+        organizationInformation: { name: "AOSSIE", desc: "Org", image: "/logo.svg", link: "https://aossie.org" },
+        ctaSection: { sponsorLink: [{ name: "Sponsor Us", url: "https://github.com/sponsors/AOSSIE-Org" }] },
+      }),
+    );
+    // React 19 hoists image preload <link>s ahead of the markup, so the root is the first element with a class
+    const rootClasses = html.match(/<[a-z]+\b[^>]*\bclass="([^"]*)"/)?.[1].split(/\s+/) ?? [];
+
+    // The library stylesheet is scoped to .sub-root (scripts/scope-css.mjs), so the root must always carry it
+    expect(rootClasses).toContain("sub-root");
+    for (const cls of present) expect(rootClasses).toContain(cls);
+    for (const cls of absent) expect(rootClasses).not.toContain(cls);
   });
 
   it("should render SupportUsButton component with organization info, image src, accessible name, and CTA link", () => {

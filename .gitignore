@@ -326,6 +326,9 @@ node_modules/
 # build output
 dist/
 
+# test coverage reports (npm run test:coverage)
+coverage/
+
 # misc
 *.tgz
 

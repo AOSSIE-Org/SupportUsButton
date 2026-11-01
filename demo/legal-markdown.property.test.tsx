@@ -4,7 +4,23 @@ import { describe, expect, it } from "vitest";
 import { LegalDocument, parseLegalMarkdown, renderLegalInline, resolveLegalHref } from "./legal-markdown";
 
 const links = { privacy: "/en/privacy", terms: "/en/terms" };
-const SAFE = /^(https?:|mailto:|\/|#)/i;
+const PAGE = "https://demo.test/privacy/";
+
+/**
+ * Independent oracle: how a browser resolves the link from a demo page. A link with a scheme must be
+ * http(s) or mailto; any other link must stay on the page's own origin.
+ */
+const isSafeTarget = (href: string) => {
+  let url: URL;
+  try {
+    url = new URL(href, PAGE);
+  } catch {
+    return false;
+  }
+  return /^[a-z][a-z\d+.-]*:/i.test(href)
+    ? ["http:", "https:", "mailto:"].includes(url.protocol)
+    : url.origin === new URL(PAGE).origin;
+};
 
 describe("LegalDocument lists and headings", () => {
   it("renders lists, h2/h3 headings and nested bold text", () => {
@@ -57,9 +73,9 @@ describe("legal-markdown properties", () => {
 
   it("only ever resolves links to the site's legal pages or safe URLs", () => {
     fc.assert(
-      fc.property(fc.oneof(fc.string(), fc.webUrl(), fc.constantFrom("javascript:alert(1)", "data:x", "PRIVACY.md", "./TERMS.md", "vbscript:x")), (href) => {
+      fc.property(fc.oneof(fc.string(), fc.webUrl(), fc.constantFrom("javascript:alert(1)", "data:x", "PRIVACY.md", "./TERMS.md", "vbscript:x", "//example.org", "/\\example.org")), (href) => {
         const out = resolveLegalHref(href, links);
-        expect(out === null || out === links.privacy || out === links.terms || SAFE.test(out)).toBe(true);
+        expect(out === null || out === links.privacy || out === links.terms || isSafeTarget(out)).toBe(true);
       }),
     );
   });

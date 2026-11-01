@@ -8,6 +8,9 @@
  * - Every other rule, including Tailwind's preflight reset, only matches the
  *   component root and its descendants, via `:where()`, which keeps each
  *   selector's original specificity.
+ * - `@property` registrations of Tailwind's internal `--tw-*` custom properties
+ *   cannot be scoped and stay global. They only affect a host page that uses the
+ *   same `--tw-*` names, i.e. one built with Tailwind itself.
  *
  * Usage: node scripts/scope-css.mjs dist/style.css
  */
@@ -23,16 +26,23 @@ const ROOT_SELECTORS = new Set([":root", ":host", "html"]);
 const PSEUDO_ELEMENT =
     /::[\w-]+(\([^)]*\))?|:(before|after|first-line|first-letter)(?![\w-])/;
 
-/** Index of the first pseudo-element outside any parentheses, or -1. */
+/** Index of the first pseudo-element outside any parentheses and quoted strings, or -1. */
 function pseudoElementIndex(selector) {
     let depth = 0;
+    let quote = null;
     for (let i = 0; i < selector.length; i++) {
         const ch = selector[i];
         if (ch === "\\") {
             i++;
             continue;
         }
-        if (ch === "(") depth++;
+        // Attribute values such as [title="::before"] are text, not selectors
+        if (quote) {
+            if (ch === quote) quote = null;
+            continue;
+        }
+        if (ch === '"' || ch === "'") quote = ch;
+        else if (ch === "(") depth++;
         else if (ch === ")") depth--;
         else if (
             ch === ":" &&

@@ -26,6 +26,15 @@ describe("demo/host savedHostTheme", () => {
     localStorage.setItem(HOST_STORAGE_KEYS.bg, "neon");
     expect(savedHostTheme()).toBe("dark");
   });
+
+  it("falls back to dark zinc when storage access throws", () => {
+    localStorage.setItem(HOST_STORAGE_KEYS.bg, "light");
+    const getItem = vi.spyOn(Storage.prototype, "getItem").mockImplementation(() => {
+      throw new DOMException("blocked", "SecurityError");
+    });
+    expect(savedHostTheme()).toBe("dark");
+    getItem.mockRestore();
+  });
 });
 
 describe("demo/host getAssetUrl", () => {

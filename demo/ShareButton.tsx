@@ -1,10 +1,12 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import type SocialShareButton from "@aossie-org/social-share-button";
 import "@aossie-org/social-share-button/src/social-share-button.css";
 import { savedHostTheme } from "./host";
 
 const SHARE_TEXT = {
   trigger: "Share this page",
+  loadFailed: "Sharing is unavailable.",
+  reload: "Reload",
 };
 
 const SHARE_PLATFORMS = ["whatsapp", "twitter", "linkedin", "telegram", "email"];
@@ -24,15 +26,22 @@ export function ShareButton() {
   const containerRef = useRef<HTMLSpanElement>(null);
   const ctorRef = useRef<ShareConstructor | null>(null);
   const instanceRef = useRef<ShareInstance | null>(null);
+  const [status, setStatus] = useState<"loading" | "ready" | "failed">("loading");
 
   useEffect(() => {
     let cancelled = false;
     // Loaded on the client after render: the library is a classic script that touches `window`
-    import("@aossie-org/social-share-button").then((module) => {
-      if (cancelled || !containerRef.current) return;
-      ctorRef.current = module.default;
-      instanceRef.current = createShare(ctorRef.current, containerRef.current);
-    });
+    import("@aossie-org/social-share-button").then(
+      (module) => {
+        if (cancelled || !containerRef.current) return;
+        ctorRef.current = module.default;
+        instanceRef.current = createShare(ctorRef.current, containerRef.current);
+        setStatus("ready");
+      },
+      () => {
+        if (!cancelled) setStatus("failed");
+      },
+    );
     return () => {
       cancelled = true;
       instanceRef.current?.destroy();
@@ -58,9 +67,10 @@ export function ShareButton() {
       <button
         type="button"
         onClick={share}
+        disabled={status !== "ready"}
         aria-label={SHARE_TEXT.trigger}
         title={SHARE_TEXT.trigger}
-        className="text-gray-300 hover:text-white transition-colors cursor-pointer"
+        className="text-gray-300 hover:text-white transition-colors cursor-pointer disabled:cursor-not-allowed disabled:opacity-50"
       >
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
           <circle cx="18" cy="5" r="3" />
@@ -70,6 +80,14 @@ export function ShareButton() {
           <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
         </svg>
       </button>
+      {status === "failed" && (
+        <span role="alert" className="ml-2 text-xs text-gray-400">
+          {SHARE_TEXT.loadFailed}{" "}
+          <button type="button" onClick={() => window.location.reload()} className="underline hover:text-white cursor-pointer">
+            {SHARE_TEXT.reload}
+          </button>
+        </span>
+      )}
     </span>
   );
 }

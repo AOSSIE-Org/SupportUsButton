@@ -155,7 +155,7 @@ export function useParentStyles(
 
     // A new or re-pointed <link> only applies its styles once it has loaded; load does not bubble, so listen in the capture phase
     const onStylesheetLoad = (event: Event) => {
-      if (event.target instanceof HTMLLinkElement) scheduleDetectStyles();
+      if (event.target instanceof HTMLLinkElement && event.target.relList.contains("stylesheet")) scheduleDetectStyles();
     };
     document.addEventListener("load", onStylesheetLoad, true);
 

@@ -155,7 +155,7 @@ import type { supportUsButtonProps } from "support-us-button";
 > [!NOTE]
 > **Tailwind CSS Setup Requirements**
 >
-> - **Tailwind CSS v4 or later, or no Tailwind:** Import the stylesheet directly. Since v2.3.0 it is scoped to the component: its reset, theme variables and utilities only apply inside the component's root (`.sub-root`), so importing it never changes your page's fonts, spacing or other styles.
+> - **Tailwind CSS v4 or later, or no Tailwind:** Import the stylesheet directly. Since v2.3.0 it is scoped to the component: its reset, theme variables and utilities only apply inside the component's root (`.sub-root`), so importing it never changes your page's fonts, spacing or other styles. The one exception is Tailwind's `@property` registrations for its internal `--tw-*` variables, which CSS cannot scope; they only matter if your page also uses Tailwind.
 >
 >   ```js
 >   import "support-us-button/style.css";

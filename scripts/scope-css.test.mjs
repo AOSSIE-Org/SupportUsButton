@@ -27,6 +27,15 @@ describe("scopeSelector", () => {
         expect(scopeSelector("::backdrop")).toBe(`${W}::backdrop`);
     });
 
+    it("ignores pseudo-elements inside quoted attribute values", () => {
+        expect(scopeSelector('a[title="::before"]')).toBe(
+            `a[title="::before"]${W}`,
+        );
+        expect(scopeSelector(".x[data-a='b:after']::after")).toBe(
+            `.x[data-a='b:after']${W}::after`,
+        );
+    });
+
     it("ignores pseudo-elements inside parentheses", () => {
         expect(scopeSelector(".a:is(.b::before)")).toBe(
             `.a:is(.b::before)${W}`,

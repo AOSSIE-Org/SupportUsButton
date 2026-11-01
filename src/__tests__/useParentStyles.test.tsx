@@ -186,11 +186,15 @@ describe("useParentStyles re-detection", () => {
   it("re-detects when a stylesheet <link> finishes loading, but not on other loads", () => {
     prepare({ backgroundColor: "rgb(255, 255, 255)" });
     const img = document.createElement("img");
+    const icon = document.createElement("link");
+    icon.rel = "icon";
     const sheet = document.createElement("link");
-    document.body.append(img, sheet);
+    sheet.rel = "stylesheet";
+    document.body.append(img, icon, sheet);
     frames = [];
 
     img.dispatchEvent(new Event("load"));
+    icon.dispatchEvent(new Event("load"));
     expect(frames).toHaveLength(0);
     sheet.dispatchEvent(new Event("load"));
     expect(frames).toHaveLength(1);

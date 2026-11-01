@@ -63,6 +63,16 @@ describe("validateProps fallbacks", () => {
     expect(warnings()).toEqual([expect.stringContaining('Invalid Theme "[object Object]"')]);
   });
 
+  it("does not throw for a Theme that cannot be converted to any string", () => {
+    const hostile = new Proxy({}, {
+      get() {
+        throw new Error("no access");
+      },
+    });
+    expect(check({ Theme: hostile }).Theme).toBe("auto");
+    expect(warnings()).toEqual([expect.stringContaining('Invalid Theme "[unprintable value]"')]);
+  });
+
   it("survives null props", () => {
     const result = validateProps(null as unknown as supportUsButtonProps);
     expect(result.organizationInformation).toEqual({ name: "", desc: "", image: "", link: "" });

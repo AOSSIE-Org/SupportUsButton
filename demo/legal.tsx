@@ -4,7 +4,7 @@ import "./legal.css";
 import privacy from "../PRIVACY.md?raw";
 import terms from "../TERMS.md?raw";
 import { DEMO_PAGES } from "./config";
-import { HOST_BG_MAP, HOST_FONT_MAP, HOST_STORAGE_KEYS, getAssetUrl } from "./host";
+import { HOST_BG_MAP, HOST_FONT_MAP, HOST_STORAGE_KEYS, getAssetUrl, readStorage } from "./host";
 import { LegalDocument } from "./legal-markdown";
 import { DemoFooter } from "./DemoFooter";
 
@@ -38,8 +38,8 @@ const links = {
 
 function LegalPage({ source }: { source: string }) {
   // Use the host background and font picked in the dev preview, with the same defaults
-  const activeBg = HOST_BG_MAP[localStorage.getItem(HOST_STORAGE_KEYS.bg) || "zinc"] || HOST_BG_MAP.zinc;
-  const activeFont = HOST_FONT_MAP[localStorage.getItem(HOST_STORAGE_KEYS.font) || "sans"] || HOST_FONT_MAP.sans;
+  const activeBg = HOST_BG_MAP[readStorage(HOST_STORAGE_KEYS.bg) || "zinc"] || HOST_BG_MAP.zinc;
+  const activeFont = HOST_FONT_MAP[readStorage(HOST_STORAGE_KEYS.font) || "sans"] || HOST_FONT_MAP.sans;
 
   return (
     <div

@@ -56,7 +56,12 @@ function safeString(value: unknown): string {
   try {
     return String(value);
   } catch {
-    return Object.prototype.toString.call(value);
+    try {
+      return Object.prototype.toString.call(value);
+    } catch {
+      // e.g. a Proxy whose Symbol.toStringTag getter throws
+      return "[unprintable value]";
+    }
   }
 }
 

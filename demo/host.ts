@@ -23,6 +23,15 @@ export const HOST_STORAGE_KEYS = {
   font: "demo_host_font_key",
 } as const;
 
+/** localStorage value, or null when storage is unavailable (blocked cookies, some private modes throw). */
+export const readStorage = (key: string): string | null => {
+  try {
+    return localStorage.getItem(key);
+  } catch {
+    return null;
+  }
+};
+
 /** Resolves a path in `public/` or a demo page against Vite's base URL. */
 export const getAssetUrl = (path: string) => {
   const base = import.meta.env.BASE_URL || "/";
@@ -47,4 +56,4 @@ export const themeForBackground = (hex: string): "dark" | "light" => {
 
 /** Theme of the host background saved by the dev preview (dark zinc when nothing is saved). */
 export const savedHostTheme = () =>
-  themeForBackground((HOST_BG_MAP[localStorage.getItem(HOST_STORAGE_KEYS.bg) || "zinc"] || HOST_BG_MAP.zinc).bg);
+  themeForBackground((HOST_BG_MAP[readStorage(HOST_STORAGE_KEYS.bg) || "zinc"] || HOST_BG_MAP.zinc).bg);

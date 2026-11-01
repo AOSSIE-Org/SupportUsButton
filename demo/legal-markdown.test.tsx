@@ -36,6 +36,12 @@ describe("resolveLegalHref", () => {
     expect(resolveLegalHref("javascript:alert(1)", links)).toBeNull();
     expect(resolveLegalHref("other.md", links)).toBeNull();
   });
+
+  it("keeps site paths but drops protocol-relative links to other hosts", () => {
+    expect(resolveLegalHref("/support/", links)).toBe("/support/");
+    expect(resolveLegalHref("//example.org", links)).toBeNull();
+    expect(resolveLegalHref("/\\example.org", links)).toBeNull();
+  });
 });
 
 describe("LegalDocument", () => {

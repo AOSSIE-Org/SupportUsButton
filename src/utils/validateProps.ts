@@ -8,7 +8,7 @@ const VALID_SPONSOR_TIERS = [
   "Bronze",
 ] as const;
 
-const DEFAULT_BORDER = {
+export const DEFAULT_BORDER = {
   TopX1: "-1000",
   TopX2: "1000",
   BottomX1: "-1000",
@@ -51,6 +51,15 @@ function warn(message: string): void {
   }
 }
 
+// String() throws for objects whose toString is not callable (e.g. { toString: "" }); warnings must never throw
+function safeString(value: unknown): string {
+  try {
+    return String(value);
+  } catch {
+    return Object.prototype.toString.call(value);
+  }
+}
+
 function isObject(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null;
 }
@@ -89,7 +98,7 @@ export function validateProps(
     : "auto";
   if (props.Theme !== undefined && Theme !== props.Theme) {
     warn(
-      `Invalid Theme "${String(
+      `Invalid Theme "${safeString(
         props.Theme,
       )}". Expected one of: ${VALID_THEMES.join(", ")}. Falling back to "auto".`,
     );

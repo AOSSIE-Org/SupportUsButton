@@ -1,6 +1,6 @@
 {
   "name": "support-us-button",
-  "version": "2.2.1",
+  "version": "2.3.0",
   "description": "A customizable and flexible Support Us button component for integrating sponsorship and donation options into web applications.",
   "keywords": [
     "aossie",
@@ -54,7 +54,7 @@
   },
   "sideEffects": false,
   "scripts": {
-    "build:css": "npx @tailwindcss/cli -i ./src/styles/style.css -o ./dist/style.css --minify",
+    "build:css": "npx @tailwindcss/cli -i ./src/styles/style.css -o ./dist/style.css --minify && node scripts/scope-css.mjs dist/style.css",
     "build:js": "rollup -c",
     "build": "npm run build:css && npm run build:js",
     "dev": "rollup -c -w",
@@ -63,12 +63,14 @@
     "vite:preview": "vite preview",
     "type-check": "tsc --noEmit",
     "test": "npm run type-check && vitest run --passWithNoTests",
+    "test:coverage": "vitest run --coverage",
     "prepublishOnly": "npm run build"
   },
   "engines": {
     "node": ">=14"
   },
   "devDependencies": {
+    "@aossie-org/social-share-button": "^1.0.4",
     "@rollup/plugin-commonjs": "^29.0.2",
     "@rollup/plugin-node-resolve": "^16.0.3",
     "@rollup/plugin-terser": "^1.0.0",
@@ -76,10 +78,16 @@
     "@tailwindcss/cli": "^4.3.3",
     "@tailwindcss/postcss": "^4.2.1",
     "@tailwindcss/vite": "^4.3.3",
+    "@testing-library/dom": "^10.4.2",
+    "@testing-library/react": "^16.3.3",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.4",
+    "@vitest/coverage-v8": "^3.2.7",
     "autoprefixer": "^10.4.27",
+    "fast-check": "^4.10.2",
+    "jsdom": "^26.1.0",
+    "postcss": "^8.5.32",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
     "rollup": "^4.59.0",

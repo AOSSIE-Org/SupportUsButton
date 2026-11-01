@@ -2,7 +2,10 @@ import React, { useRef } from "react";
 import type { supportUsButtonProps } from "../types/index";
 import type { Theme } from "../types/index";
 import { useParentStyles } from "../hooks/useParentStyles";
-import { validateProps } from "../utils/validateProps";
+import { DEFAULT_BORDER, validateProps } from "../utils/validateProps";
+
+// Relative luminance below which a host background is treated as dark (inverts logos and button contrast)
+const DARK_LUMINANCE_THRESHOLD = 0.179;
 
 function sRgbLuminance(c: number): number {
   const norm = c / 255;
@@ -12,7 +15,8 @@ function sRgbLuminance(c: number): number {
 function isDarkColor(colorStr?: string): boolean {
   if (!colorStr) return true;
   let r = 0, g = 0, b = 0;
-  const rgbMatch = colorStr.match(/\d+/g);
+  // Hex first: digit runs in a hex value like "#f4f4f4" would otherwise be read as rgb(4, 4, 4)
+  const rgbMatch = colorStr.startsWith("#") ? null : colorStr.match(/\d+/g);
   if (rgbMatch && rgbMatch.length >= 3) {
     r = parseInt(rgbMatch[0], 10);
     g = parseInt(rgbMatch[1], 10);
@@ -35,7 +39,7 @@ function isDarkColor(colorStr?: string): boolean {
   }
   // WCAG relative luminance formula: L = 0.2126 * R + 0.7152 * G + 0.0722 * B
   const lum = 0.2126 * sRgbLuminance(r) + 0.7152 * sRgbLuminance(g) + 0.0722 * sRgbLuminance(b);
-  return lum < 0.179;
+  return lum < DARK_LUMINANCE_THRESHOLD;
 }
 
 // Function to get the appropriate classes based on the selected theme
@@ -81,16 +85,7 @@ function SupportUsButton(
     className = "",
   } = validatedProps ?? ({} as supportUsButtonProps);
 
-  const border = validatedProps.border ?? {
-    TopX1: "-1000",
-    TopX2: "1000",
-    BottomX1: "-1000",
-    BottomX2: "1000",
-    LeftY1: "-1000",
-    LeftY2: "1000",
-    RightY1: "-1000",
-    RightY2: "1000",
-  };
+  const border = validatedProps.border ?? DEFAULT_BORDER;
   const containerRef = useRef<HTMLDivElement>(null);
   const isAuto = Theme === "auto" || Theme === "inherit";
   const parentStyles = useParentStyles(containerRef, isAuto);
@@ -117,7 +112,7 @@ function SupportUsButton(
             }
           : undefined
       }
-      className={`relative w-full h-full px-6 sm:px-10 md:px-16 py-6 sm:py-10 text-center ${isAuto ? "bg-transparent font-inherit text-inherit" : "font-sans"} ${classAccordingToTheme(Theme)} ${className}`}
+      className={`sub-root relative w-full h-full px-6 sm:px-10 md:px-16 py-6 sm:py-10 text-center ${isAuto ? "bg-transparent font-inherit text-inherit" : "font-sans"} ${classAccordingToTheme(Theme)} ${className}`}
     >
       {Logo && (
         <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none">

@@ -114,11 +114,13 @@ jobs:
       - name: Summary
         if: steps.check-approval.outputs.is_coderabbit_approved == 'true'
         uses: actions/github-script@v7
+        env:
+          LABEL_WAS_PRESENT: ${{ steps.remove-label.outputs.label_was_present }}
         with:
           github-token: ${{ secrets.EXTERNAL_LABELLER_TOKEN || secrets.GITHUB_TOKEN }}
           script: |
             const prNumber = context.payload.pull_request.number;
-            const labelWasPresent = '${{ steps.remove-label.outputs.label_was_present }}' === 'true';
+            const labelWasPresent = process.env.LABEL_WAS_PRESENT === 'true';
             
             console.log('='.repeat(50));
             console.log('CodeRabbit Approval Handler Complete');

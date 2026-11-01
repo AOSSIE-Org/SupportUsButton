@@ -120,11 +120,11 @@
 
 ### Automated Testing
 
-- [x] 🔵 **test_invocation** — Test suite invoked via standard command (`npm run test`).
+- [x] 🔵 **test_invocation** — Test suite invoked via standard command (`npm run test`; `npm run test:coverage` for the coverage gate).
   - *Evidence URL:* https://github.com/AOSSIE-Org/SupportUsButton/blob/main/package.json
 
-- [x] 🔵 **test_most** — Test suite covers key component interfaces and hooks (`src/__tests__`).
-  - *Evidence URL:* https://github.com/AOSSIE-Org/SupportUsButton/blob/main/src/__tests__/SupportUsButton.test.ts
+- [x] 🔵 **test_most** — Unit and property tests cover more than 90% of the whole code base (library `src/`, `scripts/`, demo logic modules), enforced by `npm run test:coverage` in CI; exclusions are listed with reasons in `vitest.config.ts`.
+  - *Evidence URL:* https://github.com/AOSSIE-Org/SupportUsButton/blob/main/vitest.config.ts
 
 - [x] 🔴 **warnings** — Compiler and type-checker strict flags enabled (`npx tsc --noEmit`).
 - [x] 🔴 **warnings_fixed** — Zero linter/compiler warnings on build (`0 errors, 0 warnings`).

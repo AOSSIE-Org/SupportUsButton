@@ -35,8 +35,9 @@ jobs:
       - name: Type Check
         run: npm run type-check
 
-      - name: Run Tests
-        run: npm test
+      # Unit + property tests with coverage over the whole code base; fails below the 90% thresholds in vitest.config.ts
+      - name: Run Tests with Coverage
+        run: npm run test:coverage
 
       - name: Build Package
         run: npm run build

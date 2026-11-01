@@ -1,7 +1,16 @@
+/* The library build is scoped to the component root (.sub-root) by scripts/scope-css.mjs, so this
+   preflight and theme only apply inside the component, never to the host page. */
 @import "tailwindcss";
 
 @source "../components/SupportUsButton.tsx";
 @source "../index.ts";
+
+/* The demo's legal pages have their own stylesheet (demo/legal.css); keep their utilities out of the library CSS */
+@source not "../../demo/legal.tsx";
+/* The demo's share button only uses utilities the demo already has; its code (e.g. the library's `container` option) would add classes */
+@source not "../../demo/ShareButton.tsx";
+/* Test files mention class names and arbitrary words that Tailwind would turn into utilities */
+@source not "../__tests__";
 
 @theme {
     --color-primary: #ffcd00;

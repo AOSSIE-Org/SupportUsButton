@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import SupportUsButton from "../src/index";
 import type { Theme, supportUsButtonProps } from "../src/types/index";
 import "../src/styles/style.css";
+import { DEMO_LINKS } from "./config";
+import { HOST_BG_MAP, HOST_FONT_MAP, HOST_STORAGE_KEYS, getAssetUrl } from "./host";
+import { DemoFooter } from "./DemoFooter";
 
 const DEMO_TEXT = {
   headerTitle: "SupportUsButton - Dev Preview",
@@ -18,28 +21,6 @@ const DEMO_TEXT = {
   },
 };
 
-const HOST_BG_MAP: Record<string, { bg: string; text: string; label: string }> = {
-  zinc: { bg: "#09090b", text: "#ffffff", label: "Dark Zinc (#09090b)" },
-  slate: { bg: "#0f172a", text: "#ffffff", label: "Slate Dark (#0f172a)" },
-  amber: { bg: "#451a03", text: "#fef3c7", label: "Amber Dark (#451a03)" },
-  ocean: { bg: "#082f49", text: "#e0f2fe", label: "Deep Ocean (#082f49)" },
-  purple: { bg: "#3b0764", text: "#f3e8ff", label: "Royal Purple (#3b0764)" },
-  light: { bg: "#f3f4f6", text: "#111827", label: "Light Gray (#f3f4f6)" },
-};
-
-const HOST_FONT_MAP: Record<string, { family: string; label: string }> = {
-  sans: { family: "ui-sans-serif, system-ui, -apple-system, sans-serif", label: "Sans-Serif" },
-  serif: { family: "ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif", label: "Serif (Georgia)" },
-  mono: { family: "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace", label: "Monospace (SFMono)" },
-};
-
-const getAssetUrl = (path: string) => {
-  const base = import.meta.env.BASE_URL || "/";
-  const cleanBase = base.endsWith("/") ? base : `${base}/`;
-  const cleanPath = path.startsWith("/") ? path.slice(1) : path;
-  return `${cleanBase}${cleanPath}`;
-};
-
 export function App() {
   const [theme, setTheme] = useState<Theme>(() => {
     return (localStorage.getItem("demo_theme_prop") as Theme) || "auto";
@@ -48,10 +29,10 @@ export function App() {
     return localStorage.getItem("demo_show_logo") !== "false";
   });
   const [customHostBgKey, setCustomHostBgKey] = useState<string>(() => {
-    return localStorage.getItem("demo_host_bg_key") || "zinc";
+    return localStorage.getItem(HOST_STORAGE_KEYS.bg) || "zinc";
   });
   const [customHostFontKey, setCustomHostFontKey] = useState<string>(() => {
-    return localStorage.getItem("demo_host_font_key") || "sans";
+    return localStorage.getItem(HOST_STORAGE_KEYS.font) || "sans";
   });
   const [projectName, setProjectName] = useState<string>(() => {
     return localStorage.getItem("demo_project_name") || "{Project}";
@@ -74,11 +55,11 @@ export function App() {
   }, [showLogo]);
 
   useEffect(() => {
-    localStorage.setItem("demo_host_bg_key", customHostBgKey);
+    localStorage.setItem(HOST_STORAGE_KEYS.bg, customHostBgKey);
   }, [customHostBgKey]);
 
   useEffect(() => {
-    localStorage.setItem("demo_host_font_key", customHostFontKey);
+    localStorage.setItem(HOST_STORAGE_KEYS.font, customHostFontKey);
   }, [customHostFontKey]);
 
   useEffect(() => {
@@ -99,7 +80,7 @@ export function App() {
       name: "AOSSIE",
       desc: "Australian Open Source Software Innovation and Education organization dedicated to fostering innovation and open source projects globally.",
       image: getAssetUrl("brand/icons/aossie_dark_logomark.svg"),
-      link: "https://aossie.org",
+      link: DEMO_LINKS.organization,
     },
     projectInformation: {
       name: projectName,
@@ -113,7 +94,7 @@ export function App() {
     ],
     ctaSection: {
       sponsorLink: [
-        { name: "Support Now", url: "https://github.com/sponsors/AOSSIE-Org" },
+        { name: "Support Now", url: DEMO_LINKS.sponsor },
       ],
     },
   };
@@ -272,6 +253,8 @@ export function App() {
       <main style={{ fontFamily: activeFont.family }} className="w-full flex-1 font-inherit">
         <SupportUsButton {...sampleProps} />
       </main>
+
+      <DemoFooter />
     </div>
   );
 }

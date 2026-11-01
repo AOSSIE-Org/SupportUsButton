@@ -16,7 +16,8 @@ Welcome, AI Agent! This document contains essential instructions, code style sta
 ### Key Build & Test Commands:
 
 - **Type-Check:** `npm run type-check`
-- **Unit Tests:** `npm test` (type-check + Vitest, `src/__tests__/`)
+- **Unit Tests:** `npm test` (type-check + Vitest: `src/__tests__/`, `demo/*.test.*`, `scripts/*.test.mjs`)
+- **Coverage Gate:** `npm run test:coverage` (CI; ≥90% lines/statements/functions/branches over the whole code base, exclusions with reasons in `vitest.config.ts`)
 - **Build Package:** `npm run build`
 - **Develop Demo:** `npm run vite:dev`
 
@@ -65,3 +66,4 @@ SupportUsButton/
 2. **Always Run Tests & Build**: Before declaring a task completed, execute `npm test` and `npm run build`.
 3. **Localizable Text**: Never hardcode new user-visible strings in the component; expose them through the `labels` prop with an English default.
 4. **No Unneeded Dependencies**: Avoid adding external runtime dependencies unless explicitly approved.
+5. **No Hard-Coded Links**: Demo links live in `demo/config.ts`; never hard-code URLs in demo components. The library (`src/`) takes all links via props.

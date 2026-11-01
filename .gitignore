@@ -326,8 +326,14 @@ node_modules/
 # build output
 dist/
 
+# test coverage reports (npm run test:coverage)
+coverage/
+
 # misc
 *.tgz
+
+# unremediated security review reports (never commit)
+unremediated-security-reviews/
 
 # REVTeX puts footnotes in the bibliography by default, unless the nofootinbib
 # option is specified. Footnotes are the stored in a file with suffix Notes.bib.

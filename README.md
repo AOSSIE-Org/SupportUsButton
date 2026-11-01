@@ -155,7 +155,7 @@ import type { supportUsButtonProps } from "support-us-button";
 > [!NOTE]
 > **Tailwind CSS Setup Requirements**
 >
-> - **Tailwind CSS v4 or later:** Import the stylesheet directly:
+> - **Tailwind CSS v4 or later, or no Tailwind:** Import the stylesheet directly. Since v2.3.0 it is scoped to the component: its reset, theme variables and utilities only apply inside the component's root (`.sub-root`), so importing it never changes your page's fonts, spacing or other styles.
 >
 >   ```js
 >   import "support-us-button/style.css";
@@ -404,9 +404,14 @@ cd SupportUsButton
 npm install
 npm run vite:dev     # interactive dev preview at http://localhost:3000
 npm test             # type-check + Vitest unit tests
+npm run test:coverage # unit + property tests with the coverage gate CI enforces
 npm run build        # bundles dist/ (ESM, CJS, UMD + style.css)
 npm run vite:build   # builds the dev preview deployed to GitHub Pages
 ```
+
+### Testing
+
+Unit tests (React Testing Library in jsdom) and property tests ([fast-check](https://fast-check.dev/)) cover the whole code base: the library in `src/`, `scripts/scope-css.mjs` and the demo's logic modules. `npm run test:coverage` fails below 90% lines, statements, functions or branches; CI runs it on every pull request. The only exclusions are listed with their reasons in `vitest.config.ts` (test files, type-only files, and the demo site's React components and entry point, which are not part of the published library).
 
 ---
 

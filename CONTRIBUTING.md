@@ -131,9 +131,14 @@ npx tsc --noEmit
 # Run unit tests
 npm test
 
+# Run unit + property tests with the coverage gate (what CI runs)
+npm run test:coverage
+
 # Build production library bundle & minified CSS
 npm run build
 ```
+
+**Testing policy:** coverage is measured on the whole code base (`src/`, `scripts/` and the demo's logic modules in `demo/`), and `npm run test:coverage` fails below 90% lines, statements, functions or branches. New code needs tests: render components with React Testing Library (`// @vitest-environment jsdom`), assert real behaviour rather than snapshots, and add a [fast-check](https://fast-check.dev/) property test for logic with an invariant. Don't add coverage exclusions to reach the number; the few that exist are listed with a reason in `vitest.config.ts`. Test files under `src/__tests__/` are kept out of the Tailwind build (`@source not` in `src/styles/style.css`), so they never change `dist/style.css`.
 
 ### 4. Commit Your Changes
 

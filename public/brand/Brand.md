@@ -34,7 +34,7 @@ The official vector logos for SupportUsButton:
 
 The browser tab favicon for SupportUsButton:
 
-- **Branding Asset:** [`favicon.ico`](../favicon.ico)
+- **Branding Asset:** [`favicon.ico`](icons/favicon.ico)
 - **Web App Asset Path:** `/favicon.ico`
 
 ---

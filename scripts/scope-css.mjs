@@ -1,6 +1,6 @@
 /**
  * Scopes the built library stylesheet to the component, so importing
- * `support-us-button/style.css` cannot restyle the host page.
+ * `@aossie-org/support-us-button/style.css` cannot restyle the host page.
  *
  * - Theme variables and base styles Tailwind puts on `:root`, `:host` and `html`
  *   move to the component's root class, so the host's own `--font-sans`,

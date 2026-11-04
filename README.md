@@ -104,8 +104,8 @@ A lightweight React component library for displaying **Support us page** in a cl
 # 🔗 Repository Links
 
 - [Main Repository](https://github.com/AOSSIE-Org/SupportUsButton)
-- [NPM Package](https://www.npmjs.com/package/support-us-button)
-- [CDN](https://cdn.jsdelivr.net/npm/support-us-button@latest/dist/index.umd.js)
+- [NPM Package](https://www.npmjs.com/package/@aossie-org/support-us-button)
+- [CDN](https://cdn.jsdelivr.net/npm/@aossie-org/support-us-button@latest/dist/index.umd.js)
 
 ---
 
@@ -119,18 +119,30 @@ Install the package using npm:
 
 ```bash
 # Install the package
-npm install support-us-button
+npm install @aossie-org/support-us-button
 ```
+
+> [!NOTE]
+> **Upgrading from `support-us-button`?** Since v2.3.0 the package is published under AOSSIE's npm scope as `@aossie-org/support-us-button`, and the unscoped `support-us-button` is deprecated. Replace it and update your imports from `"support-us-button"` to `"@aossie-org/support-us-button"`:
+>
+> ```bash
+> npm uninstall support-us-button
+> npm install @aossie-org/support-us-button
+> ```
+>
+> If you import the stylesheet directly, change `"support-us-button/style.css"` to `"@aossie-org/support-us-button/style.css"`.
+>
+> On Tailwind CSS v3 or earlier, also update the package path in your `tailwind.config.js` `content` array to `"./node_modules/@aossie-org/support-us-button/dist/**/*.{js,ts,jsx,tsx}"`.
 
 ## Using CDN
 
 You can also use the component directly in the browser via a CDN:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/support-us-button@latest/dist/index.umd.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@aossie-org/support-us-button@latest/dist/index.umd.js"></script>
 ```
 
-Once included, the component will be available to use in your project.
+Before the bundle, load React and ReactDOM 18 and define the `jsxRuntime` global (a short shim over React) that the bundle reads React's JSX functions from. See [Usage → Using CDN](#using-cdn-1) for a complete page.
 
 ---
 
@@ -140,13 +152,13 @@ Once included, the component will be available to use in your project.
 
 ```tsx
 // Import the component in your project:
-import SupportUsButton from "support-us-button";
+import SupportUsButton from "@aossie-org/support-us-button";
 
 // Import the styles in your project:
-import "support-us-button/style.css";
+import "@aossie-org/support-us-button/style.css";
 
 // Import the types in your project:
-import type { supportUsButtonProps } from "support-us-button";
+import type { supportUsButtonProps } from "@aossie-org/support-us-button";
 
 // Use the component in your project:
 <SupportUsButton {...props} />; // props is an object of type supportUsButtonProps
@@ -158,7 +170,7 @@ import type { supportUsButtonProps } from "support-us-button";
 > - **Tailwind CSS v4 or later, or no Tailwind:** Import the stylesheet directly. Since v2.3.0 it is scoped to the component: its reset, theme variables and utilities only apply inside the component's root (`.sub-root`), so importing it never changes your page's fonts, spacing or other styles. The one exception is Tailwind's `@property` registrations for its internal `--tw-*` variables, which CSS cannot scope; they only matter if your page also uses Tailwind.
 >
 >   ```js
->   import "support-us-button/style.css";
+>   import "@aossie-org/support-us-button/style.css";
 >   ```
 >
 > - **Tailwind CSS v3 or earlier:** **Do not** import the stylesheet directly. Instead, add the package directory to the `content` array in your `tailwind.config.js` so Tailwind can detect and compile the required classes.
@@ -167,7 +179,7 @@ import type { supportUsButtonProps } from "support-us-button";
 >   module.exports = {
 >     content: [
 >       "./src/**/*.{js,ts,jsx,tsx}", // Your project files
->       "./node_modules/support-us-button/dist/**/*.{js,ts,jsx,tsx}", // Support Us Button package
+>       "./node_modules/@aossie-org/support-us-button/dist/**/*.{js,ts,jsx,tsx}", // Support Us Button package
 >     ],
 >     theme: {
 >       extend: {},
@@ -179,19 +191,48 @@ import type { supportUsButtonProps } from "support-us-button";
 ## Using CDN
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/support-us-button@latest/dist/index.umd.js"></script>
+<!-- Styles -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@aossie-org/support-us-button@latest/dist/style.css" />
 
-// Import the styles in your project:
-<link
-    rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/support-us-button@latest/dist/style.css"
-/>
+<div id="support-us"></div>
 
-// Use the component in your project:
-<SupportUsButton />
+<!-- React 18 (React 19 no longer ships browser builds) -->
+<script crossorigin src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
+<script crossorigin src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+
+<!-- The bundle reads React's JSX runtime from the `jsxRuntime` global -->
+<script>
+  window.jsxRuntime = {
+    Fragment: React.Fragment,
+    jsx: (type, props, key) => React.createElement(type, key === undefined ? props : { ...props, key }),
+  };
+  window.jsxRuntime.jsxs = window.jsxRuntime.jsx;
+</script>
+
+<!-- Support Us Button, exposed as window["support-us-button"] -->
+<script src="https://cdn.jsdelivr.net/npm/@aossie-org/support-us-button@latest/dist/index.umd.js"></script>
+
+<script>
+  const SupportUsButton = window["support-us-button"];
+
+  // Minimal props; see Quick Start below for all of them
+  const props = {
+    organizationInformation: {
+      name: "Your Organization",
+      desc: "A short description of your organization",
+      image: "/your-logo.svg",
+      link: "https://your-organization.example",
+    },
+    ctaSection: {
+      sponsorLink: [{ name: "Donate", url: "https://your-donation-page.example" }],
+    },
+  };
+
+  ReactDOM.createRoot(document.getElementById("support-us")).render(
+    React.createElement(SupportUsButton, props)
+  );
+</script>
 ```
-
-Once included, the component will be available to use in your project.
 
 ---
 

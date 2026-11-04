@@ -6,15 +6,24 @@ on:
       - main
     paths:
       - 'VERSION'
+  workflow_dispatch:
 
 permissions:
   contents: write
 
 jobs:
+
   release:
     if: ${{ github.repository_owner == 'AOSSIE-Org' }}
     runs-on: ubuntu-latest
-    
+
+    permissions:
+      contents: write
+
+    outputs:
+      version: ${{ steps.get_version.outputs.version }}
+      released: ${{ steps.publish_release.outputs.released }}
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -57,24 +66,24 @@ jobs:
 
       - name: Find and Publish Draft Release
         id: publish_release
-        uses: actions/github-script@v7
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const version = 'v${{ steps.get_version.outputs.version }}';
-            
+
             // Get all releases
             const { data: releases } = await github.rest.repos.listReleases({
               owner: context.repo.owner,
               repo: context.repo.repo,
             });
-            
-            // Find the draft release
-            const draftRelease = releases.find(release => release.draft === true);
-            
+
+            // Find the draft release matching this version
+            const draftRelease = releases.find(release => release.draft === true && release.name.includes(version));
+
             if (draftRelease) {
-              console.log(`Found draft release: ${draftRelease.name}`);
-              
+              console.log(`Found matching draft release: ${draftRelease.name}`);
+
               // Update and publish the draft release
               await github.rest.repos.updateRelease({
                 owner: context.repo.owner,
@@ -84,24 +93,26 @@ jobs:
                 name: version,
                 draft: false,
               });
-              
+
               console.log(`✓ Published draft release as ${version}`);
               core.setOutput('released', 'true');
             } else {
-              console.log('⚠️ No draft release found. Please ensure release-drafter has created a draft release first.');
-              core.setOutput('released', 'false');
-              core.setFailed('No draft release found to publish');
-              
-              //Uncomment below to auto-create release if no draft exists but also check release-drafter config first(why not working)
-              // await github.rest.repos.createRelease({
-              //   owner: context.repo.owner,
-              //   repo: context.repo.repo,
-              //   tag_name: version,
-              //   name: version,
-              //   body: `## Release ${version}\n\nThis release was automatically created when the VERSION file was updated.`,
-              //   draft: false,
-              //   prerelease: false,
-              // });
+              console.log('⚠️ No draft release found matching version ' + version + '. Creating release automatically.');
+
+              await github.rest.repos.createRelease({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                tag_name: version,
+                name: version,
+                body: `## Release ${version}\n\nThis release was automatically created when the VERSION file was updated.`,
+                draft: false,
+                prerelease: false,
+                // GitHub appends a human-readable summary of the PRs merged since the previous release
+                generate_release_notes: true,
+              });
+
+              console.log(`✓ Created and published release ${version}`);
+              core.setOutput('released', 'true');
             }
 
       - name: Release Summary
@@ -121,3 +132,66 @@ jobs:
           else
             echo "Release failed - no draft release was found to publish" >> $GITHUB_STEP_SUMMARY
           fi
+
+  publish:
+    needs: release
+    if: ${{ github.repository_owner == 'AOSSIE-Org' && needs.release.outputs.released == 'true' }}
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+        with:
+          persist-credentials: false
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@008330803749db0355799c700092d9a85fd074e9 # v6.0.9
+        with:
+          # Version comes from "packageManager" in package.json
+          run_install: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          registry-url: 'https://registry.npmjs.org'
+          cache: 'pnpm'
+
+      - name: Upgrade npm CLI
+        run: npm install --global npm@11.15.0
+
+      - name: Verify npm version
+        run: |
+          node --version
+          npm --version
+          npm stage --help
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Sync version from VERSION file
+        run: |
+          VERSION="${{ needs.release.outputs.version }}"
+          echo "Syncing package.json version to $VERSION"
+          npm version "$VERSION" --no-git-tag-version --allow-same-version
+          echo "✓ package.json version set to $VERSION"
+
+      - name: Verify package contents
+        run: npm pack --dry-run
+
+      - name: Publish to npm
+        run: npm stage publish --provenance --access public
+
+      - name: Publish Summary
+        run: |
+          echo "### npm Publish Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Package:** @aossie-org/social-share-button" >> $GITHUB_STEP_SUMMARY
+          echo "- **Version:** ${{ needs.release.outputs.version }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Registry:** https://www.npmjs.com/package/@aossie-org/social-share-button" >> $GITHUB_STEP_SUMMARY
+          echo "- **Provenance:** ✓ (supply-chain attestation enabled)" >> $GITHUB_STEP_SUMMARY
+

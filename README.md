@@ -104,8 +104,8 @@ A lightweight React component library for displaying **Support us page** in a cl
 # 🔗 Repository Links
 
 - [Main Repository](https://github.com/AOSSIE-Org/SupportUsButton)
-- [NPM Package](https://www.npmjs.com/package/support-us-button)
-- [CDN](https://cdn.jsdelivr.net/npm/support-us-button@latest/dist/index.umd.js)
+- [NPM Package](https://www.npmjs.com/package/@aossie-org/support-us-button)
+- [CDN](https://cdn.jsdelivr.net/npm/@aossie-org/support-us-button@latest/dist/index.umd.js)
 
 ---
 
@@ -119,15 +119,23 @@ Install the package using npm:
 
 ```bash
 # Install the package
-npm install support-us-button
+npm install @aossie-org/support-us-button
 ```
+
+> [!NOTE]
+> **Upgrading from `support-us-button`?** Since v2.3.0 the package is published under AOSSIE's npm scope as `@aossie-org/support-us-button`, and the unscoped `support-us-button` is deprecated. Replace it and update your imports from `"support-us-button"` to `"@aossie-org/support-us-button"`:
+>
+> ```bash
+> npm uninstall support-us-button
+> npm install @aossie-org/support-us-button
+> ```
 
 ## Using CDN
 
 You can also use the component directly in the browser via a CDN:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/support-us-button@latest/dist/index.umd.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@aossie-org/support-us-button@latest/dist/index.umd.js"></script>
 ```
 
 Once included, the component will be available to use in your project.
@@ -140,13 +148,13 @@ Once included, the component will be available to use in your project.
 
 ```tsx
 // Import the component in your project:
-import SupportUsButton from "support-us-button";
+import SupportUsButton from "@aossie-org/support-us-button";
 
 // Import the styles in your project:
-import "support-us-button/style.css";
+import "@aossie-org/support-us-button/style.css";
 
 // Import the types in your project:
-import type { supportUsButtonProps } from "support-us-button";
+import type { supportUsButtonProps } from "@aossie-org/support-us-button";
 
 // Use the component in your project:
 <SupportUsButton {...props} />; // props is an object of type supportUsButtonProps
@@ -158,7 +166,7 @@ import type { supportUsButtonProps } from "support-us-button";
 > - **Tailwind CSS v4 or later, or no Tailwind:** Import the stylesheet directly. Since v2.3.0 it is scoped to the component: its reset, theme variables and utilities only apply inside the component's root (`.sub-root`), so importing it never changes your page's fonts, spacing or other styles. The one exception is Tailwind's `@property` registrations for its internal `--tw-*` variables, which CSS cannot scope; they only matter if your page also uses Tailwind.
 >
 >   ```js
->   import "support-us-button/style.css";
+>   import "@aossie-org/support-us-button/style.css";
 >   ```
 >
 > - **Tailwind CSS v3 or earlier:** **Do not** import the stylesheet directly. Instead, add the package directory to the `content` array in your `tailwind.config.js` so Tailwind can detect and compile the required classes.
@@ -167,7 +175,7 @@ import type { supportUsButtonProps } from "support-us-button";
 >   module.exports = {
 >     content: [
 >       "./src/**/*.{js,ts,jsx,tsx}", // Your project files
->       "./node_modules/support-us-button/dist/**/*.{js,ts,jsx,tsx}", // Support Us Button package
+>       "./node_modules/@aossie-org/support-us-button/dist/**/*.{js,ts,jsx,tsx}", // Support Us Button package
 >     ],
 >     theme: {
 >       extend: {},
@@ -179,12 +187,12 @@ import type { supportUsButtonProps } from "support-us-button";
 ## Using CDN
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/support-us-button@latest/dist/index.umd.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@aossie-org/support-us-button@latest/dist/index.umd.js"></script>
 
 // Import the styles in your project:
 <link
     rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/support-us-button@latest/dist/style.css"
+    href="https://cdn.jsdelivr.net/npm/@aossie-org/support-us-button@latest/dist/style.css"
 />
 
 // Use the component in your project:

@@ -1,6 +1,6 @@
 # Terms of Service
 
-**Last updated:** 1 November 2026
+**Last updated:** 4 November 2026
 
 ## Introduction
 
@@ -8,7 +8,7 @@ These Terms of Service (the Terms) govern your use of Support Us Button (the Lib
 
 By using the Library and the Website, you agree to these Terms. If you do not agree, please do not use the Library and the Website.
 
-The Library is the Support Us Button React component (npm `support-us-button`).
+The Library is the Support Us Button React component (npm `@aossie-org/support-us-button`).
 
 ## Open-Source License
 

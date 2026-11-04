@@ -1,6 +1,6 @@
 # Privacy Policy
 
-**Last updated:** 1 November 2026
+**Last updated:** 4 November 2026
 
 ## Introduction
 
@@ -8,7 +8,7 @@ Support Us Button is committed to protecting your privacy and providing a transp
 
 This Privacy Policy explains how information is handled by:
 
-- the **Library**: the Support Us Button React component (npm `support-us-button`), and
+- the **Library**: the Support Us Button React component (npm `@aossie-org/support-us-button`), and
 - the **Website**: [the demo site](https://aossie-org.github.io/SupportUsButton/), where you can try the component.
 
 Both follow a privacy-conscious and local-first approach. Neither has user accounts, cookies, analytics or advertising.

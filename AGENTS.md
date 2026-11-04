@@ -6,7 +6,7 @@ Welcome, AI Agent! This document contains essential instructions, code style sta
 
 ## 🛠️ Stack & Workspace Overview
 
-- **Package Name:** `support-us-button`
+- **Package Name:** `@aossie-org/support-us-button`
 - **Framework:** React 19 / React 18 (`react`, `react-dom`)
 - **Language:** TypeScript 5.9 (`tsconfig.json`)
 - **Styling:** Tailwind CSS v4 (`@tailwindcss/cli` & `@tailwindcss/vite`)

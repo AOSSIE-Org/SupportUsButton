@@ -130,6 +130,8 @@ npm install @aossie-org/support-us-button
 > npm install @aossie-org/support-us-button
 > ```
 >
+> If you import the stylesheet directly, change `"support-us-button/style.css"` to `"@aossie-org/support-us-button/style.css"`.
+>
 > On Tailwind CSS v3 or earlier, also update the package path in your `tailwind.config.js` `content` array to `"./node_modules/@aossie-org/support-us-button/dist/**/*.{js,ts,jsx,tsx}"`.
 
 ## Using CDN
@@ -140,7 +142,7 @@ You can also use the component directly in the browser via a CDN:
 <script src="https://cdn.jsdelivr.net/npm/@aossie-org/support-us-button@latest/dist/index.umd.js"></script>
 ```
 
-The bundle needs React and ReactDOM 18 loaded before it. See [Usage → Using CDN](#using-cdn-1) for a complete page.
+Before the bundle, load React and ReactDOM 18 and define the `jsxRuntime` global (a short shim over React) that the bundle reads React's JSX functions from. See [Usage → Using CDN](#using-cdn-1) for a complete page.
 
 ---
 
